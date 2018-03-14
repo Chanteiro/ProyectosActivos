@@ -1,4 +1,3 @@
-
 package com.cartelle.modelo;
 
 /**
@@ -6,11 +5,15 @@ package com.cartelle.modelo;
  * @author ANTONIO CARTELLE CASAS
  */
 public class Usuario {
+
     private int id;
     private String nombre;
     private String rol;
     private String username;
     private String password;
+
+    public Usuario() {
+    }
 
     public Usuario(int id) {
         this.id = id;
@@ -56,10 +59,18 @@ public class Usuario {
         this.password = password;
     }
 
+    public boolean validate() {
+
+        if (this.getNombre().equals("admin")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public String toString() {
         return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", rol=" + rol + ", username=" + username + ", password=" + password + '}';
     }
-    
-    
+
 }

@@ -1,5 +1,7 @@
 package com.cartelle.modelo;
 
+import com.cartelle.dao.DbConnection;
+
 /**
  *
  * @author ANTONIO CARTELLE CASAS
@@ -61,11 +63,8 @@ public class Usuario {
 
     public boolean validate() {
 
-        if (this.getNombre().equals("admin")) {
-            return true;
-        } else {
-            return false;
-        }
+        DbConnection conexion=new DbConnection();
+       return conexion.comprobarUsuario(this.getUsername(),this.getPassword());
     }
 
     @Override

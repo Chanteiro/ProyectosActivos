@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Exito</title>
+        <title>Éxito</title>
     </head>
     <body>
         <h1>Estas dentro!</h1>

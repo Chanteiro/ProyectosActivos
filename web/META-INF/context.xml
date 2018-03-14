@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/prlEscano"/>
+<Context path="/prlEscano">
+        <Resource name="jdbc/AccesoDB"
+        auth="Container"
+        type="javax.sql.Datasource"
+        maxActive="100"
+        maxIdle="30"
+        maxWait="5000"
+        username="PRL_ESCANO"
+        password="CCVALLES"
+        driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        url="jdbc:sqlserver://localhost:1434/PrevencionEscano"/>
+</Context>

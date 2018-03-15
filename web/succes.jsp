@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Estas dentro!</h1>
-        <h2>Bienvenido ${user.nombre}</h2>
+        <h2>Bienvenido </h2>
              <img src="img/exito.jpg" alt=""/>
     </body>
 </html>

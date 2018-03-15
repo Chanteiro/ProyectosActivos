@@ -2,12 +2,12 @@
 <Context path="/prlEscano">
         <Resource name="jdbc/AccesoDB"
         auth="Container"
-        type="javax.sql.Datasource"
-        maxActive="100"
+        type="javax.sql.DataSource"
+        maxTotal="100"
         maxIdle="30"
-        maxWait="5000"
+        maxWaitMillis="5000"
         username="PRL_ESCANO"
         password="CCVALLES"
         driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-        url="jdbc:sqlserver://localhost:1434/PrevencionEscano"/>
+        url="jdbc:sqlserver://LAPTOP-8CUE42TI:1433; databaseName=PREVENCIONESCANO;"/>
 </Context>

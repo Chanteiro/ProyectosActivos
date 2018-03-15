@@ -23,8 +23,11 @@ public class DbConnection {
 
     public DbConnection() {
         try {
-            initContext = new InitialContext();
-            datasource = (DataSource) initContext.lookup("java:comp/env/jdbc/AccesoDB");
+//            initContext = new InitialContext();
+//            datasource = (DataSource) initContext.lookup("java:comp/env/jdbc/AccesoDB");
+			InitialContext ctx = new InitialContext();
+			Context env = (Context) ctx.lookup("java:comp/env");
+			datasource = (DataSource) env.lookup("jdbc/AccesoDB");
         } catch (NamingException ex) {
             System.out.println("Problemas en el acceso al recurso");
             ex.printStackTrace();
@@ -37,8 +40,8 @@ public class DbConnection {
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-            String sql = "SELECT nombre, rol, usuario, pass FROM LOGIN WHERE usuario='"
-                    + user + "' and pass='" + pass + "';";
+            String sql = "SELECT nombreCompleto, rol, usuario, contrasena FROM LOGIN WHERE usuario='"
+                    + user + "' and contrasena='" + pass + "';";
             rs = st.executeQuery(sql);
             if (rs.next()) {
                 resultado = true;
@@ -46,6 +49,7 @@ public class DbConnection {
             return resultado;
         } catch (Exception e) {
             System.out.println("No se pudo conectar");
+            e.printStackTrace();
         } finally {
             if (rs != null) {
                 try {

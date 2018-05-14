@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,9 +30,11 @@ public class login extends HttpServlet {
         Usuario usuario = new Usuario();
         usuario.setUsername(user);
         usuario.setPassword(password);
-        boolean status = usuario.validate();
-        request.setAttribute("user", usuario);
-        if (status) {
+        Usuario usu = usuario.validate();
+//        request.setAttribute("user", usuario);
+        if (usu.getId()!=0) {
+            HttpSession sesion = request.getSession();
+            sesion.setAttribute("user", usu);
             RequestDispatcher rd = request.getRequestDispatcher("succes.jsp");
             rd.forward(request, response);
         } else {

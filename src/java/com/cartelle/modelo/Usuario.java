@@ -61,7 +61,7 @@ public class Usuario {
         this.password = password;
     }
 
-    public boolean validate() {
+    public Usuario validate() {
 
         DbConnection conexion=new DbConnection();
        return conexion.comprobarUsuario(this.getUsername(),this.getPassword());

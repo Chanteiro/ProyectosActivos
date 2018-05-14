@@ -1,0 +1,50 @@
+<%-- any content can be specified here e.g.: --%>
+
+<%@ page pageEncoding="UTF-8" %>
+<%@page import="com.cartelle.modelo.Usuario"%>
+<%
+    Usuario user = new Usuario();
+    HttpSession sesion=request.getSession();
+    user = (Usuario) sesion.getAttribute("user");
+    String username = user.getNombre();
+    String rol = user.getRol();
+%>
+
+<!DOCTYPE html>
+
+<html lang="es">
+
+
+    <head>
+        <title>PRL-SEGOP</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    </head>
+
+    <body>
+        <div class="container-fuid">
+            <div class="anularejilla">
+                <div class="row align-items-center bg-info vertical-align-center ">
+                    <div class="col-lg-2 bg-info text-center " >
+                        <img class="img-responsive" src="img/escudoprl2.png" alt=""/>
+                    </div>
+                    <div class="col-lg-7 bg-info text-left font-weight-bold">
+                        <h1 class="gordo lead tituloencabezado"><strong>PRL ESCAÑO</strong></h1>
+                    </div>  
+                    <div class="col-lg-3 bg-info text-left vertical-align">
+                        <div class="col">
+                            <p>USUARIO:&nbsp<%=username%></p>
+                        </div>
+                        <div class="col">
+                            <p>PERFIL:&nbsp<%=rol%></p>
+                        </div>
+                        <div class="col text-right">
+                            <p><a href="#">Administrar Sitio</a></p> 
+                        </div>
+                    </div>  
+                </div>

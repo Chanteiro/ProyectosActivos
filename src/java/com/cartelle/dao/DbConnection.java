@@ -1,5 +1,6 @@
 package com.cartelle.dao;
 
+import com.cartelle.modelo.Usuario;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,19 +35,22 @@ public class DbConnection {
         }
     }
 
-    public boolean comprobarUsuario(String user, String pass) {
-        boolean resultado = false;
-
+    public Usuario comprobarUsuario(String user, String pass) {
+//        boolean resultado = false;
+Usuario usu=new Usuario();
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-            String sql = "SELECT nombreCompleto, rol, usuario, contrasena FROM LOGIN WHERE usuario='"
+            String sql = "SELECT idLogin,nombreCompleto, rol, usuario, contrasena FROM LOGIN WHERE usuario='"
                     + user + "' and contrasena='" + pass + "';";
             rs = st.executeQuery(sql);
-            if (rs.next()) {
-                resultado = true;
+            while (rs.next()) {
+                usu.setId(rs.getInt("idLogin"));
+                usu.setNombre(rs.getString("nombreCompleto"));
+                usu.setRol(rs.getString("rol"));
+                
             }
-            return resultado;
+            return usu;
         } catch (Exception e) {
             System.out.println("No se pudo conectar");
             e.printStackTrace();
@@ -76,6 +80,6 @@ public class DbConnection {
             }
 
         }
-        return resultado;
+        return usu;
     }
 }

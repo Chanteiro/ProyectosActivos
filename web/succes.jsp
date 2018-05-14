@@ -4,16 +4,10 @@
     Author     : ANTONIO
 --%>
 
+
+
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Éxito</title>
-    </head>
-    <body>
-        <h1>Estas dentro!</h1>
-        <h2>Bienvenido </h2>
-             <img src="img/exito.jpg" alt=""/>
-    </body>
-</html>
+<%@include file="jspf/encabezado.jspf"%>
+<%@include file="jspf/body1.jspf"%>               
+<%@include file="jspf/pie.jspf"%>               

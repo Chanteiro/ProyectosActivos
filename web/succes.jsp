@@ -9,5 +9,16 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="jspf/encabezado.jspf"%>
-<%@include file="jspf/body1.jspf"%>               
+<section >
+    <br>
+    <br>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Noticias de interés</h3>
+        </div>
+        <div class="panel-body">
+            Aquí se mostrarán las noticias que envíe el administrador
+        </div>
+    </div>
+</section>             
 <%@include file="jspf/pie.jspf"%>               

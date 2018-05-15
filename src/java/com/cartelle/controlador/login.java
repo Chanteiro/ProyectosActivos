@@ -31,7 +31,6 @@ public class login extends HttpServlet {
         usuario.setUsername(user);
         usuario.setPassword(password);
         Usuario usu = usuario.validate();
-//        request.setAttribute("user", usuario);
         if (usu.getId()!=0) {
             HttpSession sesion = request.getSession();
             sesion.setAttribute("user", usu);

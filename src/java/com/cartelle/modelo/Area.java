@@ -8,6 +8,7 @@ public class Area {
    private String codArea;
    private String nombre;
    private Date fechaTomaDatos;
+   private String fechaUltimaEvaluacion;
    private String observacionesArea;
    private String descripcion;
    private int superficie;
@@ -29,6 +30,14 @@ public class Area {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getFechaUltimaEvaluacion() {
+        return fechaUltimaEvaluacion;
+    }
+
+    public void setFechaUltimaEvaluacion(String fechaUltimaEvaluacion) {
+        this.fechaUltimaEvaluacion = fechaUltimaEvaluacion;
     }
 
    

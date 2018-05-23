@@ -12,3 +12,12 @@
 .tituloencabezado{
 	/*margin-left:-45px;*/
 }
+.separar{
+    margin-top: 10px;
+}
+a.text-white:hover, a.text-white:focus{
+    color:#fff;
+}
+a.text-white{
+     color:#fff;
+}

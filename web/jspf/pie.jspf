@@ -1,12 +1,36 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
-<footer class="bg-info">
-                <p>Curso PRG 2018 - Version 1.0</p>
-                <p>Servicio de Prevención ESCAÑO - C/ Telleiras, 36, 15406 Ferrol, A Coruña - Telefono: 981 39 91 75 - Email: xxxx@fn.mde.es</p>
+<footer class="bg-primary">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 text-left">
+                <h6 class="text-white">CONTACTO:</h6>
+                <h6 class="text-white">
+                    Servicio de Prevención ESCAÑO-ESENGRA<br>
+                    C/Telleiras, 36 15406 Ferrol A Coruña<br>
+                    Teléfono: 981399175 - Email: xxxx@fn.mde.es<br>
+                </h6>
+            </div>
 
-            </footer>
+            <div class="col-lg-4 text-left text-white">
+
+            </div>
+
+            <div class="col-lg-2 text-center text-white">
+                <img src="img/escudo_bueno.png">
+                <p class="text-white small">Curso PRG @2018</br>
+                    Versión 0.1</p>
+            </div>
+
+
         </div>
-		</div>
 
-    </body>
+
+    </div>
+
+
+
+
+</footer>
+</body>
 </html>

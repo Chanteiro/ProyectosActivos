@@ -33,14 +33,14 @@
         
         <div class="container-fuid">
             <div class="anularejilla">
-                <div class="row align-items-center bg-info vertical-align-center ">
-                    <div class="col-lg-2 bg-info text-center " >
+                <div class="row align-items-center bg-primary vertical-align-center ">
+                    <div class="col-lg-2 bg-primary text-center " >
                         <img class="img-responsive" src="img/escudoprl2.png" alt=""/>
                     </div>
-                    <div class="col-lg-7 bg-info text-left font-weight-bold">
+                    <div class="col-lg-7 bg-primary text-left font-weight-bold">
                         <h1 class="gordo lead tituloencabezado"><strong>SP (ESCAÑO-ESENGRA)</strong></h1>
                     </div>  
-                    <div class="col-lg-3 bg-info text-left vertical-align">
+                    <div class="col-lg-3 bg-primary text-left vertical-align">
                         <div class="col">
                             <p><i class="fas fa-user"></i>&nbsp USUARIO:&nbsp<%=username%></p>
                         </div>
@@ -48,28 +48,28 @@
                             <p><i class="fas fa-tasks"></i>&nbsp PERFIL:&nbsp<%=rol%></p>
                         </div>
                         <% if (user.getRol().equals("ADMIN_ESCANO")) {
-                                out.println("<div class='col text-center'>");
-                                out.println("<p><a href='usuarios'>Administrar Sitio</a></p></div>");
+                                out.println("<div class='col bg-primary  text-center '>");
+                                out.println("<p><a class='text-white' href='usuarios'>Administrar Sitio</a></p></div>");
 
                                 }%>
                     </div>  
                 </div>
-             </div>          
-         </div>         
+                    
+              
 
- <nav class="navbar navbar-inverse">
+ <nav class="navbar navbar-inverse separar">
   <div class="container-fluid ">
     <div class="navbar-header">
-      <a class="navbar-brand" >ESCAÑO</a>
+      <a class="navbar-brand " >ESCAÑO</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="succes.jsp">Inicio</a></li>
+      <li ><a href="succes.jsp">Inicio</a></li>
       <li ><a href="areas">Areas de Trabajo</a></li>
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Puestos de Trabajo
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Relación de puestos</a></li>
+          <li><a href="puestos">Relación de puestos</a></li>
           <li><a href="#">Relación de trabajadores</a></li>
         </ul>
       </li>

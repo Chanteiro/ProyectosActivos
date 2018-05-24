@@ -217,7 +217,7 @@ public class DbConnection {
             cn = datasource.getConnection();
             st = cn.createStatement();
 
-            String sql = "select * from puestos_trabajo where unidadFK=442 and idPuesto=" + id + ";";
+            String sql = "select * from puestos_trabajo where idPuesto=" + id + ";";
             rs = st.executeQuery(sql);
 
             while (rs.next()) {

@@ -10,8 +10,9 @@ public class Trabajador {
     private String nombre;
     private String empleo;
     private String codTrabajador;
+    private String puesto;
     private int puestoFK;
-
+    private String area;
     public int getId() {
         return id;
     }
@@ -50,6 +51,22 @@ public class Trabajador {
 
     public void setPuestoFK(int puestoFK) {
         this.puestoFK = puestoFK;
+    }
+
+    public String getPuesto() {
+        return puesto;
+    }
+
+    public void setPuesto(String puesto) {
+        this.puesto = puesto;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
     
 }

@@ -2,6 +2,7 @@ package com.cartelle.dao;
 
 import com.cartelle.modelo.Area;
 import com.cartelle.modelo.Puestos;
+import com.cartelle.modelo.Trabajador;
 import com.cartelle.modelo.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -150,6 +151,62 @@ public class DbConnection {
         return areas;
     }
 
+    public List<Trabajador> obtenerTrabajadores() {
+        List<Trabajador> trabajadores = new ArrayList();
+        try {
+            cn = datasource.getConnection();
+            st = cn.createStatement();
+
+            String sql = "SELECT  idTrabajador,codigoTrabajador,empleo, trabajadores.nombre, puestos_trabajo.puesto FROM dbo.TRABAJADORES inner join puestos_trabajo "
+                    + "on trabajadores.puestoTrabajoFK=puestos_trabajo.idPuesto "
+                    + "inner join area_puesto on puestos_trabajo.idPuesto=area_puesto.idPuesto "
+                    + "inner join areas_trabajo on areas_trabajo.idArea=area_puesto.idArea "
+                    + "where unidadFK=442 "
+                    + "order by codigoTrabajador;";
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                Trabajador t = new Trabajador();
+                t.setId(rs.getInt("idTrabajador"));
+                t.setCodTrabajador(rs.getString("codigoTrabajador"));
+                t.setNombre(rs.getString("nombre"));
+                t.setEmpleo(rs.getString("empleo"));
+                t.setPuesto(rs.getString("puesto"));
+                trabajadores.add(t);
+            }
+            return trabajadores;
+        } catch (Exception e) {
+            System.out.println("No se pudo conectar");
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+        }
+
+        return trabajadores;
+    }
+
     public Area getAreabyId(int id) {
         Area a = new Area(0);
         try {
@@ -209,6 +266,62 @@ public class DbConnection {
         }
 
         return a;
+    }
+
+    public Trabajador getTrabajadorbyId(int id) {
+        Trabajador t = new Trabajador();
+        try {
+            cn = datasource.getConnection();
+            st = cn.createStatement();
+
+            String sql = "SELECT  idTrabajador,codigoTrabajador,empleo, trabajadores.nombre, puestos_trabajo.puesto, areas_trabajo.nombre as area "
+                    + "FROM dbo.TRABAJADORES inner join puestos_trabajo "
+                    + "on trabajadores.puestoTrabajoFK=puestos_trabajo.idPuesto "
+                    + "inner join area_puesto on puestos_trabajo.idPuesto=area_puesto.idPuesto "
+                    + "inner join areas_trabajo on areas_trabajo.idArea=area_puesto.idArea "
+                    + "where idTrabajador=" + id + ";";
+            rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                    t.setId(rs.getInt("idTrabajador"));
+                    t.setCodTrabajador(rs.getString("codigoTrabajador"));
+                    t.setEmpleo(rs.getString("empleo"));
+                    t.setNombre(rs.getString("nombre"));
+                    t.setPuesto(rs.getString("puesto"));
+                    t.setArea(rs.getString("area"));
+            }
+            return t;
+        } catch (Exception e) {
+            System.out.println("No se pudo conectar");
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+        }
+
+        return t;
     }
 
     public Puestos getPuestobyId(int id) {

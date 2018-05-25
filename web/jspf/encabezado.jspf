@@ -70,7 +70,7 @@
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="puestos">Relación de puestos</a></li>
-          <li><a href="#">Relación de trabajadores</a></li>
+          <li><a href="trabajadores">Relación de trabajadores</a></li>
         </ul>
       </li>
       <li class="dropdown">

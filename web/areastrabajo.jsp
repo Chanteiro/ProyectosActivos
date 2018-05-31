@@ -6,7 +6,7 @@
 
 <%@page import="java.util.List"%>
 <%@page import="com.cartelle.modelo.Area"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="iso-8859-1"%>
 <%@include file="jspf/encabezado.jspf"%>
 <%
  List<Area> areas=(List<Area>)request.getAttribute("areas");
@@ -15,14 +15,14 @@
     
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">RELACI√ìN DE √ÅREAS DE TRABAJO</h3>
+            <h3 class="panel-title">RELACI”N DE ¡REAS DE TRABAJO</h3>
         </div>
         <div class="panel-body">
             <table class="table table-hover">
     <thead>
       <tr>
-        <th>C√ìDIGO √ÅREA</th>
-        <th>√ÅREA</th>
+        <th>C”DIGO ¡REA</th>
+        <th>¡REA</th>
         <th>DETALLE</th>
       </tr>
     </thead>

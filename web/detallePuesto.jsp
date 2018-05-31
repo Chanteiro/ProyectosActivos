@@ -6,7 +6,7 @@
 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.cartelle.modelo.Puestos"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@include file="jspf/encabezado.jspf"%>
 <%
   Puestos p=(Puestos)request.getAttribute("puesto");  
@@ -59,7 +59,7 @@
         <div class="panel-body">
             <form class="form-horizontal" role="form">
                 <div class="form-group">
-                    <label for="codPuesto" class="col-lg-2 control-label">CÃ³digo Puesto</label>
+                    <label for="codPuesto" class="col-lg-2 control-label">Código Puesto</label>
                     <div class="col-lg-1">
                         <input type="text" class="form-control" id="codPuesto" value="<%=p.getCodPuesto()%>"> 
                     </div>
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="trabajadores" class="col-lg-2 control-label">Trabajadores CondiciÃ³n Especial</label>
+                    <label for="trabajadores" class="col-lg-2 control-label">Trabajadores Condición Especial</label>
                     <div class="col-lg-10">
                         <textarea class="form-control" id="trabajadores"rows="3"><%=trabajadores%></textarea>
                     </div>

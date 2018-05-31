@@ -1,14 +1,18 @@
 package com.cartelle.dao;
 
 import com.cartelle.modelo.Area;
+import com.cartelle.modelo.FichaInstalaciones;
+import com.cartelle.modelo.LoginAdmin;
 import com.cartelle.modelo.Puestos;
 import com.cartelle.modelo.Trabajador;
 import com.cartelle.modelo.Usuario;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.naming.Context;
@@ -283,12 +287,12 @@ public class DbConnection {
             rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                    t.setId(rs.getInt("idTrabajador"));
-                    t.setCodTrabajador(rs.getString("codigoTrabajador"));
-                    t.setEmpleo(rs.getString("empleo"));
-                    t.setNombre(rs.getString("nombre"));
-                    t.setPuesto(rs.getString("puesto"));
-                    t.setArea(rs.getString("area"));
+                t.setId(rs.getInt("idTrabajador"));
+                t.setCodTrabajador(rs.getString("codigoTrabajador"));
+                t.setEmpleo(rs.getString("empleo"));
+                t.setNombre(rs.getString("nombre"));
+                t.setPuesto(rs.getString("puesto"));
+                t.setArea(rs.getString("area"));
             }
             return t;
         } catch (Exception e) {
@@ -448,4 +452,268 @@ public class DbConnection {
 
         return puestos;
     }
+
+    public LoginAdmin getLoginAdminById(int idLogin) {
+        LoginAdmin logo = new LoginAdmin(0);
+        try {
+            cn = datasource.getConnection();
+            st = cn.createStatement();
+
+            String sql = "select * from LOGIN where idLogin=" + idLogin + ";";
+            rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+
+                logo.setIdLogin(rs.getInt("idLogin"));
+                logo.setContrasena(rs.getString("contrasena").trim());
+                logo.setNombrecompleto(rs.getString("nombreCompleto").trim());
+                logo.setUsuario(rs.getString("usuario"));
+                logo.setRol(rs.getString("rol").trim());
+
+            }
+            return logo;
+        } catch (Exception e) {
+            System.out.println("No se pudo conectar");
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+        }
+
+        return logo;
+    }
+
+    public ArrayList<LoginAdmin> buscar(String sql) {
+        ArrayList<LoginAdmin> lista = new ArrayList();
+        try {
+            cn = datasource.getConnection();
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                lista.add(new LoginAdmin(rs.getInt("idLogin"), rs.getString("nombreCompleto"), rs.getString("contrasena"), rs.getString("usuario"), rs.getString("rol")));
+            }
+            return lista;
+        } catch (SQLException ex) {
+            System.out.println("Error con el resultset" + ex);
+        }
+        return lista;
+    }
+
+    public ArrayList<String> buscarRol() {
+        ArrayList<String> roles = new ArrayList();
+        try {
+            cn = datasource.getConnection();
+            st = cn.createStatement();
+            String sql = "select distinct rol from login; ";
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                roles.add(rs.getString("rol"));
+            }
+            return roles;
+        } catch (SQLException ex) {
+            System.out.println("Error con el resultset" + ex);
+        }
+        return roles;
+    }
+
+    public boolean insertaUsuario(Usuario u) {
+        try {
+            String sql = "insert into login values(?,?,?,?); ";
+            cn = datasource.getConnection();
+            pst = cn.prepareStatement(sql);
+
+            pst.setString(1, u.getNombre());
+            pst.setString(2, u.getUsername());
+            pst.setString(3, u.getPassword());
+            pst.setString(4, u.getRol());
+            pst.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Error con el resultset" + ex);
+            return false;
+        }
+
+    }
+
+    public int borraUsuario(int id) {
+        try {
+            cn = datasource.getConnection();
+            String sql = "delete from login where idLogin=?; ";
+            pst = cn.prepareStatement(sql);
+
+            pst.setInt(1, id);
+            int rows = pst.executeUpdate();
+            return rows;
+
+        } catch (SQLException ex) {
+            System.out.println("Error borrando" + ex);
+            return 0;
+        }
+
+    }
+
+    public int actualizaUsuario(Usuario user, int id) {
+        try {
+            cn = datasource.getConnection();
+            String sql = "update login set nombreCompleto=?,usuario=?, contrasena=?, rol=? where idLogin=?; ";
+            pst = cn.prepareStatement(sql);
+
+            pst.setString(1, user.getNombre());
+            pst.setString(2, user.getUsername());
+            pst.setString(3, user.getPassword());
+            pst.setString(4, user.getRol());
+            pst.setInt(5, id);
+            int rows = pst.executeUpdate();
+            return rows;
+
+        } catch (SQLException ex) {
+            System.out.println("Error borrando" + ex);
+            return 0;
+        }
+
+    }
+
+    public int actualizaArea(Area a, int id) {
+        try {
+            cn = datasource.getConnection();
+            String sql = "update areas_trabajo set fechaTomaDatos=?,observacionesArea=?, descripcion=?, superficie=?,"
+                    + " actividadesRealizadas=?, instalacionesExistentes=?, medidasPreventivasExistentes=?,"
+                    + " observacionesMedidasPreventivas=? where idArea=?; ";
+            pst = cn.prepareStatement(sql);
+            java.util.Date fecha = a.getFechaTomaDatos();
+            java.sql.Date fecha2 = new java.sql.Date(fecha.getTime());
+            pst.setDate(1, fecha2);
+            pst.setString(2, a.getObservacionesArea());
+            pst.setString(3, a.getDescripcion());
+            pst.setInt(4, a.getSuperficie());
+            pst.setString(5, a.getActividadesRealizadas());
+            pst.setString(6, a.getInstalacionesExistentes());
+            pst.setString(7, a.getMedidasPreventivasExistentes());
+            pst.setString(8, a.getObservacionesMedidasPreventivas());
+            pst.setInt(9, a.getId());
+            int rows = pst.executeUpdate();
+            return rows;
+
+        } catch (SQLException ex) {
+            System.out.println("Error borrando" + ex);
+            return 0;
+        }
+
+    }
+
+    public FichaInstalaciones getFichabyId(int id) {
+        FichaInstalaciones fi = new FichaInstalaciones();
+        try {
+            cn = datasource.getConnection();
+            st = cn.createStatement();
+            String sql = "select codArea, nombre,idFicha,rampas_de_circulacion,circulacion_interior, escaleras_fijas,"
+                    + " escaleras_mano, almacenamiento_altura, conducciones_fluidos_presion, calderas, "
+                    + "depositos_presion, botellas_presion, cintas_transportadoras, ascensores_montacargas, "
+                    + "plataformas_elevadoras, gruas_polipastros, carretillas_elevadoras, area_carga_baterias, "
+                    + "extintores, bie, deteccion_incendios, otros "
+                    + "from FICHA_INSTALACIONES "
+                    + "inner join AREAS_TRABAJO on FICHA_INSTALACIONES.idFicha=AREAS_TRABAJO.ficha_instalacionFK "
+                    + "where AREAS_TRABAJO.idArea=" + id + ";";
+            rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+//                String texto;
+                fi.setCodArea(rs.getString("codArea"));
+                fi.setNombreArea(rs.getString("nombre"));
+                fi.setIdFicha(rs.getInt("idFicha"));
+                fi.setRampas_de_circulacion(rs.getString("rampas_de_circulacion"));
+                fi.setCirculacion_interior(rs.getString("circulacion_interior"));
+                fi.setEscaleras_fijas(rs.getString("escaleras_fijas"));
+                fi.setEscaleras_mano(rs.getString("escaleras_mano"));
+                fi.setAlmacenamiento_altura(rs.getString("almacenamiento_altura"));
+                fi.setConducciones_fluidos_presion(rs.getString("conducciones_fluidos_presion"));
+                fi.setCalderas(rs.getString("calderas"));
+                fi.setDepositos_presion(rs.getString("depositos_presion"));
+                fi.setBotellas_presion(rs.getString("botellas_presion"));
+                fi.setCintas_transportadoras(rs.getString("cintas_transportadoras"));
+                fi.setAscensores_montacargas(rs.getString("ascensores_montacargas"));
+                fi.setPlataformas_elevadoras(rs.getString("plataformas_elevadoras"));
+                fi.setGruas_polipastos(rs.getString("gruas_polipastros"));
+                fi.setCarretillas_elevadoras(rs.getString("carretillas_elevadoras"));
+                fi.setArea_carga_baterias(rs.getString("area_carga_baterias"));
+                fi.setExtintores(rs.getString("extintores"));
+                fi.setBie(rs.getString("bie"));
+                fi.setDeteccion_incendios(rs.getString("deteccion_incendios"));
+                fi.setOtros(rs.getString("otros"));
+
+            }
+            return fi;
+        } catch (Exception e) {
+            System.out.println("No se pudo conectar");
+            System.out.println(e.getMessage());
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+
+        }
+
+        return fi;
+    }
+
+//    public int actualizaNoticia(Noticia noti, int id) {
+//        try {
+//            cn = datasource.getConnection();
+//            String sql = "update noticias set titulo=?,contenido=? where id=?; ";
+//            pst = cn.prepareStatement(sql);
+//
+//            pst.setString(1,noti.getTitulo());
+//            pst.setString(2, noti.getContenido());
+//            pst.setInt(3, id);
+//            int rows = pst.executeUpdate();
+//            return rows;
+//
+//        } catch (SQLException ex) {
+//            System.out.println("Error borrando" + ex);
+//            return 0;
+//        }
+//
+//    }
 }

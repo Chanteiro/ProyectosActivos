@@ -7,17 +7,17 @@
 
 
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@include file="jspf/encabezado.jspf"%>
 <section >
     <br>
     <br>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">Noticias de interÃ©s</h3>
+            <h3 class="panel-title">Noticias de interés</h3>
         </div>
         <div class="panel-body">
-            AquÃ­ se mostrarÃ¡n las noticias que envÃ­e el administrador
+            Aquí se mostrarán las noticias que envíe el administrador
         </div>
     </div>
 </section>             

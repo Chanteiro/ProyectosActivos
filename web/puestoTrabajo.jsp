@@ -6,7 +6,7 @@
 
 <%@page import="java.util.List"%>
 <%@page import="com.cartelle.modelo.Puestos"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 
 
 <%@include file="jspf/encabezado.jspf"%>
@@ -24,9 +24,9 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>C√ìDIGO PUESTO</th>
+                        <th>C”DIGO PUESTO</th>
                         <th>PUESTO</th>
-                        <th>√ÅREA</th>
+                        <th>¡REA</th>
                         <th>DETALLE</th>
                     </tr>
                 </thead>

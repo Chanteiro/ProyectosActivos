@@ -1,6 +1,6 @@
 <%-- any content can be specified here e.g.: --%>
 
-<%@page pageEncoding="UTF-8" %>
+<%@page pageEncoding="ISO-8859-1" %>
 <%@page import="com.cartelle.modelo.Usuario"%>
 <%
     Usuario user = new Usuario();
@@ -18,7 +18,7 @@
     <head>
         <title>PRL-SEGOP</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="UTF-8">
+        <meta charset="ISO-8859-1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
@@ -38,7 +38,7 @@
                         <img class="img-responsive" src="img/escudoprl2.png" alt=""/>
                     </div>
                     <div class="col-lg-7 bg-primary text-left font-weight-bold">
-                        <h1 class="gordo lead tituloencabezado"><strong>SP (ESCAÃ‘O-ESENGRA)</strong></h1>
+                        <h1 class="gordo lead tituloencabezado"><strong>SP (ESCAÑO-ESENGRA)</strong></h1>
                     </div>  
                     <div class="col-lg-3 bg-primary text-left vertical-align">
                         <div class="col">
@@ -49,7 +49,7 @@
                         </div>
                         <% if (user.getRol().equals("ADMIN_ESCANO")) {
                                 out.println("<div class='col bg-primary  text-center '>");
-                                out.println("<p><a class='text-white' href='usuarios'>Administrar Sitio</a></p></div>");
+                                out.println("<p><a class='text-white' href='LoginAdmin'>Administrar Sitio</a></p></div>");
 
                                 }%>
                     </div>  
@@ -60,7 +60,7 @@
  <nav class="navbar navbar-inverse separar">
   <div class="container-fluid ">
     <div class="navbar-header">
-      <a class="navbar-brand " >ESCAÃ‘O</a>
+      <a class="navbar-brand " >ESCAÑO</a>
     </div>
     <ul class="nav navbar-nav">
       <li ><a href="succes.jsp">Inicio</a></li>
@@ -69,15 +69,15 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Puestos de Trabajo
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="puestos">RelaciÃ³n de puestos</a></li>
-          <li><a href="trabajadores">RelaciÃ³n de trabajadores</a></li>
+          <li><a href="puestos">Relación de puestos</a></li>
+          <li><a href="trabajadores">Relación de trabajadores</a></li>
         </ul>
       </li>
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Evaluaciones
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Por Ã¡rea de trabajo</a></li>
+          <li><a href="#">Por área de trabajo</a></li>
           <li><a href="#">Por puesto de trabajo</a></li>
         </ul>
       </li>
@@ -89,11 +89,11 @@
         </ul>
       </li>
       <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Enlaces de interÃ©s
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Enlaces de interés
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="#">PRL SEGOP</a></li>
-          <li><a href="#">DocumentaciÃ³n</a></li>
+          <li><a href="#">Documentación</a></li>
           <li><a href="#">Normativa</a></li>
         </ul>
       </li>

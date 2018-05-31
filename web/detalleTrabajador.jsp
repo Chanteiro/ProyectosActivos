@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="com.cartelle.modelo.Trabajador"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@include file="jspf/encabezado.jspf"%>
 <%
   Trabajador t=(Trabajador)request.getAttribute("trabajador");  
@@ -15,7 +15,7 @@
 
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">C√ìDIGO DE TRABAJADOR:&nbsp; <%=t.getCodTrabajador()%></h3>
+            <h3 class="panel-title">C”DIGO DE TRABAJADOR:&nbsp; <%=t.getCodTrabajador()%></h3>
         </div>
         <div class="panel-body">
             <form class="form-horizontal" role="form">
@@ -41,9 +41,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="area" class="col-lg-2 control-label">√Årea de trabajo</label>
+                    <label for="area" class="col-lg-2 control-label">¡rea de trabajo</label>
                     <div class="col-lg-10">
-                       <input type="text" class="form-control" id="area" placeholder="√Årea de trabajo" value="<%=t.getArea()%>">
+                       <input type="text" class="form-control" id="area" placeholder="¡rea de trabajo" value="<%=t.getArea()%>">
                     </div>
                 </div>
                 

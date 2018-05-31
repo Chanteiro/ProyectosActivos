@@ -2,13 +2,8 @@
 package com.cartelle.controlador;
 
 import com.cartelle.dao.DbConnection;
-import com.cartelle.modelo.Area;
+import com.cartelle.modelo.FichaInstalaciones;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ANTONIO
  */
-@WebServlet(name = "detalleVacante", urlPatterns = {"/detalleVacante"})
-public class detalleArea extends HttpServlet {
+@WebServlet(name = "fichaInstControler", urlPatterns = {"/fichaInstControler"})
+public class fichaInstControler extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,10 +26,11 @@ public class detalleArea extends HttpServlet {
        int id=Integer.parseInt(ide);
        if(action.equals("verdetalle")){
            DbConnection con=new DbConnection();
-           Area area=con.getAreabyId(id);
-           if(area.getId()!=0){
-               request.setAttribute("area",area);
-               RequestDispatcher rd = request.getRequestDispatcher("detalleVacante.jsp");
+           FichaInstalaciones ficha=con.getFichabyId(id);
+           if(ficha.getIdFicha()!= 0){
+              System.out.println(id);
+               request.setAttribute("ficha",ficha);
+               RequestDispatcher rd = request.getRequestDispatcher("fichainstalacion.jsp");
             rd.forward(request, response);
            }
            
@@ -45,7 +41,6 @@ public class detalleArea extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
        
     }
 

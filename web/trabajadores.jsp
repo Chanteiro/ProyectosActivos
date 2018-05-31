@@ -6,7 +6,7 @@
 
 <%@page import="com.cartelle.modelo.Trabajador"%>
 <%@page import="java.util.List"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@include file="jspf/encabezado.jspf"%>
 <%
  List<Trabajador> trab=(List<Trabajador>)request.getAttribute("trabajadores");
@@ -15,13 +15,13 @@
     
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">RELACIÃ“N DE TRABAJADORES</h3>
+            <h3 class="panel-title">RELACIÓN DE TRABAJADORES</h3>
         </div>
         <div class="panel-body">
             <table class="table table-hover">
     <thead>
       <tr>
-        <th>CÃ“DIGO TRABAJADOR</th>
+        <th>CÓDIGO TRABAJADOR</th>
         <th>EMPLEO</th>
         <th>NOMBRE</th>
         <th>PUESTO DE TRABAJO</th>

@@ -11,7 +11,7 @@
 <%
   Puestos p=(Puestos)request.getAttribute("puesto");  
    SimpleDateFormat sdf=new SimpleDateFormat("dd-MMMM-yyyy");
-   String observaciones,tareas,equipos,trabajadores,medidas,obsmedidas;
+   String observaciones,tareas,equipos,trabajadores,medidas,obsmedidas,luz, ruido, temp;
    String fecha="";
    try{
        fecha=sdf.format(p.getFechaTomaDatos());
@@ -19,6 +19,21 @@
        fecha="Sin datos"; 
    }
   
+   if(p.getLuz()==0){
+       luz="Sin datos";
+   }else{
+       luz=String.valueOf(p.getLuz());
+   }
+   if(p.getRuido()==0){
+       ruido="Sin datos";
+   }else{
+       ruido=String.valueOf(p.getRuido());
+   }
+   if(p.getTemp()==0){
+       temp="Sin datos";
+   }else{
+       temp=String.valueOf(p.getTemp());
+   }
    if(p.getObservaciones()==null){
        observaciones="Sin datos";
    }else{
@@ -106,6 +121,20 @@
                     <label for="observacionesmedidas" class="col-lg-2 control-label">Observaciones Medidas Preventivas</label>
                     <div class="col-lg-10">
                         <textarea class="form-control" id="observacionesmedidas"rows="3"><%=obsmedidas%></textarea>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="luz" class="col-lg-2 control-label">Mediciones luz (lux)</label>
+                    <div class="col-lg-2">
+                    <input type="text" class="form-control" id="luz" value="<%= luz%>"> 
+                    </div>
+                    <label for="ruido" class="col-lg-2 control-label">Mediciones ruído (db)</label>
+                    <div class="col-lg-2">
+                    <input type="text" class="form-control" id="ruido" value="<%= ruido%>"> 
+                    </div>
+                    <label for="temp" class="col-lg-2 control-label">Mediciones temperatura (ºC)</label>
+                    <div class="col-lg-2">
+                    <input type="text" class="form-control" id="temp" value="<%= temp%>"> 
                     </div>
                 </div>
             </form>

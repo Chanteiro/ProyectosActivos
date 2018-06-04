@@ -1,4 +1,3 @@
-
 package com.cartelle.modelo;
 
 import java.util.Date;
@@ -8,6 +7,7 @@ import java.util.Date;
  * @author ANTONIO
  */
 public class Puestos {
+
     private int idPuesto;
     private String codArea;
     private String codPuesto;
@@ -21,6 +21,9 @@ public class Puestos {
     private String medidasPreventivasExistentes;
     private String observacionesMedidasPreventivas;
     private int idArea;
+    private int luz;
+    private int ruido;
+    private int temp;
 
     public int getIdPuesto() {
         return idPuesto;
@@ -30,9 +33,6 @@ public class Puestos {
         this.idPuesto = idPuesto;
     }
 
-    
-    
-    
     public String getCodArea() {
         return codArea;
     }
@@ -128,6 +128,29 @@ public class Puestos {
     public void setIdArea(int idArea) {
         this.idArea = idArea;
     }
-    
-    
+
+    public int getLuz() {
+        return luz;
+    }
+
+    public void setLuz(int luz) {
+        this.luz = luz;
+    }
+
+    public int getRuido() {
+        return ruido;
+    }
+
+    public void setRuido(int ruido) {
+        this.ruido = ruido;
+    }
+
+    public int getTemp() {
+        return temp;
+    }
+
+    public void setTemp(int temp) {
+        this.temp = temp;
+    }
+
 }

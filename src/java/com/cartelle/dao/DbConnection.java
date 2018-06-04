@@ -354,7 +354,9 @@ public class DbConnection {
                 p.setTrabajadoresCondicionEspecial(rs.getString("trabajadoresCondicionEspecial"));
                 p.setMedidasPreventivasExistentes(rs.getString("medidasPreventivasExistentes"));
                 p.setObservacionesMedidasPreventivas(rs.getString("observacionesmedidasPreventivas"));
-
+                p.setLuz(rs.getInt("medicion_luz"));
+                p.setRuido(rs.getInt("medicion_ruido"));
+                p.setTemp(rs.getInt("medicion_temp"));
             }
             return p;
         } catch (Exception e) {
@@ -399,6 +401,7 @@ public class DbConnection {
             String sql = "Select puestos_trabajo.idPuesto,codPuesto, puesto, puestos_trabajo.fechaTomaDatos,observaciones,tareasRealizadas,"
                     + "equiposTrabajo, productosQuimicosFK,trabajadoresCondicionEspecial,"
                     + "puestos_trabajo.medidasPreventivasExistentes, puestos_trabajo.observacionesmedidasPreventivas,"
+                    + " medicion_luz, medicion_ruido, medicion_temp,"
                     + " codArea, areas_trabajo.idArea "
                     + "from puestos_trabajo inner join area_puesto on area_puesto.idPuesto=puestos_trabajo.idPuesto "
                     + "inner join areas_trabajo on areas_trabajo.idArea=area_puesto.idArea where unidadFK=442 "
@@ -420,7 +423,9 @@ public class DbConnection {
                 p.setMedidasPreventivasExistentes(rs.getString("medidasPreventivasExistentes"));
                 p.setObservacionesMedidasPreventivas(rs.getString("observacionesmedidasPreventivas"));
                 p.setIdArea(rs.getInt("idArea"));
-
+                p.setLuz(rs.getInt("medicion_luz"));
+                p.setRuido(rs.getInt("medicion_ruido"));
+                p.setTemp(rs.getInt("medicion_temp"));
                 puestos.add(p);
             }
             return puestos;

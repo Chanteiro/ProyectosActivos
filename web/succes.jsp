@@ -7,17 +7,22 @@
 
 
 
-<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
+<%@page import="com.cartelle.modelo.Noticia"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="jspf/encabezado.jspf"%>
+<%
+  Noticia n=(Noticia)request.getAttribute("noti");  
+   
+%>
 <section >
     <br>
     <br>
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Noticias de interés</h3>
+            <h3 class="panel-title"><%= n.getTitulo() %></h3>
         </div>
         <div class="panel-body">
-            Aquí se mostrarán las noticias que envíe el administrador
+           <%= n.getContenido() %>
         </div>
     </div>
 </section>             

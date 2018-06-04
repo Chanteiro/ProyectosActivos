@@ -3,9 +3,11 @@ package com.cartelle.dao;
 import com.cartelle.modelo.Area;
 import com.cartelle.modelo.FichaInstalaciones;
 import com.cartelle.modelo.LoginAdmin;
+import com.cartelle.modelo.Noticia;
 import com.cartelle.modelo.Puestos;
 import com.cartelle.modelo.Trabajador;
 import com.cartelle.modelo.Usuario;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -15,6 +17,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -595,6 +599,50 @@ public class DbConnection {
 
     }
 
+    public Noticia getNoticia() {
+        Noticia n = new Noticia();
+        try {
+            cn = datasource.getConnection();
+            st = cn.createStatement();
+            String sql = "select * from noticia; ";
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+//                String tit = rs.getString("titulo");
+//                byte ptext[] = tit.getBytes();
+//                String titulo = new String(ptext, "UTF-8");
+                n.setId(rs.getInt("idNoticia"));
+                n.setTitulo(rs.getString("titulo"));
+                n.setContenido(rs.getString("contenido"));
+            }
+            System.out.println(n.getTitulo());
+            return n;
+        } catch (SQLException ex) {
+            System.out.println("Error con el resultset" + ex);
+        }
+
+        return n;
+
+    }
+
+    public int actualizaNoticia(String titulo, String contenido, int id) {
+        try {
+            cn = datasource.getConnection();
+            String sql = "update noticia set titulo=?,contenido=? where idNoticia=?; ";
+            pst = cn.prepareStatement(sql);
+
+            pst.setString(1, titulo);
+            pst.setString(2, contenido);
+            pst.setInt(3, id);
+            int rows = pst.executeUpdate();
+            return rows;
+
+        } catch (SQLException ex) {
+            System.out.println("Error borrando" + ex);
+            return 0;
+        }
+
+    }
+
     public int actualizaArea(Area a, int id) {
         try {
             cn = datasource.getConnection();
@@ -613,6 +661,48 @@ public class DbConnection {
             pst.setString(7, a.getMedidasPreventivasExistentes());
             pst.setString(8, a.getObservacionesMedidasPreventivas());
             pst.setInt(9, a.getId());
+            int rows = pst.executeUpdate();
+            return rows;
+
+        } catch (SQLException ex) {
+            System.out.println("Error borrando" + ex);
+            return 0;
+        }
+
+    }
+
+    public int actualizaFicha(FichaInstalaciones f, int id) {
+        try {
+            cn = datasource.getConnection();
+            String sql = "update ficha_instalaciones set rampas_de_circulacion=?,circulacion_interior=?, escaleras_fijas=?,"
+                    + " escaleras_mano=?, almacenamiento_altura=?,conducciones_fluidos_presion=?, calderas=?,"
+                    + " depositos_presion=?, botellas_presion=?, cintas_transportadoras=?,"
+                    + " ascensores_montacargas=?, plataformas_elevadoras=?, gruas_polipastros=?, carretillas_elevadoras=?,"
+                    + " area_carga_baterias=?, extintores=?, bie=?, deteccion_incendios=?, otros=?"
+                    + "  where idFicha=?; ";
+            pst = cn.prepareStatement(sql);
+
+            pst.setString(1, f.getRampas_de_circulacion());
+            pst.setString(2, f.getCirculacion_interior());
+            pst.setString(3, f.getEscaleras_fijas());
+            pst.setString(4, f.getEscaleras_mano());
+            pst.setString(5, f.getAlmacenamiento_altura());
+            pst.setString(6, f.getConducciones_fluidos_presion());
+            pst.setString(7, f.getCalderas());
+            pst.setString(8, f.getDepositos_presion());
+            pst.setString(9, f.getBotellas_presion());
+            pst.setString(10, f.getCintas_transportadoras());
+            pst.setString(11, f.getAscensores_montacargas());
+            pst.setString(12, f.getPlataformas_elevadoras());
+            pst.setString(13, f.getGruas_polipastos());
+            pst.setString(14, f.getCarretillas_elevadoras());
+            pst.setString(15, f.getArea_carga_baterias());
+            pst.setString(16, f.getExtintores());
+            pst.setString(17, f.getBie());
+            pst.setString(18, f.getDeteccion_incendios());
+            pst.setString(19, f.getOtros());
+            pst.setInt(20, f.getIdFicha());
+
             int rows = pst.executeUpdate();
             return rows;
 

@@ -19,7 +19,7 @@
             <h3 class="panel-title">CÓDIGO DE ÁREA:&nbsp; <%=ficha.getCodArea() %>&nbsp;<%=ficha.getNombreArea() %></h3>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal" role="form" method="post" action="areas">
+            <form class="form-horizontal" role="form" method="post" action="fichaInstControler">
             <div class="form-group">
                 
                     <div class="col-lg-3 control-label">
@@ -210,6 +210,13 @@
                     </div>
                
             </div>
+                     <div class="form-group">
+                   
+                   <div class='col-lg-10'></div> 
+                   <input type='hidden' name='id' value='<%=ficha.getIdFicha() %>' />
+                    <input type='hidden' name='action' value='verdetalle' />
+                        <button class='btn btn-gray bg-info text-info'>Modificar</button>
+                    </div>
             </form>
         </div>
     </div>

@@ -29,7 +29,7 @@ public class detalleArea extends HttpServlet {
        String action=request.getParameter("action");
        String ide=request.getParameter("id");
        int id=Integer.parseInt(ide);
-       if(action.equals("verdetalle")){
+       if(action.equals("verdetalle")||action.equals("borrar")){
            DbConnection con=new DbConnection();
            Area area=con.getAreabyId(id);
            if(area.getId()!=0){
@@ -45,7 +45,22 @@ public class detalleArea extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+//       String action=request.getParameter("action");
+//        System.out.println(action);
+       String ide=request.getParameter("id");
+//        System.out.println(ide);
+       int id=Integer.parseInt(ide);
+//       if(action.equals("verdetalle")){
+           DbConnection con=new DbConnection();
+           Area area=con.getAreabyId(id);
+           System.out.println(id);
+           if(area.getId()!=0){
+               request.setAttribute("area",area);
+               RequestDispatcher rd = request.getRequestDispatcher("detalleVacante.jsp");
+            rd.forward(request, response);
+           }
+           
+//       }
        
     }
 

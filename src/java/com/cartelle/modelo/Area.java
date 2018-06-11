@@ -2,6 +2,7 @@
 package com.cartelle.modelo;
 
 import java.util.Date;
+import java.util.List;
 
 public class Area {
    private int id;
@@ -19,7 +20,7 @@ public class Area {
    private int unidadFK;
    private int fichaInstalacionesFK;
    private int certificadoFK;
-
+   private List<Zona_medicion> zonas;
     public Area(int id) {
         this.id = id;
     }
@@ -145,6 +146,14 @@ public class Area {
 
     public void setCertificadoFK(int certificadoFK) {
         this.certificadoFK = certificadoFK;
+    }
+
+    public List<Zona_medicion> getZonas() {
+        return zonas;
+    }
+
+    public void setZonas(List<Zona_medicion> zonas) {
+        this.zonas = zonas;
     }
    
    

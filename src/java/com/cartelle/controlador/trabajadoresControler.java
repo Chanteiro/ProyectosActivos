@@ -26,7 +26,7 @@ public class trabajadoresControler extends HttpServlet {
             throws ServletException, IOException {
       HttpSession sesion = request.getSession();
         Usuario user = (Usuario) sesion.getAttribute("user");
-        if(user.getRol().equals("ADMIN_ESCANO")||user.getRol().equals("SEGOP_ESCANO")){
+       
             DbConnection con=new DbConnection();
             List<Trabajador> trabajadores=con.obtenerTrabajadores();
             if(trabajadores.size()>0){
@@ -37,7 +37,7 @@ public class trabajadoresControler extends HttpServlet {
               RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
             rd.forward(request, response);  
             }
-        }
+        
     }
 
     

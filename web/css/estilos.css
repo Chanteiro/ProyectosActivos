@@ -21,3 +21,26 @@ a.text-white:hover, a.text-white:focus{
 a.text-white{
      color:#fff;
 }
+.r{
+	background-color:red;
+        color: black;
+}
+.b{
+	background-color:#3399ff;
+        color: black;
+}
+.y{
+	background-color:yellow;
+        color: black;
+}
+.g{
+	background-color:#00b300;
+        color: black;
+}
+.w{
+	
+	color:black;
+}
+a.text-black:hover, a.text-black:focus{
+    color:blue;
+}

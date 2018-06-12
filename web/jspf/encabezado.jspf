@@ -87,8 +87,8 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Evaluaciones
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Por área de trabajo</a></li>
-                                    <li><a href="#">Por puesto de trabajo</a></li>
+                                    <li><a href="tablaEvaluacionesControler?action=verdetalle">Por área de trabajo</a></li>
+                                    <li><a href="ControladorEvaluacionPuestos">Por puesto de trabajo</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">

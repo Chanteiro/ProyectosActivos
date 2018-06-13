@@ -30,11 +30,11 @@
         <script>
             tinymce.init({
                 selector: '#contenido',
-                language:'es',
+                language: 'es',
                 encoding: 'UTF-8',
-               
-                plugins:'textcolor,table',
-                toolbar:'styleselect | table | bold italic underline | aligncenter alignjustify alignleft alignright  | bullist numblist | fontselect fontsizeselect | forecolor backcolor',
+
+                plugins: 'textcolor,table',
+                toolbar: 'styleselect | table | bold italic underline | aligncenter alignjustify alignleft alignright  | bullist numblist | fontselect fontsizeselect | forecolor backcolor',
             });
         </script>
     </head>
@@ -92,6 +92,14 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Planificación
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Por áreas</a></li>
+                                    <li><a href="#">Por puestos</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Informes
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
@@ -102,9 +110,9 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Enlaces de interés
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">PRL SEGOP</a></li>
-                                    <li><a href="#">Documentación</a></li>
-                                    <li><a href="#">Normativa</a></li>
+                                    <li><a href="http://10.42.0.137/AplicacionSegop/" target="_blank">PRL SEGOP</a></li>
+                                    <li><a href="http://www.fn.mdef.es/intranet/webs/SEGOP/page/06_NormativaYDocumentacion.html" target="_blank">Normativa/Documentación</a></li>
+                                    <li><a href="http://www.fn.mdef.es/intranet/webs/SEGOP/page/05_Publicaciones.html" target="_blank">Publicaciones</a></li>
                                 </ul>
                             </li>
                         </ul>

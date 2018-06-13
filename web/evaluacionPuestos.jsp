@@ -12,18 +12,18 @@
 <section>
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title col-lg-10">Evaluaciones Puestos de Trabajo</h3>
+            <h3 class="panel-title col-lg-10">EVALUACIONES PUESTOS DE TRABAJO</h3>
             <button class="btn btn-gray bg-info text-info" onclick="document.location='ControladorComboPuestos'" name="nuevaEvaluacion">Nueva Evaluación</button>
         </div>
         <div class="panel-body">
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th class="text-center">Codigo Area</th>
-                    <th class="text-center">Codigo Puesto</th>
+                    <th class="text-center">Código Area</th>
+                    <th class="text-center">Código Puesto</th>
                     <th class="text-center">Tipo Evaluación</th>
                     <th class="text-center">Fecha Evaluación</th>
-                    <th class="text-center"></th>
+                    <th class="text-center">Detalles</th>
                 </tr>
                 </thead>
                 <tbody>

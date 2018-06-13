@@ -2,10 +2,8 @@
 package com.cartelle.controlador;
 
 import com.cartelle.dao.DbConnection;
-import com.cartelle.modelo.Puestos;
 import com.cartelle.modelo.Trabajador;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

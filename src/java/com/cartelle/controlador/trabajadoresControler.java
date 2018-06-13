@@ -29,14 +29,14 @@ public class trabajadoresControler extends HttpServlet {
        
             DbConnection con=new DbConnection();
             List<Trabajador> trabajadores=con.obtenerTrabajadores();
-            if(trabajadores.size()>0){
+//            if(trabajadores.size()>0){
             request.setAttribute("trabajadores",trabajadores);
             RequestDispatcher rd = request.getRequestDispatcher("trabajadores.jsp");
             rd.forward(request, response);
-            }else{
-              RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
-            rd.forward(request, response);  
-            }
+//            }else{
+//              RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
+//            rd.forward(request, response);  
+//            }
         
     }
 

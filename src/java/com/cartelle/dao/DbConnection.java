@@ -166,18 +166,18 @@ public class DbConnection {
             cn = datasource.getConnection();
             st = cn.createStatement();
 
-            String sql = "SELECT  idTrabajador,codigoTrabajador,empleo, trabajadores.nombre, puestos_trabajo.puesto FROM dbo.TRABAJADORES inner join puestos_trabajo "
+            String sql = "SELECT  idTrabajador,codigo,empleo, trabajadores.nombreTrabajador, puestos_trabajo.puesto FROM dbo.TRABAJADORES inner join puestos_trabajo "
                     + "on trabajadores.puestoTrabajoFK=puestos_trabajo.idPuesto "
                     + "inner join area_puesto on puestos_trabajo.idPuesto=area_puesto.idPuesto "
                     + "inner join areas_trabajo on areas_trabajo.idArea=area_puesto.idArea "
                     + "where unidadFK=442 "
-                    + "order by codigoTrabajador;";
+                    + "order by codigo;";
             rs = st.executeQuery(sql);
             while (rs.next()) {
                 Trabajador t = new Trabajador();
                 t.setId(rs.getInt("idTrabajador"));
-                t.setCodTrabajador(rs.getString("codigoTrabajador"));
-                t.setNombre(rs.getString("nombre"));
+                t.setCodTrabajador(rs.getString("codigo"));
+                t.setNombre(rs.getString("nombreTrabajador"));
                 t.setEmpleo(rs.getString("empleo"));
                 t.setPuesto(rs.getString("puesto"));
                 trabajadores.add(t);
@@ -297,7 +297,7 @@ public class DbConnection {
             cn = datasource.getConnection();
             st = cn.createStatement();
 
-            String sql = "SELECT  idTrabajador,codigoTrabajador,empleo, trabajadores.nombre, puestos_trabajo.puesto, areas_trabajo.nombre as area "
+            String sql = "SELECT  idTrabajador,codigo,empleo, trabajadores.nombreTrabajador, puestos_trabajo.puesto, areas_trabajo.nombre as area "
                     + "FROM dbo.TRABAJADORES inner join puestos_trabajo "
                     + "on trabajadores.puestoTrabajoFK=puestos_trabajo.idPuesto "
                     + "inner join area_puesto on puestos_trabajo.idPuesto=area_puesto.idPuesto "
@@ -307,9 +307,9 @@ public class DbConnection {
 
             while (rs.next()) {
                 t.setId(rs.getInt("idTrabajador"));
-                t.setCodTrabajador(rs.getString("codigoTrabajador"));
+                t.setCodTrabajador(rs.getString("codigo"));
                 t.setEmpleo(rs.getString("empleo"));
-                t.setNombre(rs.getString("nombre"));
+                t.setNombre(rs.getString("nombreTrabajador"));
                 t.setPuesto(rs.getString("puesto"));
                 t.setArea(rs.getString("area"));
             }

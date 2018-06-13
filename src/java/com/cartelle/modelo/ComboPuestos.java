@@ -21,8 +21,8 @@ public class ComboPuestos {
     }
 
 
-    public ComboPuestos() {
-    }
+//    public ComboPuestos() {
+//    }
 
     public int getIdPuesto() {
         return idPuesto;

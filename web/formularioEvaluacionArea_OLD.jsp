@@ -49,7 +49,7 @@
             <h3 class="panel-title">NUEVA EVALUACIÓN AREA</h3>
         </div>
         <div class="panel-body">
-            <form role="form" action="ControladorNuevaEvaluacionArea" method="post">
+            <form class="form-horizontal" role="form" action="ControladorNuevaEvaluacionArea" method="post">
                 <div class="form-group">
                     <div class="row">
                         <div class="col-lg-2">
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-lg-2">
                             <select class="form-control" id="idAreaFK" name="idAreaFK">
-
+                             
                                 <option>Selecciona Area</option>
                                 <%
                                     ArrayList<ComboAreas> cmbArea = (ArrayList<ComboAreas>) request.getAttribute("cmbArea");
@@ -69,7 +69,7 @@
                                     }
                                 %>    
 
-
+                              
                             </select>
                         </div>
                         <div class="col-lg-2">
@@ -88,75 +88,71 @@
                         </div>
 
                         <div class="col-lg-2">
-                            <input type="text" class="datepicker form-control" name="fechaEvaluacion" id="datepicker" size="12" />
+                             <input type="text" class="datepicker form-control" name="fechaEvaluacion" id="datepicker" size="12" />
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-lg-2">
-                            <center><label for="exampleFormControlSelect1">Código de Peligro</label></center>
+                            <center><label for="exampleFormControlSelect1">Código de Peligro</label></cente>
                         </div>
-                        <div class="col-lg-5">
+                        <div class="col-lg-2">
                             <select class="form-control" id="codPeligroFK" name="codPeligroFK">
-                                <option>Selecciona Peligro</option>
-                                <option>10 &nbsp;&nbsp; Caída de personas a distinto nivel</option>
-                                <option>20 &nbsp;&nbsp; Caída de personas al mismo nivel</option>
-                                <option>30 &nbsp;&nbsp; Caída de objetos de desplome o derrumbamiento</option>
-                                <option>40 &nbsp;&nbsp; Caída de objetos en manipulación</option>
-                                <option>50 &nbsp;&nbsp; Caída de objetos desprendidos</option>
-                                <option>60 &nbsp;&nbsp; Pisadas sobre objetos</option>
-                                <option>70 &nbsp;&nbsp; Choques contra objetos inmóviles</option>
-                                <option>80 &nbsp;&nbsp; Choques contra objetos móviles</option>
-                                <option>90 &nbsp;&nbsp; Golpes/cortes por objetos o herramientas</option>
-                                <option>100 &nbsp;&nbsp; Proyección de fragmentos o partículas</option>
-                                <option>110 &nbsp;&nbsp; Atrapamiento por o entre objetos</option>
-                                <option>120 &nbsp;&nbsp; Atrapamiento por vuelco de máquinas o vehículos</option>
-                                <option>130 &nbsp;&nbsp; Sobreesfuerzos</option>
-                                <option>140 &nbsp;&nbsp; Exposición a temperaturas ambientales extremas</option>
-                                <option>150 &nbsp;&nbsp; Contactos térmicos</option>
-                                <option>161 &nbsp;&nbsp; Contactos eléctricos directos</option>
-                                <option>162 &nbsp;&nbsp; Contactos eléctricos indirectos</option>
-                                <option>170 &nbsp;&nbsp; Exposición a sustancias nocivas o tóxicas</option>
-                                <option>180 &nbsp;&nbsp; Contactos con sustancias cáusticas y/o corrosivas</option>
-                                <option>190 &nbsp;&nbsp; Exposición a radiaciones</option>
-                                <option>200 &nbsp;&nbsp; Explosiones</option>
-                                <option>211 &nbsp;&nbsp; Incendios. Factores de inidio</option>
-                                <option>212 &nbsp;&nbsp; Incendios. Propagación</option>
-                                <option>213 &nbsp;&nbsp; Incendios. Medios de lucha</option>
-                                <option>214 &nbsp;&nbsp; Incendios. Evacuación</option>
-                                <option>220 &nbsp;&nbsp; Accidentes causados por seres vivos</option>
-                                <option>230 &nbsp;&nbsp; Atropellos o golpes con vehículos</option>
-                                <option>310 &nbsp;&nbsp; Exposición a contaminantes químicos</option>
-                                <option>320 &nbsp;&nbsp; Exposición a contaminantes biológicos</option>
-                                <option>330 &nbsp;&nbsp; Ruido</option>
-                                <option>340 &nbsp;&nbsp; Vibraciones</option>
-                                <option>350 &nbsp;&nbsp; Estrés térmico</option>
-                                <option>360 &nbsp;&nbsp; Radiaciones ionizantes</option>
-                                <option>370 &nbsp;&nbsp; Radiaciones no ionizantes</option>
-                                <option>380 &nbsp;&nbsp; Iluminación</option>
-                                <option>410 &nbsp;&nbsp; Física. Posición</option>
-                                <option>420 &nbsp;&nbsp; Física. Desplazamiento</option>
-                                <option>430 &nbsp;&nbsp; Física. Esfuerzo</option>
-                                <option>440 &nbsp;&nbsp; Física. Manejos de cargas</option>
-                                <option>450 &nbsp;&nbsp; Mental. Recepción de la información</option>
-                                <option>460 &nbsp;&nbsp; Mental. Tratamiento de la información</option>
-                                <option>470 &nbsp;&nbsp; Mental. Respuesta</option>
-                                <option>480 &nbsp;&nbsp; Fatiga crónica</option>
-                                <option>510 &nbsp;&nbsp; Contenido</option>
-                                <option>520 &nbsp;&nbsp; Monotonía</option>
-                                <option>530 &nbsp;&nbsp; Roles</option>
-                                <option>540 &nbsp;&nbsp; Autonomía</option>
-                                <option>550 &nbsp;&nbsp; Comunicaciones</option>
-                                <option>560 &nbsp;&nbsp; Relaciones</option>
-                                <option>570 &nbsp;&nbsp; Tiempo de trabajo</option>
-                                <option>999 &nbsp;&nbsp; Otros</option>
+                                <option></option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                <option>40</option>
+                                <option>50</option>
+                                <option>60</option>
+                                <option>70</option>
+                                <option>80</option>
+                                <option>90</option>
+                                <option>100</option>
+                                <option>110</option>
+                                <option>120</option>
+                                <option>130</option>
+                                <option>140</option>
+                                <option>150</option>
+                                <option>161</option>
+                                <option>162</option>
+                                <option>170</option>
+                                <option>180</option>
+                                <option>190</option>
+                                <option>200</option>
+                                <option>211</option>
+                                <option>212</option>
+                                <option>213</option>
+                                <option>214</option>
+                                <option>220</option>
+                                <option>230</option>
+                                <option>310</option>
+                                <option>320</option>
+                                <option>330</option>
+                                <option>340</option>
+                                <option>350</option>
+                                <option>360</option>
+                                <option>370</option>
+                                <option>380</option>
+                                <option>410</option>
+                                <option>420</option>
+                                <option>430</option>
+                                <option>440</option>
+                                <option>450</option>
+                                <option>460</option>
+                                <option>470</option>
+                                <option>480</option>
+                                <option>510</option>
+                                <option>520</option>
+                                <option>530</option>
+                                <option>540</option>
+                                <option>550</option>
+                                <option>560</option>
+                                <option>570</option>
+                                <option>999</option>
                             </select>
                         </div>
-                    </div>
-                </div>
-                <div class="form-group">             
-                    <div class="row">
                         <div class="col-lg-2">
                             <center><label for="exampleFormControlTextarea1">Nivel de Deficiencia</label></center> 
                         </div>
@@ -170,7 +166,7 @@
                             </select>
                         </div>
                         <div class="col-lg-2">
-                            <center><label for="exampleFormControlTextarea1">Nivel de Exposición</label></center>
+                            <center><label for="exampleFormControlTextarea1">Nivel de Exposición</label></center> 
                         </div>
 
                         <div class="col-lg-2">
@@ -180,18 +176,6 @@
                                 <option>2</option>
                                 <option>3</option>
                                 <option>4</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-2">
-                           <center><label for="exampleFormControlSelect1">Nivel de Intervención</label></center>
-                        </div>
-                        <div class="col-lg-2">
-                            <select class="form-control" id="nIntervencion" name="nIntervencion">
-                                <option></option>
-                                <option>I</option>
-                                <option>II</option>
-                                <option>III</option>
-                                <option>IV</option>
                             </select>
                         </div>
                     </div>
@@ -226,52 +210,65 @@
                             </select>
                         </div>
                         <div class="col-lg-2">
-                            <center><label for="exampleFormControlTextarea1">Nivel de Riesgo</label></center>
+                            <center><label for="exampleFormControlTextarea1">Nivel de Riesgo</label></center> 
                         </div>
 
                         <div class="col-lg-2">
                             <select name="nRiesgo" id="nRiesgo" class="selectpicker form-control">
+                            <option>-</option>
+                            <option>20</option>
+                            <option>40</option>
+                            <option>50</option>
+                            <option>60</option>
+                            <option>80</option>
+                            <option>100</option>
+                            <option>120</option>
+                            <option>150</option>
+                            <option>180</option>
+                            <option>200</option>
+                            <option>240</option>
+                            <option>250</option>
+                            <option>300</option>
+                            <option>360</option>
+                            <option>400</option>
+                            <option>450</option>
+                            <option>500</option>
+                            <option>540</option>
+                            <option>600</option>
+                            <option>720</option>
+                            <option>750</option>
+                            <option>800</option>
+                            <option>1000</option>
+                            <option>1080</option>
+                            <option>1200</option>
+                            <option>1440</option>
+                            <option>1800</option>
+                            <option>2000</option>
+                            <option>2400</option>
+                            <option>3000</option>
+                            <option>4000</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <center><label for="exampleFormControlSelect1">Nivel de Intervención</label></center>
+                        </div>
+                        <div class="col-lg-2">
+                            <select class="form-control" id="nIntervencion" name="nIntervencion">
                                 <option></option>
-                                <option>20</option>
-                                <option>40</option>
-                                <option>50</option>
-                                <option>60</option>
-                                <option>80</option>
-                                <option>100</option>
-                                <option>120</option>
-                                <option>150</option>
-                                <option>180</option>
-                                <option>200</option>
-                                <option>240</option>
-                                <option>250</option>
-                                <option>300</option>
-                                <option>360</option>
-                                <option>400</option>
-                                <option>450</option>
-                                <option>500</option>
-                                <option>540</option>
-                                <option>600</option>
-                                <option>720</option>
-                                <option>750</option>
-                                <option>800</option>
-                                <option>1000</option>
-                                <option>1080</option>
-                                <option>1200</option>
-                                <option>1440</option>
-                                <option>1800</option>
-                                <option>2000</option>
-                                <option>2400</option>
-                                <option>3000</option>
-                                <option>4000</option>
+                                <option>I</option>
+                                <option>II</option>
+                                <option>III</option>
+                                <option>IV</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-
-
                 <div class="form-group">
-
                     <label for="exampleFormControlTextarea1">Factor de Riesgo</label>
                     <textarea class="form-control" id="factorRiesgo" name="factorRiesgo" rows="3"></textarea>
                 </div>

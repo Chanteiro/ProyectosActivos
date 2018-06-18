@@ -2,11 +2,9 @@
 package com.cartelle.controlador;
 
 import com.cartelle.dao.DbConnection;
-import com.cartelle.modelo.Area;
 import com.cartelle.modelo.Puestos;
 import com.cartelle.modelo.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,12 +18,7 @@ import javax.servlet.http.HttpSession;
  * @author ANTONIO
  */
 public class puestosController extends HttpServlet {
-
-   
- 
-
-   
-    @Override
+@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();

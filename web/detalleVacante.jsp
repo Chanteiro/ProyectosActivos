@@ -10,9 +10,38 @@
 <%@page import="com.cartelle.modelo.Area"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <%@include file="jspf/encabezado.jspf"%>
+<script type="text/javascript">
+
+    jQuery(function ($) {
+        $.datepicker.regional['es'] = {
+            closeText: 'Cerrar',
+            prevText: '&#x3c;Ant',
+            nextText: 'Sig&#x3e;',
+            currentText: 'Hoy',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
+            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd/mm/yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''};
+        $.datepicker.setDefaults($.datepicker.regional['es']);
+    });
+    $(document).ready(function () {
+        $("#datepicker").datepicker();
+        showAnim: 'fadeIn';
+    });
+
+</script>
 <%
     Area a = (Area) request.getAttribute("area");
-    SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     String fecha = sdf.format(a.getFechaTomaDatos());
     List<Zona_medicion> zonas = a.getZonas();
 %>
@@ -21,18 +50,19 @@
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">CÓDIGO DE ÁREA:&nbsp; <%=a.getCodArea()%>&nbsp;<%=a.getNombre()%></h3>
+           
         </div>
         <div class="panel-body">
             <form class="form-horizontal" role="form" method="post" action="areas">
 
                 <div class="form-group">
                     <label for="fechaDatos" class="col-lg-2 control-label">Fecha toma de datos</label>
-                    <div class="col-lg-4">
-                        <input type="text" class="form-control" name="fecha" id="fechaDatos" placeholder="Fecha toma datos" value="<%=fecha%>">
+                    <div class="col-lg-2">
+                        <input type="text" class="datepicker form-control" name="fecha" id="datepicker"  value="<%=fecha%>">
                     </div>
-
+                    <div class="col-lg-2"></div>
                     <div class="col-lg-3  text-center">
-                        <a  href="#"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar las evaluaciones de ésta área</a>
+                        <a  href="tablaEvaluacionesControler?action=verEva&id=<%=a.getId() %>"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar las evaluaciones de ésta área</a>
                     </div>
                     <div class="col-lg-3  text-center">
                         <a  href="fichaInstControler?action=verdetalle&id=<%=a.getFichaInstalacionesFK()%> "><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar la ficha de instalación </a>
@@ -123,7 +153,7 @@
         </div>
     </div>
 
-
+    </div>
 
 
 

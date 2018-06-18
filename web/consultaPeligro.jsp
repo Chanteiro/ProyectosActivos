@@ -62,8 +62,18 @@
             </table>
             <div class="col-lg-11"></div>
 
-         <!--   <input type="reset" name="Volver" value="Volver" onclick="history.back()" class="btn btn-gray bg-info text-info">-->
-          <a href="ControladorEvaluacionPuestos" class="btn btn-gray bg-info text-info" >Volver</a>
+            <%
+                String volver="";
+                if(request.getParameter("action").equals("verdetalle")){
+                     volver="ControladorEvaluacionPuestos";
+                    
+                }
+                if(request.getParameter("action").equals("verEva")){
+                    volver="puestos";
+                }
+                
+                %>
+          <a href="<%=volver %>" class="btn btn-gray bg-info text-info" >Volver</a>
         </div>
     </div>  
 </section>

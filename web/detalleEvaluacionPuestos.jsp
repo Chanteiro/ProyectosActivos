@@ -101,10 +101,13 @@
             </form>
             <div class="form-group">
                 <div class="col-lg-11"></div>
-               
+                <%
+                    String urlAntes = request.getHeader("Referer");
+                    System.out.println(urlAntes);
+                    %>
                <!-- <input type="reset" name="Volver" value="Volver" onclick="history.back()" class="btn btn-gray bg-info text-info">-->
-                <a class="btn btn-gray bg-info text-info" href='ControladorPeligro?action=verdetalle&id=<%=datos.getIdArea()%>&id2=<%=datos.getIdPuesto()%>'>Volver</a>
-                 
+                <!--<a class="btn btn-gray bg-info text-info" href='ControladorPeligro?action=verdetalle&vuelta=si&id=<%=datos.getIdArea()%>&id2=<%=datos.getIdPuesto()%>'>Volver</a>-->
+                 <a class="btn btn-gray bg-info text-info" href='<%=urlAntes  %>'>Volver</a>
             </div>
         </div>
     </div>

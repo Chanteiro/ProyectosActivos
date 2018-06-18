@@ -33,6 +33,20 @@ public class tablaEvaluacionesControler extends HttpServlet {
            }
            
        }
+       
+       if(action.equals("verEva")){
+           DbConnection con=new DbConnection();
+           List<EvaluacionesArea> evaluaciones=con.getEvaluacionesbyID(Integer.parseInt(request.getParameter("id")));
+           if(evaluaciones.size()>0){
+                request.setAttribute("evaluaciones",evaluaciones);
+               RequestDispatcher rd = request.getRequestDispatcher("tablaEvaluaciones.jsp");
+            rd.forward(request, response);
+           }else{
+              RequestDispatcher rd = request.getRequestDispatcher("ControladorComboAreas");
+            rd.forward(request, response); 
+           }
+           
+       }
     }
 
     

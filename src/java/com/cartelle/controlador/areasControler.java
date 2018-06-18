@@ -44,7 +44,7 @@ public class areasControler extends HttpServlet {
             throws ServletException, IOException {
         try {
             Area a = new Area(Integer.parseInt(request.getParameter("iden")));
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Date fecha = sdf.parse(request.getParameter("fecha"));
             a.setFechaTomaDatos(fecha);
             a.setObservacionesArea(request.getParameter("observaciones"));

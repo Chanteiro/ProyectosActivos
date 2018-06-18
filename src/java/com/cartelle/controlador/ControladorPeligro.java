@@ -34,7 +34,7 @@ public class ControladorPeligro extends HttpServlet {
         String ide2 = request.getParameter("id2");
         int idArea = Integer.parseInt(ide);
         int idPuesto = Integer.parseInt(ide2);
-        if (action.equals("verdetalle")) {
+        if (action.equals("verdetalle")||action.equals("verEva")) {
             DbConnection con = new DbConnection();
             ArrayList<ConsultaPeligro> datos = con.getPeligroById(idArea, idPuesto);
 

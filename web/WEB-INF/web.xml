@@ -115,4 +115,8 @@
             30
         </session-timeout>
     </session-config>
+    <error-page>
+        <exception-type>java.lang.NullPointerException</exception-type>
+        <location>/index.jsp</location>
+    </error-page>
 </web-app>

@@ -20,11 +20,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta charset="ISO-8859-1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
         <link href="css/fa-svg-with-js.css" rel="stylesheet" type="text/css"/>
         <script src="js/fontawesome-all.js" type="text/javascript"></script>
         <script src="js/jquery-3.2.0.min.js" type="text/javascript"></script>
+        <script src="js/jquery-ui.min.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src='tinymce/tinymce.min.js'></script>
         <script>
@@ -95,8 +97,8 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Planificación
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Por áreas</a></li>
-                                    <li><a href="#">Por puestos</a></li>
+                                    <li><a href="ControladorPlanificacionAreas">Por área de trabajo</a></li>
+                                    <li><a href="ControladorPlanificacionPuestos">Por puesto de trabajo</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">

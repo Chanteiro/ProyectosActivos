@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class areasControler extends HttpServlet {
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -36,36 +36,60 @@ public class areasControler extends HttpServlet {
                 rd.forward(request, response);
             }
         }
-
+        
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            Area a = new Area(Integer.parseInt(request.getParameter("iden")));
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date fecha = sdf.parse(request.getParameter("fecha"));
-            a.setFechaTomaDatos(fecha);
-            a.setObservacionesArea(request.getParameter("observaciones"));
-            a.setDescripcion(request.getParameter("descripcion"));
-            a.setSuperficie(Integer.parseInt(request.getParameter("sup")));
-            a.setActividadesRealizadas(request.getParameter("actividades"));
-            a.setInstalacionesExistentes(request.getParameter("instalaciones"));
-            a.setMedidasPreventivasExistentes(request.getParameter("medidas"));
-            a.setObservacionesMedidasPreventivas(request.getParameter("observacionesmedidas"));
-
-            DbConnection con = new DbConnection();
-            if (con.actualizaArea(a, a.getId()) == 1) {
-                doGet(request, response);
+            if (request.getParameter("action").equals("crearArea")) {
+                Area a = new Area(0);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date fecha = sdf.parse(request.getParameter("fecha"));
+                a.setFechaTomaDatos(fecha);
+                a.setObservacionesArea(request.getParameter("observaciones"));
+                a.setDescripcion(request.getParameter("descripcion"));
+                a.setSuperficie(Integer.parseInt(request.getParameter("sup")));
+                a.setActividadesRealizadas(request.getParameter("actividades"));
+                a.setInstalacionesExistentes(request.getParameter("instalaciones"));
+                a.setMedidasPreventivasExistentes(request.getParameter("medidas"));
+                a.setObservacionesMedidasPreventivas(request.getParameter("observacionesmedidas"));
+                a.setNombre(request.getParameter("nombre"));
+                a.setCodArea(request.getParameter("cod"));
+                a.setUnidadFK(442);
+                DbConnection con = new DbConnection();
+                if (con.insertaArea(a) == 1) {
+                    doGet(request, response);
+                } else {
+                    RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
+                    rd.forward(request, response);
+                }
             } else {
-                RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
-                rd.forward(request, response);
-            };
+                Area a = new Area(Integer.parseInt(request.getParameter("iden")));
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date fecha = sdf.parse(request.getParameter("fecha"));
+                a.setFechaTomaDatos(fecha);
+                a.setObservacionesArea(request.getParameter("observaciones"));
+                a.setDescripcion(request.getParameter("descripcion"));
+                a.setSuperficie(Integer.parseInt(request.getParameter("sup")));
+                a.setActividadesRealizadas(request.getParameter("actividades"));
+                a.setInstalacionesExistentes(request.getParameter("instalaciones"));
+                a.setMedidasPreventivasExistentes(request.getParameter("medidas"));
+                a.setObservacionesMedidasPreventivas(request.getParameter("observacionesmedidas"));
+                
+                DbConnection con = new DbConnection();
+                if (con.actualizaArea(a, a.getId()) == 1) {
+                    doGet(request, response);
+                } else {
+                    RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
+                    rd.forward(request, response);
+                }
+            }
         } catch (ParseException ex) {
             Logger.getLogger(detalleArea.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
-
+    
 }

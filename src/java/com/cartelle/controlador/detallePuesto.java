@@ -44,7 +44,8 @@ public class detallePuesto extends HttpServlet {
         try {
             Puestos p = new Puestos();
             p.setIdPuesto(Integer.parseInt(request.getParameter("id")));
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            System.out.println(request.getParameter("fecha"));
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             Date fecha = sdf.parse(request.getParameter("fecha"));
             System.out.println(request.getParameter("fecha"));
             p.setCodPuesto(request.getParameter("codPuesto"));
@@ -56,9 +57,26 @@ public class detallePuesto extends HttpServlet {
             p.setTrabajadoresCondicionEspecial(request.getParameter("trabajadores"));
             p.setMedidasPreventivasExistentes(request.getParameter("medidas"));
             p.setObservacionesMedidasPreventivas(request.getParameter("observacionesmedidas"));
-            p.setLuz(Integer.parseInt(request.getParameter("luz")));
-            p.setRuido(Integer.parseInt(request.getParameter("ruido")));
-            p.setTemp(Integer.parseInt(request.getParameter("temp")));
+            String luz=request.getParameter("luz");
+            String ruido=request.getParameter("ruido");
+            String temp=request.getParameter("temp");
+            
+            if(luz.equals("")||luz.equals("Sin datos")){
+               p.setLuz(0);
+            }else{
+               p.setLuz(Integer.parseInt(luz)); 
+            }
+            if(ruido.equals("")||ruido.equals("Sin datos")){
+               p.setRuido(0);
+            }else{
+               p.setRuido(Integer.parseInt(ruido)); 
+            }
+            if(temp.equals("")||temp.equals("Sin datos")){
+               p.setTemp(0);
+            }else{
+               p.setTemp(Integer.parseInt(temp)); 
+            }
+            
             
             DbConnection con = new DbConnection();
             if (con.actualizaPuesto(p, p.getIdPuesto()) == 1) {

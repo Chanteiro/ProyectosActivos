@@ -294,6 +294,58 @@ public class DbConnection {
         return a;
     }
 
+    public int insertaArea(Area a) {
+        try {
+            int i=insertaFichaInstalacion();
+            int z=0;
+            st = cn.createStatement();
+
+            String sql2 = "select max(idFicha) as m from ficha_instalaciones";
+            rs = st.executeQuery(sql2);
+            while(rs.next()){
+                z=rs.getInt("m");
+            }
+            String sql = "insert into areas_trabajo (codArea, nombre,fechaTomaDatos,observacionesArea,descripcion,superficie,"
+                    + "actividadesRealizadas,instalacionesExistentes,medidasPreventivasExistentes,"
+                    + "observacionesMedidasPreventivas, unidadFK,ficha_instalacionFK) values(?,?,?,?,?,?,?,?,?,?,?,?); ";
+            cn = datasource.getConnection();
+            pst = cn.prepareStatement(sql);
+            java.util.Date fecha = a.getFechaTomaDatos();
+            java.sql.Date fecha2 = new java.sql.Date(fecha.getTime());
+            pst.setString(1, a.getCodArea());
+            pst.setString(2, a.getNombre());
+            pst.setDate(3, fecha2);
+            pst.setString(4, a.getObservacionesArea());
+            pst.setString(5, a.getDescripcion());
+            pst.setInt(6, a.getSuperficie());
+            pst.setString(7, a.getActividadesRealizadas());
+            pst.setString(8, a.getInstalacionesExistentes());
+            pst.setString(9, a.getMedidasPreventivasExistentes());
+            pst.setString(10, a.getObservacionesMedidasPreventivas());
+            pst.setInt(11, a.getUnidadFK());
+            pst.setInt(12, z);
+            int rows = pst.executeUpdate();
+            return rows;
+        } catch (SQLException ex) {
+            System.out.println("Error con el resultset" + ex);
+            return 0;
+        }
+    }
+public int insertaFichaInstalacion(){
+    try {
+            String sql = "insert into ficha_instalaciones (bie) values(?); ";
+            cn = datasource.getConnection();
+            pst = cn.prepareStatement(sql);
+           
+            pst.setString(1, null);
+           
+            int rows = pst.executeUpdate();
+            return rows;
+        } catch (SQLException ex) {
+            System.out.println("Error con el resultset" + ex);
+            return 0;
+        }
+}
     public Trabajador getTrabajadorbyId(int id) {
         Trabajador t = new Trabajador();
         try {
@@ -843,7 +895,7 @@ public class DbConnection {
                     + "extintores, bie, deteccion_incendios, otros "
                     + "from FICHA_INSTALACIONES "
                     + "inner join AREAS_TRABAJO on FICHA_INSTALACIONES.idFicha=AREAS_TRABAJO.ficha_instalacionFK "
-                    + "where AREAS_TRABAJO.idArea=" + id + ";";
+                    + "where FICHA_INSTALACIONES.idFicha=" + id + ";";
             rs = st.executeQuery(sql);
 
             while (rs.next()) {
@@ -1491,24 +1543,24 @@ public class DbConnection {
 
         return cmbArea;
     }
-     public int nuevaFechaSubsanado (FechaSubsanado cd){
-       
-        try{
-            
-        //String sql = "Insert into evaluacion_puesto (fechaSubsanacion) values ('" + cd.getFechaSubsanado() + "') where idEvaluacionPuesto = '" + cd.getIdEvaluacionPuesto() + "';";
-        String sql = "update evaluacion_puesto set fechaSubsanacion =('" + cd.getFechaSubsanado() + "')  where idEvaluacionPuesto = ('" + cd.getIdEvaluacionPuesto() + "');"; 
-        cn = datasource.getConnection();
-         st = cn.createStatement();
-         st.executeUpdate(sql);
-         
-         
-        return 1;
-        }catch (SQLException e) {
+
+    public int nuevaFechaSubsanado(FechaSubsanado cd) {
+
+        try {
+
+            //String sql = "Insert into evaluacion_puesto (fechaSubsanacion) values ('" + cd.getFechaSubsanado() + "') where idEvaluacionPuesto = '" + cd.getIdEvaluacionPuesto() + "';";
+            String sql = "update evaluacion_puesto set fechaSubsanacion =('" + cd.getFechaSubsanado() + "')  where idEvaluacionPuesto = ('" + cd.getIdEvaluacionPuesto() + "');";
+            cn = datasource.getConnection();
+            st = cn.createStatement();
+            st.executeUpdate(sql);
+
+            return 1;
+        } catch (SQLException e) {
             System.out.println("No se pudo conectar");
             e.printStackTrace();
-             return 0;
-        }finally {
-            
+            return 0;
+        } finally {
+
             if (st != null) {
                 try {
                     st.close();
@@ -1526,26 +1578,26 @@ public class DbConnection {
             }
 
         }
-       
+
     }
-    public int nuevaFechaSubsanadoArea (FechaSubsanado cd){
-       
-        try{
-            
-        //String sql = "Insert into evaluacion_puesto (fechaSubsanacion) values ('" + cd.getFechaSubsanado() + "') where idEvaluacionPuesto = '" + cd.getIdEvaluacionPuesto() + "';";
-        String sql = "update evaluacion_area set fechaSubsanacion =('" + cd.getFechaSubsanado() + "')  where idEvaluacionArea = ('" + cd.getIdEvaluacionArea()+ "');"; 
-        cn = datasource.getConnection();
-         st = cn.createStatement();
-         st.executeUpdate(sql);
-         
-         
-        return 1;
-        }catch (SQLException e) {
+
+    public int nuevaFechaSubsanadoArea(FechaSubsanado cd) {
+
+        try {
+
+            //String sql = "Insert into evaluacion_puesto (fechaSubsanacion) values ('" + cd.getFechaSubsanado() + "') where idEvaluacionPuesto = '" + cd.getIdEvaluacionPuesto() + "';";
+            String sql = "update evaluacion_area set fechaSubsanacion =('" + cd.getFechaSubsanado() + "')  where idEvaluacionArea = ('" + cd.getIdEvaluacionArea() + "');";
+            cn = datasource.getConnection();
+            st = cn.createStatement();
+            st.executeUpdate(sql);
+
+            return 1;
+        } catch (SQLException e) {
             System.out.println("No se pudo conectar");
             e.printStackTrace();
-             return 0;
-        }finally {
-            
+            return 0;
+        } finally {
+
             if (st != null) {
                 try {
                     st.close();
@@ -1563,11 +1615,10 @@ public class DbConnection {
             }
 
         }
-       
+
     }
-    
-    
-     public ArrayList<PlanificacionPuestos> buscar3(String sql) {
+
+    public ArrayList<PlanificacionPuestos> buscar3(String sql) {
         ArrayList<PlanificacionPuestos> datos = new ArrayList();
 
         try {
@@ -1575,7 +1626,7 @@ public class DbConnection {
             st = cn.createStatement();
             rs = st.executeQuery(sql);
             while (rs.next()) {
-                datos.add(new PlanificacionPuestos(rs.getInt("idArea"), rs.getInt("idPuesto"), rs.getInt("idEvaluacionPuesto"), rs.getString("codArea"), rs.getString("codPuesto"), rs.getString("codPeligroFK"), rs.getString("factorRiesgo"), rs.getString("nIntervencion").trim(), rs.getString("normativa"),  rs.getString("medidaPropuesta"), rs.getString("fechaSubsanacion")));
+                datos.add(new PlanificacionPuestos(rs.getInt("idArea"), rs.getInt("idPuesto"), rs.getInt("idEvaluacionPuesto"), rs.getString("codArea"), rs.getString("codPuesto"), rs.getString("codPeligroFK"), rs.getString("factorRiesgo"), rs.getString("nIntervencion").trim(), rs.getString("normativa"), rs.getString("medidaPropuesta"), rs.getString("fechaSubsanacion")));
             }
             System.out.println(datos);
             return datos;
@@ -1583,8 +1634,9 @@ public class DbConnection {
             System.out.println("Error con el resultset" + ex);
             return null;
         }
-        
+
     }
+
     public ArrayList<PlanificacionAreas> buscar4(String sql) {
         ArrayList<PlanificacionAreas> datos = new ArrayList();
 
@@ -1592,34 +1644,33 @@ public class DbConnection {
             cn = datasource.getConnection();
             st = cn.createStatement();
             rs = st.executeQuery(sql);
-            
-             String r= "";
-             String s= "";
+
+            String r = "";
+            String s = "";
             while (rs.next()) {
-                if(rs.getString("nIntervencion")==null){
-                   r="No Requiere Intervención";
-                }else{
-                    r=rs.getString("nIntervencion");
+                if (rs.getString("nIntervencion") == null) {
+                    r = "No Requiere Intervención";
+                } else {
+                    r = rs.getString("nIntervencion");
                 }
-                if(rs.getString("medidaPropuesta")==null){
-                    s="";
-                }else{
-                    s=rs.getString("medidaPropuesta");
+                if (rs.getString("medidaPropuesta") == null) {
+                    s = "";
+                } else {
+                    s = rs.getString("medidaPropuesta");
                 }
-                datos.add(new PlanificacionAreas(rs.getInt("idEvaluacionArea"), rs.getInt("idAreaFK"),  rs.getString("codArea"), rs.getString("codPeligroFK"), r , rs.getString("factorRiesgo"), rs.getString("normativa"), s, rs.getString("fechaSubsanacion")));
-                
-                
+                datos.add(new PlanificacionAreas(rs.getInt("idEvaluacionArea"), rs.getInt("idAreaFK"), rs.getString("codArea"), rs.getString("codPeligroFK"), r, rs.getString("factorRiesgo"), rs.getString("normativa"), s, rs.getString("fechaSubsanacion")));
+
             }
-            
-            
+
             System.out.println(datos);
             return datos;
         } catch (SQLException ex) {
             System.out.println("Error con el resultset" + ex);
             return null;
         }
-        
+
     }
+
     public PlanificacionPuestos getPlanificacionPuestosById(int idEvaluacionPuestos, int idArea) {
         PlanificacionPuestos datos = new PlanificacionPuestos();
 
@@ -1678,6 +1729,7 @@ public class DbConnection {
 
         return datos;
     }
+
     public PlanificacionAreas getPlanificacionAreasById(int idAreaFK) {
         PlanificacionAreas datos = new PlanificacionAreas();
 
@@ -1734,6 +1786,5 @@ public class DbConnection {
 
         return datos;
     }
-    
 
 }

@@ -34,6 +34,17 @@ public class detalleArea extends HttpServlet {
            }
            
        }
+       
+       if(action.equals("nueva")){
+          
+           Area area=new Area(0);
+          
+               request.setAttribute("area",area);
+               RequestDispatcher rd = request.getRequestDispatcher("detalleVacante.jsp");
+            rd.forward(request, response);
+          
+           
+       }
     }
 
     

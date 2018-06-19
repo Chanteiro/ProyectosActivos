@@ -24,7 +24,7 @@
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
             dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
             weekHeader: 'Sm',
-            dateFormat: 'dd/mm/yy',
+            dateFormat: 'dd-mm-yy',
             firstDay: 1,
             isRTL: false,
             showMonthAfterYear: false,
@@ -40,7 +40,7 @@
 
 <%
     Puestos p = (Puestos) request.getAttribute("puesto");
-    SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
     String observaciones, tareas, equipos, trabajadores, medidas, obsmedidas, luz, ruido, temp;
     String fecha = "";
     try {

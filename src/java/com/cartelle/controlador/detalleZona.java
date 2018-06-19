@@ -22,10 +22,12 @@ public class detalleZona extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        
         String ide = request.getParameter("id");
         int zona = Integer.parseInt(request.getParameter("idZona"));
         int id = Integer.parseInt(ide);
         System.out.println(action);
+       
         if (action.equals("verdetalle")) {
             DbConnection con = new DbConnection();
             Area a = con.getAreabyId(id);
@@ -41,16 +43,17 @@ public class detalleZona extends HttpServlet {
 
         }
         if (action.equals("irArea")) {
-            request.setAttribute("action", "verdetalle");
-            request.setAttribute("id", ide);
+//            request.setAttribute("action", "verdetalle");
+//            request.setAttribute("id", ide);
+            System.out.println("Aqui-->"+request.getParameter("action"));
             RequestDispatcher rd = request.getRequestDispatcher("detalleVacante");
             rd.forward(request, response);
         }
         if (action.equals("borrar")) {
             DbConnection con = new DbConnection();
             if (con.borraZona(zona) == 1) {
-                request.setAttribute("action", "verdetalle");
-                request.setAttribute("id", ide);
+//                request.setAttribute("action", "verdetalle");
+//                request.setAttribute("id", ide);
                 RequestDispatcher rd = request.getRequestDispatcher("detalleVacante");
                 rd.forward(request, response);
             }
@@ -82,9 +85,16 @@ public class detalleZona extends HttpServlet {
         }
         z.setNombre(nombre);
         z.setDescripcion(descripcion);
-        z.setLuz(Integer.parseInt(luz));
-        z.setRuido(Integer.parseInt(ruido));
-        z.setTemp(Integer.parseInt(temp));
+
+        if (!luz.equals("")) {
+            z.setLuz(Integer.parseInt(luz));
+        }
+        if (!ruido.equals("")) {
+            z.setRuido(Integer.parseInt(ruido));
+        }
+        if (!temp.equals("")) {
+            z.setTemp(Integer.parseInt(temp));
+        }
         z.setIdAreaFK(Integer.parseInt(areaFK));
         System.out.println(z.toString());
         DbConnection con = new DbConnection();
@@ -92,7 +102,7 @@ public class detalleZona extends HttpServlet {
         if (request.getParameter("flag").equals("no")) {
             r = con.nuevaZona(z);
             if (r == 1) {
-                request.setAttribute("action", "irArea");
+                request.setAttribute("action2", "irArea");
                 request.setAttribute("id", z.getIdAreaFK());
                 doGet(request, response);
 
@@ -100,7 +110,7 @@ public class detalleZona extends HttpServlet {
         } else {
             r = con.actualizaZona(z);
             if (r == 1) {
-                request.setAttribute("action", "irArea");
+                request.setAttribute("action2", "irArea");
                 request.setAttribute("id", z.getIdAreaFK());
                 doGet(request, response);
 

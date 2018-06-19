@@ -37,13 +37,13 @@
                 <div class="form-group">
                     <label for="nombre" class="col-lg-2 control-label">Zona</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de la Zona" value="<%= nombre%>">
+                        <input type="text" class="form-control" id="nombre" name="nombre" maxlength="10" placeholder="Nombre de la Zona" value="<%= nombre%>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="descripcion" class="col-lg-2 control-label">Descripción</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción" value="<%=descripcion%>">
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" maxlength="20" placeholder="Descripción" value="<%=descripcion%>">
                     </div>
                 </div>
 
@@ -70,6 +70,7 @@
                             out.println("<input type='hidden' name='areaFK' value='" + area + "' />");
                             out.println("<input type='hidden' name='idZona' value='0' />");
                             out.println("<input type='hidden' name='id' value='" + area + "' />");
+                            
                             out.println("<input type='hidden' name='action' value='irArea' />");
                             out.println("<button class='btn btn-gray bg-info text-info'>Guardar</button>");
                         } else {
@@ -77,6 +78,7 @@
                             out.println(" <input type='hidden' name='areaFK' value='" + z.getIdAreaFK() + "' />");
                             out.println("<input type='hidden' name='id' value='" + z.getIdAreaFK() + "' />");
                             out.println("<input type='hidden' name='idZona' value='" + z.getIdZona() + "' />");
+                            
                             out.println("<input type='hidden' name='action' value='irArea' />");
                             out.println("<button class='btn btn-gray bg-info text-info'>Modificar</button>");
                             out.println("<a href='detalleZona?action=borrar&idZona=" + z.getIdZona() + "&areaFK=" + z.getIdAreaFK() + "&id=" + z.getIdAreaFK() + "' class='btn btn-gray bg-info text-info'>Eliminar</a>");

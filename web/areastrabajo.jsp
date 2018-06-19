@@ -19,7 +19,7 @@
             <%
                 if (user.getRol().equals("ADMIN_ESCANO")) {
                     out.println("<h3 class='panel-title col-lg-10'>RELACIÓN DE ÁREAS DE TRABAJO</h3>");
-                    out.println("<a class='btn btn-gray bg-info text-info' href='#'>Nueva Área</a>");
+                    out.println("<a class='btn btn-gray bg-info text-info' href='detalleVacante?action=nueva&id=0'>Nueva Área</a>");
                 }else{
                      out.println("<h3 class='panel-title'>RELACIÓN DE ÁREAS DE TRABAJO</h3>");
                 }

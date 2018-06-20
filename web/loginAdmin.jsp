@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group">
                     <div class='col-lg-9'></div> 
-                    
+
                     <button class='btn btn-gray bg-info text-info'>Publicar</button>
                 </div>
             </form>
@@ -80,4 +80,35 @@
         </div>
     </div>  
 </section>
+
+<section>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">ADMINISTRACIÓN DEL SERVICIO PREVENCIÓN</h3>
+
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class='col-lg-3'></div> 
+                <a class="btn btn-gray bg-info text-info col-lg-6" href='detalleVacante?action=nueva&id=0'>Nueva Área de Trabajo</a>
+                <div class='col-lg-3'></div> 
+            </div> <br>
+            <div class="form-group">
+                <div class='col-lg-3'></div> 
+                <a class="btn btn-gray bg-info text-info col-lg-6" href='areas?act=borra'>Suprimir Área de Trabajo</a>
+                <div class='col-lg-3'></div> 
+            </div> <br>
+            <div class="form-group">
+                <div class='col-lg-3'></div> 
+                <a class="btn btn-gray bg-info text-info col-lg-6" href='#'>Nuevo Puesto de Trabajo</a>
+                <div class='col-lg-3'></div> 
+            </div> <br>
+            <div class="form-group">
+                <div class='col-lg-3'></div> 
+                <a class="btn btn-gray bg-info text-info col-lg-6" href='#'>Suprimir Puesto de Trabajo</a>
+                <div class='col-lg-3'></div> 
+            </div> <br>
+        </div>
+    </div>  
+</section>                    
 <%@include file="jspf/pie.jspf"%>

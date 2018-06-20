@@ -24,13 +24,19 @@ public class areasControler extends HttpServlet {
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         Usuario user = (Usuario) sesion.getAttribute("user");
+//        String act=request.getParameter("act");
+
         if (user.getRol().equals("ADMIN_ESCANO") || user.getRol().equals("SEGOP_ESCANO")) {
             DbConnection con = new DbConnection();
             List<Area> areas = con.obtenerAreas();
+            
             if (areas.size() > 0) {
-                request.setAttribute("areas", areas);
-                RequestDispatcher rd = request.getRequestDispatcher("areastrabajo.jsp");
+               
+                 request.setAttribute("areas", areas);
+                 RequestDispatcher rd = request.getRequestDispatcher("areastrabajo.jsp");
                 rd.forward(request, response);
+               
+               
             } else {
                 RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
                 rd.forward(request, response);

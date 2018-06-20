@@ -15,16 +15,9 @@
 
     <div class="panel panel-primary">
         <div class="panel-heading">
-            
-            <%
-                if (user.getRol().equals("ADMIN_ESCANO")) {
-                    out.println("<h3 class='panel-title col-lg-10'>RELACIÓN DE ÁREAS DE TRABAJO</h3>");
-                    out.println("<a class='btn btn-gray bg-info text-info' href='detalleVacante?action=nueva&id=0'>Nueva Área</a>");
-                }else{
-                     out.println("<h3 class='panel-title'>RELACIÓN DE ÁREAS DE TRABAJO</h3>");
-                }
-            %>
 
+
+            <h3 class='panel-title'>RELACIÓN DE ÁREAS DE TRABAJO</h3>
         </div>
         <div class="panel-body">
             <table class="table table-hover">
@@ -36,8 +29,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% for (Area a : areas) {
-                            out.println("<tr><td>" + a.getCodArea() + "</td><td>" + a.getNombre() + "</td><td><a href='detalleVacante?action=verdetalle&id=" + a.getId() + "'>ver detalle</a></td></tr>");
+                    <%
+                        if(request.getParameter("act").equals("nada")){
+                       
+                            for (Area a : areas) {
+                                out.println("<tr><td>" + a.getCodArea() + "</td><td>" + a.getNombre() + "</td><td><a href='detalleVacante?action=verdetalle&id=" + a.getId() + "'>ver detalle</a></td></tr>");
+                            }
+                        }else{
+                            for (Area a : areas) {
+                                out.println("<tr><td>" + a.getCodArea() + "</td><td>" + a.getNombre() + "</td><td><a href='ControladorborrarArea?act=nada&id=" + a.getId() + "'>Suprimir</a></td></tr>");
+                            }
                         }
                     %>
 

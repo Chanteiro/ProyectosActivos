@@ -676,6 +676,31 @@ public int insertaFichaInstalacion(){
         }
 
     }
+    
+     public int borraArea(int id) {
+        try {
+            cn = datasource.getConnection();
+            String sql = "delete from Area_Puesto where idArea=?; ";
+            pst = cn.prepareStatement(sql);
+            pst.setInt(1, id);
+            int rows = pst.executeUpdate();
+            sql="delete from Zonas_medicion where AreaFK=?;";
+            pst = cn.prepareStatement(sql);
+            pst.setInt(1, id);
+           rows = pst.executeUpdate();
+             sql="delete from areas_trabajo where idArea=?;";
+            pst = cn.prepareStatement(sql);
+            pst.setInt(1, id);
+            rows = pst.executeUpdate();
+            System.out.println("Exito para Joseluis");
+            return rows;
+
+        } catch (SQLException ex) {
+            System.out.println("Error borrando" + ex);
+            return 0;
+        }
+
+    }
 
     public int actualizaUsuario(Usuario user, int id) {
         try {

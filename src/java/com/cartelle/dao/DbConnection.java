@@ -401,6 +401,27 @@ public int insertaFichaInstalacion(){
 
         return t;
     }
+    
+     public int actualizaTrabajador(Trabajador t) {
+        try {
+            cn = datasource.getConnection();
+            String sql = "update trabajadores set nombreTrabajador=?,empleo=? where idTrabajador=?; ";
+            pst = cn.prepareStatement(sql);
+
+            pst.setString(1, t.getNombre());
+            pst.setString(2, t.getEmpleo());
+           
+            pst.setInt(3, t.getId());
+           
+            int rows = pst.executeUpdate();
+            return rows;
+
+        } catch (SQLException ex) {
+            System.out.println("Error actualizando" + ex);
+            return 0;
+        }
+
+    }
 
     public Puestos getPuestobyId(int id) {
         Puestos p = new Puestos();

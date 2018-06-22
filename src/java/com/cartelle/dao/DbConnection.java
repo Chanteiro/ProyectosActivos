@@ -1334,7 +1334,7 @@ public int insertaFichaInstalacion(){
             cn = datasource.getConnection();
             st = cn.createStatement();
 
-            String sql = "select * from (select codArea,nombre from AREAS_TRABAJO where idArea=" + id + ")as Areas, (select * from EVALUACION_AREA where idAreaFK=" + id + ")as Evaluaciones;";
+            String sql = "select * from (select codArea,nombre from AREAS_TRABAJO where idArea=" + id + ")as Areas, (select * from EVALUACION_AREA where idAreaFK=" + id + " and fechaSubsanacion is null)as Evaluaciones;";
             rs = st.executeQuery(sql);
             while (rs.next()) {
                 EvaluacionesArea ea = new EvaluacionesArea();
@@ -1456,7 +1456,7 @@ public int insertaFichaInstalacion(){
             cn = datasource.getConnection();
             st = cn.createStatement();
 
-            String sql = "select * from (select codArea,nombre,idArea from AREAS_TRABAJO)as Areas, (select * from EVALUACION_AREA)as Evaluaciones where idArea=idAreaFK;";
+            String sql = "select * from (select codArea,nombre,idArea from AREAS_TRABAJO)as Areas, (select * from EVALUACION_AREA)as Evaluaciones where idArea=idAreaFK and fechaSubsanacion is null;";
             rs = st.executeQuery(sql);
             while (rs.next()) {
                 EvaluacionesArea ea = new EvaluacionesArea();

@@ -14,11 +14,11 @@
             <div>
                 <ul class="col-lg-2">
                 <li class="btn btn-gray bg-info text-info">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">ACTIVOS
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">TODOS
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu ">
+                        <li><a href="ControladorPlanificacionPuestos?action=activos">ACTIVOS</a></li>
                         <li><a href="ControladorPlanificacionPuestos?action=historico">HISTORICO</a></li>
-                        <li><a href="ControladorPlanificacionPuestos?action=todos">TODOS</a></li>
                     </ul>
                 </li>
                 </ul>
@@ -74,7 +74,7 @@
                         if (a.getFechaSubsanado() == null) {
                             out.println("<td class='text-center'><a href='ControladorFechaSubsanado?action=insertarfecha&id=" + a.getIdEvaluacionPuestos() + "&id2=" + a.getIdArea() + "'>Cerrar Peligro</a></td>");
                         } else {
-                            out.println("<td class='text-center'>" + a.getFechaSubsanado() + "</td>");
+                            out.println("<td class='text-center'><a href='ControladorVerPeligroSubsanado?action=insertarfecha&id=" + a.getIdEvaluacionPuestos() + "&id2=" + a.getIdArea() + "'>" + a.getFechaSubsanado() + "</a></td>");
                         }
                         out.println("</tr>");
                     }

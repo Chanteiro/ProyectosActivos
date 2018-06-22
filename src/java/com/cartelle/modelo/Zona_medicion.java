@@ -6,37 +6,39 @@ package com.cartelle.modelo;
  * @author ANTONIO
  */
 public class Zona_medicion {
-    private int luz;
-    private int ruido;
-    private int temp;
+    private float luz;
+    private float ruido;
+    private float temp;
     private String nombre;
     private String descripcion;
     private int idAreaFK;
     private int idZona;
 
-    public int getLuz() {
+    public float getLuz() {
         return luz;
     }
 
-    public void setLuz(int luz) {
+    public void setLuz(float luz) {
         this.luz = luz;
     }
 
-    public int getRuido() {
+    public float getRuido() {
         return ruido;
     }
 
-    public void setRuido(int ruido) {
+    public void setRuido(float ruido) {
         this.ruido = ruido;
     }
 
-    public int getTemp() {
+    public float getTemp() {
         return temp;
     }
 
-    public void setTemp(int temp) {
+    public void setTemp(float temp) {
         this.temp = temp;
     }
+
+    
 
     public String getNombre() {
         return nombre;

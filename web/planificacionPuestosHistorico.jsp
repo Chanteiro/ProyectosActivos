@@ -14,10 +14,10 @@
             <div>
                 <ul class="col-lg-2">
                 <li class="btn btn-gray bg-info text-info">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">ACTIVOS
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">HISTORICO
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu ">
-                        <li><a href="ControladorPlanificacionPuestos?action=historico">HISTORICO</a></li>
+                        <li><a href="ControladorPlanificacionPuestos?action=activos">ACTIVOS</a></li>
                         <li><a href="ControladorPlanificacionPuestos?action=todos">TODOS</a></li>
                     </ul>
                 </li>
@@ -35,8 +35,8 @@
                         <th class="text-center">Factor Riesgo</th>
                         <th class="text-center">Nivel Prioridad</th>
                         <th class="text-center">Medidas Propuestas</th>
-                        <th class="text-center">Normativa</th>
-                        <th class="text-center">&nbsp;&nbsp;&nbsp;Detalle&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-center">&nbsp;&nbsp;Normativa&nbsp;&nbsp;</th>
+                        <th class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;Detalle&nbsp;&nbsp;&nbsp;&nbsp;</th>
                     </tr>
                 </thead>
 
@@ -74,7 +74,7 @@
                         if (a.getFechaSubsanado() == null) {
                             out.println("<td class='text-center'><a href='ControladorFechaSubsanado?action=insertarfecha&id=" + a.getIdEvaluacionPuestos() + "&id2=" + a.getIdArea() + "'>Cerrar Peligro</a></td>");
                         } else {
-                            out.println("<td class='text-center'>" + a.getFechaSubsanado() + "</td>");
+                            out.println("<td class='text-center'><a href='ControladorVerPeligroSubsanado?action=insertarfecha&id=" + a.getIdEvaluacionPuestos() + "&id2=" + a.getIdArea() + "'>" + a.getFechaSubsanado() + "</a></td>");
                         }
                         out.println("</tr>");
                     }

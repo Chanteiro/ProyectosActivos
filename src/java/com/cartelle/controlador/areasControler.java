@@ -29,7 +29,7 @@ public class areasControler extends HttpServlet {
         if (user.getRol().equals("ADMIN_ESCANO") || user.getRol().equals("SEGOP_ESCANO")) {
             DbConnection con = new DbConnection();
             List<Area> areas = con.obtenerAreas();
-            
+            System.out.println(areas.size());
             if (areas.size() > 0) {
                
                  request.setAttribute("areas", areas);
@@ -48,6 +48,7 @@ public class areasControler extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("aqui-->"+request.getParameter("action"));
         try {
             if (request.getParameter("action").equals("crearArea")) {
                 Area a = new Area(0);

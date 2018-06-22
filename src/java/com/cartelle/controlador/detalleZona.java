@@ -87,13 +87,13 @@ public class detalleZona extends HttpServlet {
         z.setDescripcion(descripcion);
 
         if (!luz.equals("")) {
-            z.setLuz(Integer.parseInt(luz));
+            z.setLuz(Float.parseFloat(luz));
         }
         if (!ruido.equals("")) {
-            z.setRuido(Integer.parseInt(ruido));
+            z.setRuido(Float.parseFloat(ruido));
         }
         if (!temp.equals("")) {
-            z.setTemp(Integer.parseInt(temp));
+            z.setTemp(Float.parseFloat(temp));
         }
         z.setIdAreaFK(Integer.parseInt(areaFK));
         System.out.println(z.toString());

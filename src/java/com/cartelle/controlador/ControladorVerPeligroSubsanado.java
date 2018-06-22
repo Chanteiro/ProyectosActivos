@@ -1,7 +1,7 @@
 package com.cartelle.controlador;
 
 import com.cartelle.dao.DbConnection;
-import com.cartelle.modelo.PlanificacionAreas;
+import com.cartelle.modelo.PlanificacionPuestos;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "ControladorFechaSubsanadoAreas", urlPatterns = {"/ControladorFechaSubsanadoAreas"})
-public class ControladorFechaSubsanadoAreas extends HttpServlet {
+@WebServlet(name = "ControladorVerPeligroSubsanado", urlPatterns = {"/ControladorVerPeligroSubsanado"})
+public class ControladorVerPeligroSubsanado extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -19,27 +19,17 @@ public class ControladorFechaSubsanadoAreas extends HttpServlet {
 
         String action = request.getParameter("action");
         String ide = request.getParameter("id");
-        int idAreaFK = Integer.parseInt(ide);
+        String ide2= request.getParameter("id2");
+        int idArea = Integer.parseInt(ide2);
+        int idEvaluacionPuestos = Integer.parseInt(ide);
         
        if (action.equals("insertarfecha")) {
             DbConnection con = new DbConnection();
-            PlanificacionAreas datos = con.getPlanificacionAreasById(idAreaFK);
-            if( datos.getIdAreaFK() != 0){
+            PlanificacionPuestos datos = con.getPlanificacionPuestosById(idEvaluacionPuestos, idArea);
+            
+            if( datos.getIdEvaluacionPuestos() != 0 && datos.getIdArea() != 0){
                 request.setAttribute("datos", datos);
-                RequestDispatcher rd = request.getRequestDispatcher("detallePlanificacionAreas.jsp");
-                rd.forward(request, response);
-                
-            }else{
-              RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
-              rd.forward(request, response);  
-            }
-        }
-		if (action.equals("verdatos")) {
-            DbConnection con = new DbConnection();
-            PlanificacionAreas datos = con.getPlanificacionAreasById(idAreaFK);
-            if( datos.getIdAreaFK() != 0){
-                request.setAttribute("datos", datos);
-                RequestDispatcher rd = request.getRequestDispatcher("verPeligroSubsanadoAreas.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("verPeligroSubsanado.jsp");
                 rd.forward(request, response);
                 
             }else{

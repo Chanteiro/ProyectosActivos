@@ -6,10 +6,12 @@ public class FechaSubsanado {
     private String fechaSubsanado;
     private int idEvaluacionPuesto;
     private int idEvaluacionArea;
+    private String subsanador;
 
-    public FechaSubsanado(String fechaSubsanado, int idEvaluacionPuesto) {
+    public FechaSubsanado(String fechaSubsanado, int idEvaluacionPuesto, String subsanador) {
         this.fechaSubsanado = fechaSubsanado;
         this.idEvaluacionPuesto = idEvaluacionPuesto;
+        this.subsanador= subsanador;
     }
    
     public FechaSubsanado() {
@@ -38,6 +40,15 @@ public class FechaSubsanado {
     public void setIdEvaluacionArea(int idEvaluacionArea) {
         this.idEvaluacionArea = idEvaluacionArea;
     }
+
+    public String getSubsanador() {
+        return subsanador;
+    }
+
+    public void setSubsanador(String subsanador) {
+        this.subsanador = subsanador;
+    }
+    
     
     
 }

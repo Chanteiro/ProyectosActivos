@@ -33,7 +33,7 @@
 </script>
 <%
     PlanificacionPuestos datos = (PlanificacionPuestos) request.getAttribute("datos");
-    
+    System.out.println(datos.toString());
     String c= datos.getPrioridad();                         
     String color="";
          switch(c){
@@ -60,6 +60,7 @@
         <div class="panel-body">
             <form class="form-horizontal" role="form" action="ControladorActualizarPuestosSubsanado" method="post">
                 <input type="hidden" name="idEvaluacionPuestos" value="<%=datos.getIdEvaluacionPuestos()%>">
+                <input type="hidden" name="subsanador" value="<%=username%>">
                 <div class="form-group">
                      <label for="codPeligro" class="col-lg-2 control-label">Codigo Peligro</label>
                     <div class="col-lg-2">
@@ -88,7 +89,7 @@
                     </div>
                     <label for="fechaSubsanado" class="col-lg-2 control-label">Fecha de Subsanado</label>
                     <div class="col-lg-2">
-                        <input type="text" class="datepicker form-control" name="fechaSubsanado" id="datepicker" required size="12" /> 
+                        <input type="text" class="datepicker form-control" name="fechaSubsanado" id="datepicker" size="12" /> 
 
                     </div>
                 </div>

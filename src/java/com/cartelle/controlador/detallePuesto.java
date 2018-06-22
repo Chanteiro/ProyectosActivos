@@ -64,17 +64,17 @@ public class detallePuesto extends HttpServlet {
             if(luz.equals("")||luz.equals("Sin datos")){
                p.setLuz(0);
             }else{
-               p.setLuz(Integer.parseInt(luz)); 
+               p.setLuz(Float.parseFloat(luz)); 
             }
             if(ruido.equals("")||ruido.equals("Sin datos")){
                p.setRuido(0);
             }else{
-               p.setRuido(Integer.parseInt(ruido)); 
+               p.setRuido(Float.parseFloat(ruido)); 
             }
             if(temp.equals("")||temp.equals("Sin datos")){
                p.setTemp(0);
             }else{
-               p.setTemp(Integer.parseInt(temp)); 
+               p.setTemp(Float.parseFloat(temp)); 
             }
             
             

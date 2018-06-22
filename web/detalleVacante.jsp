@@ -76,14 +76,14 @@
             <div class="form-group">
                 <label for="fechaDatos" class="col-lg-2 control-label">Fecha toma de datos</label>
                 <div class="col-lg-2">
-                    <input type="text" class="datepicker form-control" name="fecha" id="datepicker"  value="<%=fecha%>">
+                    <input type="text" class="datepicker form-control" name="fecha" id="datepicker" required value="<%=fecha%>">
                 </div>
                 <div class="col-lg-2"></div>
                 
                 <div class="col-lg-3  text-center">
                     <%
                        if (request.getParameter("action").equals("verdetalle")||request.getParameter("action").equals("irArea")||request.getParameter("action").equals("borrar")) { 
-                           out.println("<a  href='tablaEvaluacionesControler?action=verEva&id="+a.getId()+"'><span class=\"glyphicon glyphicon-search\"></span>&nbsp;Consultar las evaluaciones de ésta área</a>");
+                           out.println("<a  href='tablaEvaluacionesControler?action=verEva&id="+a.getId()+"'><span class=\"glyphicon glyphicon-search\"></span>&nbsp;Consultar los riesgos de ésta área</a>");
                            
                        }
                         %>
@@ -177,12 +177,17 @@
 
                     <div class='col-lg-10'></div> 
                     <input type='hidden' name='iden' value='<%=a.getId()%>' />
-                    <input type='hidden' name='action' value='crearArea' />
                     
+                    <input type='hidden' name='cod' value='<%=a.getCodArea()%>' />
+                    <input type='hidden' name='nombre' value='<%= a.getNombre()%>' />
                     <%
                          if (request.getParameter("action").equals("nueva")) {
+                             out.println(" <input type='hidden' name='action' value='crearArea' />");
+                              out.println("<input type='hidden' name='act' value='nada'>");
                         out.println("<button class='btn btn-gray bg-info text-info'>Guardar</button>");
                         }else{
+                             out.println(" <input type='hidden' name='action' value='nada' />");
+                              out.println("<input type='hidden' name='act' value='nada'>");
                              out.println("<button class='btn btn-gray bg-info text-info'>Modificar</button>");
                          }
                         %>

@@ -11,8 +11,9 @@ public class PlanificacionAreas {
     private String normativa;
     private String medidaPropuesta;
     private String fechaSubsanado;
+	private String subsanador;
 
-    public PlanificacionAreas(int idEvaluacionArea, int idAreaFK, String codArea, String codPeligroFK, String prioridad, String factorRiesgo, String normativa, String medidaPropuesta, String fechaSubsanado) {
+    public PlanificacionAreas(int idEvaluacionArea, int idAreaFK, String codArea, String codPeligroFK, String prioridad, String factorRiesgo, String normativa, String medidaPropuesta, String fechaSubsanado, String subsanador) {
         this.idEvaluacionArea = idEvaluacionArea;
         this.idAreaFK = idAreaFK;
         this.codArea = codArea;
@@ -22,6 +23,7 @@ public class PlanificacionAreas {
         this.normativa = normativa;
         this.medidaPropuesta = medidaPropuesta;
         this.fechaSubsanado = fechaSubsanado;
+		this.subsanador = subsanador;
     }
 
   
@@ -101,5 +103,12 @@ public class PlanificacionAreas {
         this.codArea = codArea;
     }
     
+	public String getSubsanador() {
+        return subsanador;
+    }
+
+    public void setSubsanador(String subsanador) {
+        this.subsanador = subsanador;
+    }
             
 }

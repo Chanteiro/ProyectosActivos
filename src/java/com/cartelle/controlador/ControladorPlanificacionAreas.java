@@ -28,9 +28,13 @@ public class ControladorPlanificacionAreas extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        try{
-        String sql = "Select idEvaluacionArea, idAreaFK, areas_trabajo.codArea, codPeligroFK, nIntervencion, factorRiesgo, normativa, medidaPropuesta, fechaSubsanacion from EVALUACION_AREA inner join areas_trabajo on idArea=idAreaFK order by codArea;";
+        
+        String ide = request.getParameter("action");
+        System.out.println(ide);
+   
+        if (ide == null) {
+            try {
+            String sql = "Select idEvaluacionArea, idAreaFK, areas_trabajo.codArea, codPeligroFK, nIntervencion, factorRiesgo, normativa, medidaPropuesta, fechaSubsanacion, subsanador from EVALUACION_AREA inner join areas_trabajo on idArea=idAreaFK  where fechaSubsanacion is NULL order by codArea;";
             DbConnection con = new DbConnection();
             datos.clear();
             datos = con.buscar4(sql);
@@ -41,13 +45,61 @@ public class ControladorPlanificacionAreas extends HttpServlet {
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }
+        } else {
+            if (ide.equals("todos")) {
+                try {
+                    String sql = "Select idEvaluacionArea, idAreaFK, areas_trabajo.codArea, codPeligroFK, nIntervencion, factorRiesgo, normativa, medidaPropuesta, fechaSubsanacion, subsanador from EVALUACION_AREA inner join areas_trabajo on idArea=idAreaFK order by codArea;";
+                    DbConnection con = new DbConnection();
+                    datos.clear();
+                    datos = con.buscar4(sql);
+                    request.setAttribute("datos", datos);
+                    RequestDispatcher rd = request.getRequestDispatcher("planificacionAreasTodos.jsp");
+                    rd.forward(request, response);
+
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            } else if (ide.equals("historico")) {
+                try {
+                    String sql =  "Select idEvaluacionArea, idAreaFK, areas_trabajo.codArea, codPeligroFK, nIntervencion, factorRiesgo, normativa, medidaPropuesta, fechaSubsanacion, subsanador from EVALUACION_AREA inner join areas_trabajo on idArea=idAreaFK  where fechaSubsanacion is not NULL order by codArea;";
+                    DbConnection con = new DbConnection();
+                    datos.clear();
+                    datos = con.buscar4(sql);
+                    request.setAttribute("datos", datos);
+                    RequestDispatcher rd = request.getRequestDispatcher("planificacionAreasHistorico.jsp");
+                    rd.forward(request, response);
+
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            } else if(ide.equals("activos")) {
+                try {
+                    String sql = "Select idEvaluacionArea, idAreaFK, areas_trabajo.codArea, codPeligroFK, nIntervencion, factorRiesgo, normativa, medidaPropuesta, fechaSubsanacion, subsanador from EVALUACION_AREA inner join areas_trabajo on idArea=idAreaFK  where fechaSubsanacion is NULL order by codArea;";
+                    DbConnection con = new DbConnection();
+                    datos.clear();
+                    datos = con.buscar4(sql);
+                    request.setAttribute("datos", datos);
+                    RequestDispatcher rd = request.getRequestDispatcher("planificacionAreas.jsp");
+                    rd.forward(request, response);
+
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        }
     }
+ 
+    
      @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        try{
-        String sql = "Select idEvaluacionArea, idAreaFK, areas_trabajo.codArea, codPeligroFK, nIntervencion, factorRiesgo, normativa, medidaPropuesta, fechaSubsanacion from EVALUACION_AREA inner join areas_trabajo on idArea=idAreaFK order by codArea;";
+        
+        String ide = request.getParameter("action");
+        System.out.println(ide);
+   
+        if (ide == null) {
+            try {
+            String sql = "Select idEvaluacionArea, idAreaFK, areas_trabajo.codArea, codPeligroFK, nIntervencion, factorRiesgo, normativa, medidaPropuesta, fechaSubsanacion, subsanador from EVALUACION_AREA inner join areas_trabajo on idArea=idAreaFK  where fechaSubsanacion is NULL order by codArea;";
             DbConnection con = new DbConnection();
             datos.clear();
             datos = con.buscar4(sql);
@@ -58,5 +110,47 @@ public class ControladorPlanificacionAreas extends HttpServlet {
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }
-    } 
+        } else {
+            if (ide.equals("todos")) {
+                try {
+                    String sql = "Select idEvaluacionArea, idAreaFK, areas_trabajo.codArea, codPeligroFK, nIntervencion, factorRiesgo, normativa, medidaPropuesta, fechaSubsanacion, subsanador from EVALUACION_AREA inner join areas_trabajo on idArea=idAreaFK order by codArea;";
+                    DbConnection con = new DbConnection();
+                    datos.clear();
+                    datos = con.buscar4(sql);
+                    request.setAttribute("datos", datos);
+                    RequestDispatcher rd = request.getRequestDispatcher("planificacionAreasTodos.jsp");
+                    rd.forward(request, response);
+
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            } else if (ide.equals("historico")) {
+                try {
+                    String sql =  "Select idEvaluacionArea, idAreaFK, areas_trabajo.codArea, codPeligroFK, nIntervencion, factorRiesgo, normativa, medidaPropuesta, fechaSubsanacion, subsanador from EVALUACION_AREA inner join areas_trabajo on idArea=idAreaFK  where fechaSubsanacion is not NULL order by codArea;";
+                    DbConnection con = new DbConnection();
+                    datos.clear();
+                    datos = con.buscar4(sql);
+                    request.setAttribute("datos", datos);
+                    RequestDispatcher rd = request.getRequestDispatcher("planificacionAreasHistorico.jsp");
+                    rd.forward(request, response);
+
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            } else if(ide.equals("activos")) {
+                try {
+                    String sql = "Select idEvaluacionArea, idAreaFK, areas_trabajo.codArea, codPeligroFK, nIntervencion, factorRiesgo, normativa, medidaPropuesta, fechaSubsanacion, subsanador from EVALUACION_AREA inner join areas_trabajo on idArea=idAreaFK  where fechaSubsanacion is NULL order by codArea;";
+                    DbConnection con = new DbConnection();
+                    datos.clear();
+                    datos = con.buscar4(sql);
+                    request.setAttribute("datos", datos);
+                    RequestDispatcher rd = request.getRequestDispatcher("planificacionAreas.jsp");
+                    rd.forward(request, response);
+
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        }
+    }
 }

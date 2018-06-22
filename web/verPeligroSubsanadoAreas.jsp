@@ -2,35 +2,7 @@
 <%@page import="com.cartelle.modelo.PlanificacionAreas"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="jspf/encabezado.jspf"%>
-<script type="text/javascript">
 
-    jQuery(function ($) {
-        $.datepicker.regional['es'] = {
-            closeText: 'Cerrar',
-            prevText: '&#x3c;Ant',
-            nextText: 'Sig&#x3e;',
-            currentText: 'Hoy',
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-                'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi&eacute;rcoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
-            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi&eacute;', 'Juv', 'Vie', 'S&aacute;b'],
-            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'S&aacute;'],
-            weekHeader: 'Sm',
-            dateFormat: 'dd/mm/yy',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: ''};
-        $.datepicker.setDefaults($.datepicker.regional['es']);
-    });
-    $(document).ready(function () {
-        $("#datepicker").datepicker();
-        showAnim: 'fadeIn';
-    });
-
-</script>
 <%
     PlanificacionAreas datos = (PlanificacionAreas) request.getAttribute("datos");
     System.out.println(datos.toString());
@@ -87,18 +59,19 @@
                     <label for="medidaPropuesta" class="col-lg-2 control-label">Medidas Propuestas</label>
                     <div class="col-lg-6">
                         <textarea class="form-control" id="medidaPropuesta"><%=datos.getMedidaPropuesta()%></textarea>
-                    </div>
+                     </div>
                     <label for="fechaSubsanado" class="col-lg-2 control-label">Fecha de Subsanado</label>
                     <div class="col-lg-2">
-                        <input type="text" class="datepicker form-control" name="fechaSubsanado" id="datepicker" size="12" /> 
-
+                        <input type="text" class="form-control" name="fechaSubsanado" id="fechaSubsanado" value="<%=datos.getFechaSubsanado()%>"> 
                     </div>
                 </div>
             
             <div class="form-group">
-                <div class="col-lg-10"></div>
-               
-                <input type="submit"  value="Guardar" class="btn btn-gray bg-info text-info" >
+                <label for="subsanador" class="col-lg-2 control-label">Subsanador</label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" name="subsanador" id="subsanador" value="<%=datos.getSubsanador()%>"> 
+                    </div>
+                    <div class="col-lg-3"></div>
                 <a class="btn btn-gray bg-info text-info" href='ControladorPlanificacionAreas'>Volver</a>
                  
             </div>

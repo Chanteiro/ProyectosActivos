@@ -111,7 +111,7 @@
                     <div class="col-lg-9"></div>
 
                     <div class="col-lg-3  text-center">
-                        <a  href="ControladorPeligro?action=verEva&id=<%=p.getIdArea()%>&id2=<%=p.getIdPuesto()%>"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar las evaluaciones de éste puesto</a>
+                        <a  href="ControladorPeligro?action=verEva&id=<%=p.getIdArea()%>&id2=<%=p.getIdPuesto()%>"><span class="glyphicon glyphicon-search"></span>&nbsp;Consultar los riesgos de éste puesto</a>
                     </div>
 
                 </div>
@@ -124,9 +124,9 @@
                     <div class="col-lg-4">
                         <input type="text" class="form-control" id="puesto" name="puesto" required value="<%=p.getPuesto()%>">
                     </div>
-                    <label for="fecha" class="col-lg-2 control-label">Fecha toma de datos</label>
+                    <label for="fecha" class="col-lg-2 control-label" >Fecha toma de datos</label>
                     <div class="col-lg-2">
-                        <input type="text" class="datepicker form-control" id="datepicker" name="fecha" size="12"  value="<%=fecha%>">
+                        <input type="text" class="datepicker form-control" id="datepicker" name="fecha" required size="12"  value="<%=fecha%>">
                     </div>
                 </div>
                 <div class="form-group">

@@ -42,12 +42,14 @@ public class ControladorActualizarAreasSubsanado extends HttpServlet {
         String fecha = request.getParameter("fechaSubsanado");
         String ide = request.getParameter("idEvaluacionArea");
         int idEvaluacionArea = Integer.parseInt(ide);
+        String subsanador= request.getParameter("subsanador");
         
        try{
           
        FechaSubsanado cd = new FechaSubsanado();
         cd.setFechaSubsanado(fecha);
         cd.setIdEvaluacionArea(idEvaluacionArea);
+        cd.setSubsanador(subsanador);
         
         DbConnection con = new DbConnection();
         int i = con.nuevaFechaSubsanadoArea(cd);

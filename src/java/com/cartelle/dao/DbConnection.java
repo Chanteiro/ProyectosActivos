@@ -230,9 +230,9 @@ public class DbConnection {
             List<Zona_medicion> lista = new ArrayList();
             while (rs.next()) {
                 Zona_medicion zona = new Zona_medicion();
-                zona.setLuz(rs.getInt("luz"));
-                zona.setRuido(rs.getInt("ruido"));
-                zona.setTemp(rs.getInt("temp"));
+                zona.setLuz(rs.getFloat("luz"));
+                zona.setRuido(rs.getFloat("ruido"));
+                zona.setTemp(rs.getFloat("temp"));
                 zona.setNombre(rs.getString("nombre_zona"));
                 zona.setDescripcion(rs.getString("descripción"));
                 zona.setIdZona(rs.getInt("idZona"));
@@ -449,9 +449,9 @@ public int insertaFichaInstalacion(){
                 p.setTrabajadoresCondicionEspecial(rs.getString("trabajadoresCondicionEspecial"));
                 p.setMedidasPreventivasExistentes(rs.getString("medidasPreventivasExistentes"));
                 p.setObservacionesMedidasPreventivas(rs.getString("observacionesmedidasPreventivas"));
-                p.setLuz(rs.getInt("medicion_luz"));
-                p.setRuido(rs.getInt("medicion_ruido"));
-                p.setTemp(rs.getInt("medicion_temp"));
+                p.setLuz(rs.getFloat("medicion_luz"));
+                p.setRuido(rs.getFloat("medicion_ruido"));
+                p.setTemp(rs.getFloat("medicion_temp"));
             }
             return p;
         } catch (Exception e) {
@@ -518,9 +518,9 @@ public int insertaFichaInstalacion(){
                 p.setMedidasPreventivasExistentes(rs.getString("medidasPreventivasExistentes"));
                 p.setObservacionesMedidasPreventivas(rs.getString("observacionesmedidasPreventivas"));
                 p.setIdArea(rs.getInt("idArea"));
-                p.setLuz(rs.getInt("medicion_luz"));
-                p.setRuido(rs.getInt("medicion_ruido"));
-                p.setTemp(rs.getInt("medicion_temp"));
+                p.setLuz(rs.getFloat("medicion_luz"));
+                p.setRuido(rs.getFloat("medicion_ruido"));
+                p.setTemp(rs.getFloat("medicion_temp"));
                 puestos.add(p);
             }
             return puestos;
@@ -667,9 +667,9 @@ public int insertaFichaInstalacion(){
             cn = datasource.getConnection();
             pst = cn.prepareStatement(sql);
 
-            pst.setInt(1, z.getLuz());
-            pst.setInt(2, z.getRuido());
-            pst.setInt(3, z.getTemp());
+            pst.setFloat(1, z.getLuz());
+            pst.setFloat(2, z.getRuido());
+            pst.setFloat(3, z.getTemp());
             pst.setString(4, z.getNombre());
             pst.setString(5, z.getDescripcion());
             pst.setInt(6, z.getIdAreaFK());
@@ -752,9 +752,9 @@ public int insertaFichaInstalacion(){
 
             pst.setString(1, z.getNombre());
             pst.setString(2, z.getDescripcion());
-            pst.setInt(3, z.getLuz());
-            pst.setInt(4, z.getRuido());
-            pst.setInt(5, z.getTemp());
+            pst.setFloat(3, z.getLuz());
+            pst.setFloat(4, z.getRuido());
+            pst.setFloat(5, z.getTemp());
             pst.setInt(6, z.getIdZona());
             int rows = pst.executeUpdate();
             return rows;
@@ -873,9 +873,9 @@ public int insertaFichaInstalacion(){
             pst.setString(7, p.getTrabajadoresCondicionEspecial());
             pst.setString(8, p.getMedidasPreventivasExistentes());
             pst.setString(9, p.getObservacionesMedidasPreventivas());
-            pst.setInt(10, p.getLuz());
-            pst.setInt(11, p.getRuido());
-            pst.setInt(12, p.getTemp());
+            pst.setFloat(10, p.getLuz());
+            pst.setFloat(11, p.getRuido());
+            pst.setFloat(12, p.getTemp());
             pst.setInt(13, p.getIdPuesto());
             int rows = pst.executeUpdate();
             return rows;
@@ -1590,23 +1590,26 @@ public int insertaFichaInstalacion(){
         return cmbArea;
     }
 
-    public int nuevaFechaSubsanado(FechaSubsanado cd) {
-
-        try {
-
-            //String sql = "Insert into evaluacion_puesto (fechaSubsanacion) values ('" + cd.getFechaSubsanado() + "') where idEvaluacionPuesto = '" + cd.getIdEvaluacionPuesto() + "';";
-            String sql = "update evaluacion_puesto set fechaSubsanacion =('" + cd.getFechaSubsanado() + "')  where idEvaluacionPuesto = ('" + cd.getIdEvaluacionPuesto() + "');";
-            cn = datasource.getConnection();
-            st = cn.createStatement();
-            st.executeUpdate(sql);
-
-            return 1;
-        } catch (SQLException e) {
+     public int nuevaFechaSubsanado (FechaSubsanado cd){
+       
+        try{
+            
+        //String sql = "Insert into evaluacion_puesto (fechaSubsanacion) values ('" + cd.getFechaSubsanado() + "') where idEvaluacionPuesto = '" + cd.getIdEvaluacionPuesto() + "';";
+        String sql = "update evaluacion_puesto set fechaSubsanacion =('" + cd.getFechaSubsanado() + "') where idEvaluacionPuesto = ('" + cd.getIdEvaluacionPuesto() + "');"; 
+        String sql1 = "update evaluacion_puesto set subsanador=('" + cd.getSubsanador()+ "') where idEvaluacionPuesto = ('" + cd.getIdEvaluacionPuesto() + "');";
+        cn = datasource.getConnection();
+         st = cn.createStatement();
+         st.executeUpdate(sql);
+         st.executeUpdate(sql1);
+         
+         
+        return 1;
+        }catch (SQLException e) {
             System.out.println("No se pudo conectar");
             e.printStackTrace();
-            return 0;
-        } finally {
-
+             return 0;
+        }finally {
+            
             if (st != null) {
                 try {
                     st.close();
@@ -1624,26 +1627,28 @@ public int insertaFichaInstalacion(){
             }
 
         }
-
+       
     }
-
-    public int nuevaFechaSubsanadoArea(FechaSubsanado cd) {
-
-        try {
-
-            //String sql = "Insert into evaluacion_puesto (fechaSubsanacion) values ('" + cd.getFechaSubsanado() + "') where idEvaluacionPuesto = '" + cd.getIdEvaluacionPuesto() + "';";
-            String sql = "update evaluacion_area set fechaSubsanacion =('" + cd.getFechaSubsanado() + "')  where idEvaluacionArea = ('" + cd.getIdEvaluacionArea() + "');";
-            cn = datasource.getConnection();
-            st = cn.createStatement();
-            st.executeUpdate(sql);
-
-            return 1;
-        } catch (SQLException e) {
+    public int nuevaFechaSubsanadoArea (FechaSubsanado cd){
+       
+        try{
+            
+        
+        String sql = "update evaluacion_area set fechaSubsanacion =('" + cd.getFechaSubsanado() + "')  where idEvaluacionArea = ('" + cd.getIdEvaluacionArea()+ "');";
+		String sql1 = "update evaluacion_area set subsanador =('" + cd.getSubsanador() + "')  where idEvaluacionArea = ('" + cd.getIdEvaluacionArea()+ "');"; 		
+         cn = datasource.getConnection();
+         st = cn.createStatement();
+         st.executeUpdate(sql);
+         st.executeUpdate(sql1);
+         
+         
+        return 1;
+        }catch (SQLException e) {
             System.out.println("No se pudo conectar");
             e.printStackTrace();
-            return 0;
-        } finally {
-
+             return 0;
+        }finally {
+            
             if (st != null) {
                 try {
                     st.close();
@@ -1661,18 +1666,20 @@ public int insertaFichaInstalacion(){
             }
 
         }
-
+       
     }
+    
 
-    public ArrayList<PlanificacionPuestos> buscar3(String sql) {
+     public ArrayList<PlanificacionPuestos> buscar3(String sql) {
         ArrayList<PlanificacionPuestos> datos = new ArrayList();
 
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
             rs = st.executeQuery(sql);
+          
             while (rs.next()) {
-                datos.add(new PlanificacionPuestos(rs.getInt("idArea"), rs.getInt("idPuesto"), rs.getInt("idEvaluacionPuesto"), rs.getString("codArea"), rs.getString("codPuesto"), rs.getString("codPeligroFK"), rs.getString("factorRiesgo"), rs.getString("nIntervencion").trim(), rs.getString("normativa"), rs.getString("medidaPropuesta"), rs.getString("fechaSubsanacion")));
+                datos.add(new PlanificacionPuestos(rs.getInt("idArea"), rs.getInt("idPuesto"), rs.getInt("idEvaluacionPuesto"), rs.getString("codArea"), rs.getString("codPuesto"), rs.getString("codPeligroFK"), rs.getString("factorRiesgo"), rs.getString("nIntervencion").trim(), rs.getString("normativa"),  rs.getString("medidaPropuesta"), rs.getString("fechaSubsanacion"), rs.getString("subsanador")));
             }
             System.out.println(datos);
             return datos;
@@ -1680,9 +1687,8 @@ public int insertaFichaInstalacion(){
             System.out.println("Error con el resultset" + ex);
             return null;
         }
-
+        
     }
-
     public ArrayList<PlanificacionAreas> buscar4(String sql) {
         ArrayList<PlanificacionAreas> datos = new ArrayList();
 
@@ -1690,40 +1696,42 @@ public int insertaFichaInstalacion(){
             cn = datasource.getConnection();
             st = cn.createStatement();
             rs = st.executeQuery(sql);
-
-            String r = "";
-            String s = "";
+            
+             String r= "";
+             String s= "";
+            
             while (rs.next()) {
-                if (rs.getString("nIntervencion") == null) {
-                    r = "No Requiere Intervención";
-                } else {
-                    r = rs.getString("nIntervencion");
+                if(rs.getString("nIntervencion")==null){
+                   r="No Requiere Intervención";
+                }else{
+                    r=rs.getString("nIntervencion");
                 }
-                if (rs.getString("medidaPropuesta") == null) {
-                    s = "";
-                } else {
-                    s = rs.getString("medidaPropuesta");
+                if(rs.getString("medidaPropuesta")==null){
+                    s="";
+                }else{
+                    s=rs.getString("medidaPropuesta");
                 }
-                datos.add(new PlanificacionAreas(rs.getInt("idEvaluacionArea"), rs.getInt("idAreaFK"), rs.getString("codArea"), rs.getString("codPeligroFK"), r, rs.getString("factorRiesgo"), rs.getString("normativa"), s, rs.getString("fechaSubsanacion")));
-
-            }
-
+                datos.add(new PlanificacionAreas(rs.getInt("idEvaluacionArea"), rs.getInt("idAreaFK"),  rs.getString("codArea"), rs.getString("codPeligroFK"), r , rs.getString("factorRiesgo"), rs.getString("normativa"), s, rs.getString("fechaSubsanacion"), rs.getString("subsanador")));
+            }       
+			
             System.out.println(datos);
+			
             return datos;
+			
         } catch (SQLException ex) {
             System.out.println("Error con el resultset" + ex);
             return null;
         }
-
+        
     }
 
-    public PlanificacionPuestos getPlanificacionPuestosById(int idEvaluacionPuestos, int idArea) {
+   public PlanificacionPuestos getPlanificacionPuestosById(int idEvaluacionPuestos, int idArea) {
         PlanificacionPuestos datos = new PlanificacionPuestos();
 
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-            String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where idEvaluacionPuesto=" + idEvaluacionPuestos + " and areas_trabajo.idArea=" + idArea + ";";
+            String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where idEvaluacionPuesto=" + idEvaluacionPuestos + " and areas_trabajo.idArea=" + idArea + ";";
             rs = st.executeQuery(sql);
 
             while (rs.next()) {
@@ -1739,6 +1747,12 @@ public int insertaFichaInstalacion(){
                 datos.setIdPuesto(rs.getInt("idPuesto"));
                 datos.setCodPeligroFK(rs.getString("codPeligroFK"));
                 datos.setFechaSubsanado(rs.getString("fechaSubsanacion"));
+                
+                if(rs.getString("subsanador")==null){
+                datos.setSubsanador("");
+                }else{
+                    datos.setSubsanador(rs.getString("subsanador"));
+                }
 
             }
 
@@ -1775,18 +1789,17 @@ public int insertaFichaInstalacion(){
 
         return datos;
     }
-
     public PlanificacionAreas getPlanificacionAreasById(int idAreaFK) {
         PlanificacionAreas datos = new PlanificacionAreas();
 
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-            String sql = "Select idEvaluacionArea, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, areas_trabajo.idArea, codPeligroFK, fechaSubsanacion from Evaluacion_Area inner join AREAS_TRABAJO on idArea=idAreaFK where idEvaluacionArea='" + idAreaFK + "';";
+            String sql = "Select idEvaluacionArea, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, areas_trabajo.idArea, codPeligroFK, fechaSubsanacion, subsanador from Evaluacion_Area inner join AREAS_TRABAJO on idArea=idAreaFK where idEvaluacionArea='" + idAreaFK + "';";
             rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                //datos.add(new ConsultaEvaluacion(res.getInt("idEvaluacionPuesto"), res.getString("nDeficiencia").trim(), res.getString("nExposicion").trim(), res.getString("nProbabilidad"), res.getString("nConsecuencias").trim(), res.getString("nRiesgo").trim(), res.getString(" nIntervencion").trim(), res.getString("tipoEvaluacion"), res.getString("fechaEvaluacion").trim(), res.getString("normativa").trim(), res.getString("factorRiesgo").trim(), res.getString("medidaPropuesta"), res.getString("codArea").trim(), res.getString("nombre").trim(), res.getString("codPuesto").trim(), res.getString("puesto")));
+              
                 datos.setIdEvaluacionArea(rs.getInt("idEvaluacionArea"));
                 datos.setPrioridad(rs.getString("nIntervencion").trim());
                 datos.setNormativa(rs.getString("normativa").trim());
@@ -1796,6 +1809,11 @@ public int insertaFichaInstalacion(){
                 datos.setIdAreaFK(rs.getInt("idArea"));
                 datos.setCodPeligroFK(rs.getString("codPeligroFK"));
                 datos.setFechaSubsanado(rs.getString("fechaSubsanacion"));
+				if(rs.getString("subsanador")==null){
+					datos.setSubsanador("");
+				}else{
+                    datos.setSubsanador(rs.getString("subsanador"));
+				}
 
             }
 
@@ -1832,5 +1850,4 @@ public int insertaFichaInstalacion(){
 
         return datos;
     }
-
 }

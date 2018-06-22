@@ -42,18 +42,18 @@ public class ControladorActualizarPuestosSubsanado extends HttpServlet {
         String fecha = request.getParameter("fechaSubsanado");
         String ide = request.getParameter("idEvaluacionPuestos");
         int idEvaluacionPuestos = Integer.parseInt(ide);
-       
-
-        
+        String subsanador= request.getParameter("subsanador");
+       System.out.println(subsanador);
        try{
           
        FechaSubsanado cd = new FechaSubsanado();
         cd.setFechaSubsanado(fecha);
         cd.setIdEvaluacionPuesto(idEvaluacionPuestos);
+        cd.setSubsanador(subsanador);
         
         DbConnection con = new DbConnection();
         int i = con.nuevaFechaSubsanado(cd);
-          
+           System.out.println(i);
         if(i==1){
         RequestDispatcher rd = request.getRequestDispatcher("ControladorPlanificacionPuestos");
         rd.forward(request, response);
@@ -66,6 +66,9 @@ public class ControladorActualizarPuestosSubsanado extends HttpServlet {
            System.out.println(ex.getMessage());
        }
     }
-   
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 
 }

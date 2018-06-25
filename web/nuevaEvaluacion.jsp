@@ -45,7 +45,7 @@
                     <label for="cmbpuesto" class="col-lg-2 control-label">Código del Puesto</label>
                     <div class="col-lg-6">
                         <select name="cmbpuesto" id="cmbpuesto" class="selectpicker form-control">
-                            <option>Selecciona Puesto</option>
+                            <!-- <option>Selecciona Puesto</option>-->
                             <%
                                 ArrayList<ComboPuestos> cmbPuesto = (ArrayList<ComboPuestos>) request.getAttribute("cmbPuesto");
                                 for (ComboPuestos c : cmbPuesto) {
@@ -62,11 +62,10 @@
                     <label for="tipoEvaluacion" class="col-lg-2 control-label">Tipo de Evaluación</label>
                     <div class="col-lg-2">
                         <select name="tipoEvaluacion" id="tipoEvaluacion" class="selectpicker form-control">
-                            <option>Selecciona Tipo</option>
-                            <option>INICIAL</option>
-                            <option>REVISION</option>
-                            <option>EXTRAORDINARIA</option>
-                            <option>AUDITORIA</option>
+                            <option value="REVISION">Selecciona Tipo</option>
+                            <option value="INICIAL">INICIAL</option>
+                            <option value="REVISION">REVISION</option>
+                            <option value="EXTRAORDINARIA">EXTRAORDINARIA</option>
                         </select> 
                     </div>
                 </div>
@@ -74,14 +73,14 @@
                 <div class="form-group">
                     <label for="fechaEvaluacion" class="col-lg-2 control-label">Fecha de Evaluación</label>
                     <div class="col-lg-2">
-                        <input type="text" class="datepicker form-control" name="fechaEvaluacion" id="datepicker" size="12" /> 
+                        <input type="text" class="datepicker form-control" name="fechaEvaluacion" required id="datepicker" size="12" /> 
 
                     </div>
 
                     <label for="codPeligroFK" class="col-lg-2 control-label">Código de Peligro</label>
                     <div class="col-lg-6">
                         <select name="codPeligroFK" id="codPeligroFK" class="selectpicker form-control">
-                            <option>Selecciona Codigo de Peligro</option>
+                            <option value="999">Selecciona Codigo de Peligro</option>
                             <%
                                 ArrayList<ComboCodigoPeligro> cmbCodigoPeligro = (ArrayList<ComboCodigoPeligro>) request.getAttribute("cmbCodigoPeligro");
                                 for (ComboCodigoPeligro c : cmbCodigoPeligro) {
@@ -102,7 +101,7 @@
                     <label for="deficiencia" class="col-lg-1 control-label">ND</label>
                     <div class="col-lg-1">
                         <select name="deficiencia" id="deficiencia" class="selectpicker form-control">
-                            <option>-</option>
+                           
                             <option>2</option>
                             <option>6</option>
                             <option>10</option>
@@ -111,7 +110,7 @@
                     <label for="exposicion" class="col-lg-1 control-label">NE</label>
                     <div class="col-lg-1">
                         <select name="exposicion" id="exposicion" class="selectpicker form-control">
-                            <option>-</option>
+                           
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -121,7 +120,7 @@
                     <label for="probabilidad" class="col-lg-1 control-label">NP</label>
                     <div class="col-lg-1">
                         <select name="probabilidad" id="probabilidad" class="selectpicker form-control">
-                            <option>-</option>
+                            
                             <option>2</option>
                             <option>4</option>
                             <option>6</option>
@@ -138,7 +137,7 @@
                     <label for="consecuencias" class="col-lg-1 control-label">NC</label>
                     <div class="col-lg-1">
                         <select name="consecuencias" id="consecuencias" class="selectpicker form-control">
-                            <option>-</option>
+                           
                             <option>10</option>
                             <option>25</option>
                             <option>60</option>
@@ -148,7 +147,7 @@
                     <label for="riesgo" class="col-lg-1 control-label">NR</label>
                     <div class="col-lg-1">
                         <select name="riesgo" id="riesgo" class="selectpicker form-control">
-                            <option>-</option>
+                            
                             <option>20</option>
                             <option>40</option>
                             <option>50</option>
@@ -185,7 +184,7 @@
                     <label for="intervencion" class="col-lg-1 control-label">NI</label>
                     <div class="col-lg-1">
                         <select name="intervencion" id="intervencion" class="selectpicker form-control">
-                            <option>-</option>
+                           
                             <option>I</option>
                             <option>II</option>
                             <option>III</option>
@@ -197,27 +196,27 @@
                 <div class="form-group">
                     <label for="factorRiesgo" class="col-lg-2 control-label">Factor de Riesgo</label>
                     <div class="col-lg-10">
-                        <textarea name="factorRiesgo" class="form-control" rows="3" ></textarea>
+                        <textarea name="factorRiesgo" required class="form-control" rows="3" ></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="medidaPropuesta" class="col-lg-2 control-label">Medidas Propuestas</label>
                     <div class="col-lg-10">
-                        <textarea name="medidas" class="form-control" id="medidaPropuesta" rows="3"></textarea>
+                        <textarea name="medidas" required class="form-control" id="medidaPropuesta" rows="3"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="normativa" class="col-lg-2 control-label">Normativa</label>
                     <div class="col-lg-10">
-                        <input name="normativa" type="text" class="form-control">
+                        <input name="normativa" required type="text" class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-5"></div>
                 <input type="submit"  value="Guardar" class="btn btn-gray bg-info text-info" >
-               <!-- <input type="reset" name="Volver" value="Volver" onclick="ControladorEvaluacionPuestos" class="btn btn-gray bg-info text-info" >-->
-               <a href="ControladorEvaluacionPuestos" class="btn btn-gray bg-info text-info" >Volver</a>
+                <!-- <input type="reset" name="Volver" value="Volver" onclick="ControladorEvaluacionPuestos" class="btn btn-gray bg-info text-info" >-->
+                <a href="ControladorEvaluacionPuestos" class="btn btn-gray bg-info text-info" >Volver</a>
             </form>
         </div>
     </div>

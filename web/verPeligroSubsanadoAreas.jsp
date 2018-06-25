@@ -5,9 +5,10 @@
 
 <%
     PlanificacionAreas datos = (PlanificacionAreas) request.getAttribute("datos");
-    System.out.println(datos.toString());
-    String c= datos.getPrioridad();                         
-    String color="";
+    String c= datos.getPrioridad();  
+     String color="";
+    if(c!=null){
+   
          switch(c){
             case "I":
                 color= "r";
@@ -22,6 +23,9 @@
                 color = "b";
                 break;
         }
+    }else{
+        c="No requiere Intervención";
+    }
  %>
 <section >
 
@@ -47,7 +51,7 @@
                 <div class="form-group">
                     <label for="prioridad" class="col-lg-2 control-label">Nivel Prioridad</label>
                     <div class="col-lg-2">
-                        <input type="text" class="form-control <%= color %>" id="prioridad" value="<%=datos.getPrioridad()%>">
+                        <input type="text" class="form-control <%= color %>" id="prioridad" value="<%=c%>">
                     </div>
                     <label for="normativa" class="col-lg-2 control-label">Normativa</label>
                     <div class="col-lg-6">

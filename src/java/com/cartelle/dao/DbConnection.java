@@ -1028,7 +1028,7 @@ public int insertaFichaInstalacion(){
             cn = datasource.getConnection();
             st = cn.createStatement();
 
-            String sql = "Select codArea, nombre, codPuesto, puesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, idEvaluacionPuesto, nIntervencion, factorRiesgo from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where AREAS_TRABAJO.idArea=" + idArea + " and PUESTOS_TRABAJO.idPuesto=" + idPuesto + ";";
+            String sql = "Select codArea, nombre, codPuesto, puesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, idEvaluacionPuesto, nIntervencion, factorRiesgo from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where PUESTOS_TRABAJO.idPuesto=" + idPuesto + " and FechaSubsanacion is null;";
             rs = st.executeQuery(sql);
 
             while (rs.next()) {
@@ -1801,7 +1801,7 @@ public int insertaFichaInstalacion(){
             while (rs.next()) {
               
                 datos.setIdEvaluacionArea(rs.getInt("idEvaluacionArea"));
-                datos.setPrioridad(rs.getString("nIntervencion").trim());
+                datos.setPrioridad(rs.getString("nIntervencion"));
                 datos.setNormativa(rs.getString("normativa").trim());
                 datos.setFactorRiesgo(rs.getString("factorRiesgo").trim());
                 datos.setMedidaPropuesta(rs.getString("medidaPropuesta"));

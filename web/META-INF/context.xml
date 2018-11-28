@@ -10,6 +10,6 @@
                   password="CCVALLES"
                   driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
         
-                  url="jdbc:sqlserver://LAPTOP-8CUE42TI:1433; databaseName=PREVENCIONESCANO;"/>
+                  url="jdbc:sqlserver://10.42.65.130:1433; databaseName=PREVENCIONESCANO;"/>
 </Context>
 <!--url="jdbc:sqlserver://LAPTOP-8CUE42TI:1433; databaseName=PREVENCIONESCANO;"-->

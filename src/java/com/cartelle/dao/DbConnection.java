@@ -1,6 +1,5 @@
 package com.cartelle.dao;
 
-import com.cartelle.coleccionJavaBeansDatasource.AreasFicha;
 import com.cartelle.modelo.Area;
 import com.cartelle.modelo.ComboAreas;
 import com.cartelle.modelo.ComboCodigoPeligro;
@@ -175,112 +174,112 @@ public class DbConnection {
         return areas;
     }
 
-    public List<AreasFicha> obtenerAreasFicha() {
-        List<AreasFicha> areasFicha = new ArrayList();
-        try {
-            cn = datasource.getConnection();
-            st = cn.createStatement();
-
-            String sql = "select codArea,nombre, fechaTomaDatos, convert(varchar(max),observacionesArea)AS OBSERVACIONES, convert(varchar(max),descripcion) AS DESCRIPCION ,\n"
-                    + " superficie, convert(varchar(max),actividadesRealizadas)AS ACTIVIDADES, \n"
-                    + " convert(varchar(max),instalacionesExistentes)AS INSTALACIONES ,convert(varchar(max),medidasPreventivasExistentes)AS MPE ,\n"
-                    + " convert(varchar(max),observacionesMedidasPreventivas)AS OMP,convert(varchar(max),rampas_de_circulacion)AS RAMPAS ,\n"
-                    + " convert(varchar(max),circulacion_interior)AS CI, convert(varchar(max),escaleras_fijas)AS EFIJAS ,\n"
-                    + " convert(varchar(max),escaleras_mano)AS EMANO, convert(varchar(max),almacenamiento_altura)AS ALTURA,\n"
-                    + " convert(varchar(max),conducciones_fluidos_presion)AS CFP, convert(varchar(max),calderas)AS CALDERAS,\n"
-                    + " convert(varchar(max),depositos_presion) AS DEPOSITOS, convert(varchar(max),botellas_presion)AS BOTELLAS ,\n"
-                    + " convert(varchar(max),cintas_transportadoras)AS CINTAS ,convert(varchar(max),ascensores_montacargas)AS ASCENSORES ,\n"
-                    + " convert(varchar(max),plataformas_elevadoras)AS PLATAFORMAS ,convert(varchar(max),gruas_polipastros)AS GRUAS,\n"
-                    + " convert(varchar(max),carretillas_elevadoras) AS CARRETILLAS,convert(varchar(max),area_carga_baterias)AS BATERIAS ,\n"
-                    + " convert(varchar(max),extintores)AS EXTINTORES ,convert(varchar(max),bie)AS BIE,convert(varchar(max),deteccion_incendios)AS DINCENDIOS ,\n"
-                    + " convert(varchar(max),otros)AS OTROS , tipoEvaluacion\n"
-                    + " from areas_trabajo\n"
-                    + " left join ficha_instalaciones on areas_trabajo.ficha_instalacionFK=ficha_instalaciones.idFicha\n"
-                    + " left join evaluacion_area on areas_trabajo.idArea=evaluacion_area.idAreaFK\n"
-                    + " where unidadfk=442\n"
-                    + "	\n"
-                    + " GROUP BY codArea,nombre, fechaTomaDatos, convert(varchar(max),observacionesArea), convert(varchar(max),descripcion) ,\n"
-                    + " superficie, convert(varchar(max),actividadesRealizadas), \n"
-                    + " convert(varchar(max),instalacionesExistentes) ,convert(varchar(max),medidasPreventivasExistentes) ,\n"
-                    + " convert(varchar(max),observacionesMedidasPreventivas),convert(varchar(max),rampas_de_circulacion) ,\n"
-                    + " convert(varchar(max),circulacion_interior), convert(varchar(max),escaleras_fijas) ,\n"
-                    + " convert(varchar(max),escaleras_mano), convert(varchar(max),almacenamiento_altura),\n"
-                    + " convert(varchar(max),conducciones_fluidos_presion), convert(varchar(max),calderas),\n"
-                    + " convert(varchar(max),depositos_presion) , convert(varchar(max),botellas_presion) ,\n"
-                    + " convert(varchar(max),cintas_transportadoras) ,convert(varchar(max),ascensores_montacargas) ,\n"
-                    + " convert(varchar(max),plataformas_elevadoras) ,convert(varchar(max),gruas_polipastros),\n"
-                    + " convert(varchar(max),carretillas_elevadoras) ,convert(varchar(max),area_carga_baterias) ,\n"
-                    + " convert(varchar(max),extintores) ,convert(varchar(max),bie),convert(varchar(max),deteccion_incendios) ,\n"
-                    + " convert(varchar(max),otros), tipoEvaluacion;";
-            rs = st.executeQuery(sql);
-            while (rs.next()) {
-                AreasFicha a = new AreasFicha();
-                a.setCodArea(rs.getString("codArea").trim());
-                a.setNombreArea(rs.getString("nombre").trim());
-                a.setFechaTomaDatos(rs.getDate("fechaTomaDatos"));
-                a.setTipoEvaluacion(rs.getString("tipoEvaluacion"));
-                a.setObservaciones(rs.getString("OBSERVACIONES").trim());
-                a.setDescripcion(rs.getString("DESCRIPCION").trim());
-                a.setSuperficie(rs.getInt("superficie"));
-                a.setActividades(rs.getString("ACTIVIDADES").trim());
-                a.setInstalaciones(rs.getString("INSTALACIONES").trim());
-                a.setMedidasPreventivas(rs.getString("MPE").trim());
-                a.setObservacionesMedidas(rs.getString("OMP").trim());
-                a.setRampas_de_circulacion(rs.getString("RAMPAS"));
-                a.setCirculacion_interior(rs.getString("CI"));
-                a.setEscaleras_fijas(rs.getString("EFIJAS"));
-                a.setEscaleras_mano(rs.getString("EMANO"));
-                a.setAlmacenamiento_altura(rs.getString("ALTURA"));
-                a.setConducciones_fluidos_presion(rs.getString("CFP"));
-                a.setCalderas(rs.getString("CALDERAS"));
-                a.setDepositos_presion(rs.getString("DEPOSITOS"));
-                a.setBotellas_presion(rs.getString("BOTELLAS"));
-                a.setCintas_transportadoras(rs.getString("CINTAS"));
-                a.setAscensores_montacargas(rs.getString("ASCENSORES"));
-                a.setPlataformas_elevadoras(rs.getString("PLATAFORMAS"));
-                a.setGruas_polipastos(rs.getString("GRUAS"));
-                a.setCarretillas_elevadoras(rs.getString("CARRETILLAS"));
-                a.setArea_carga_baterias(rs.getString("BATERIAS"));
-                a.setExtintores(rs.getString("EXTINTORES"));
-                a.setBie(rs.getString("BIE"));
-                a.setDeteccion_incendios(rs.getString("DINCENDIOS"));
-                a.setOtros(rs.getString("OTROS"));
-
-                areasFicha.add(a);
-            }
-            return areasFicha;
-        } catch (Exception e) {
-            System.out.println("No se pudo conectar");
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {
-                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
-                }
-            }
-
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException ex) {
-                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
-                }
-            }
-
-            if (cn != null) {
-                try {
-                    cn.close();
-                } catch (SQLException ex) {
-                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
-                }
-            }
-
-        }
-
-        return null;
-    }
+//    public List<AreasFicha> obtenerAreasFicha() {
+//        List<AreasFicha> areasFicha = new ArrayList();
+//        try {
+//            cn = datasource.getConnection();
+//            st = cn.createStatement();
+//
+//            String sql = "select codArea,nombre, fechaTomaDatos, convert(varchar(max),observacionesArea)AS OBSERVACIONES, convert(varchar(max),descripcion) AS DESCRIPCION ,\n"
+//                    + " superficie, convert(varchar(max),actividadesRealizadas)AS ACTIVIDADES, \n"
+//                    + " convert(varchar(max),instalacionesExistentes)AS INSTALACIONES ,convert(varchar(max),medidasPreventivasExistentes)AS MPE ,\n"
+//                    + " convert(varchar(max),observacionesMedidasPreventivas)AS OMP,convert(varchar(max),rampas_de_circulacion)AS RAMPAS ,\n"
+//                    + " convert(varchar(max),circulacion_interior)AS CI, convert(varchar(max),escaleras_fijas)AS EFIJAS ,\n"
+//                    + " convert(varchar(max),escaleras_mano)AS EMANO, convert(varchar(max),almacenamiento_altura)AS ALTURA,\n"
+//                    + " convert(varchar(max),conducciones_fluidos_presion)AS CFP, convert(varchar(max),calderas)AS CALDERAS,\n"
+//                    + " convert(varchar(max),depositos_presion) AS DEPOSITOS, convert(varchar(max),botellas_presion)AS BOTELLAS ,\n"
+//                    + " convert(varchar(max),cintas_transportadoras)AS CINTAS ,convert(varchar(max),ascensores_montacargas)AS ASCENSORES ,\n"
+//                    + " convert(varchar(max),plataformas_elevadoras)AS PLATAFORMAS ,convert(varchar(max),gruas_polipastros)AS GRUAS,\n"
+//                    + " convert(varchar(max),carretillas_elevadoras) AS CARRETILLAS,convert(varchar(max),area_carga_baterias)AS BATERIAS ,\n"
+//                    + " convert(varchar(max),extintores)AS EXTINTORES ,convert(varchar(max),bie)AS BIE,convert(varchar(max),deteccion_incendios)AS DINCENDIOS ,\n"
+//                    + " convert(varchar(max),otros)AS OTROS , tipoEvaluacion\n"
+//                    + " from areas_trabajo\n"
+//                    + " left join ficha_instalaciones on areas_trabajo.ficha_instalacionFK=ficha_instalaciones.idFicha\n"
+//                    + " left join evaluacion_area on areas_trabajo.idArea=evaluacion_area.idAreaFK\n"
+//                    + " where unidadfk=442\n"
+//                    + "	\n"
+//                    + " GROUP BY codArea,nombre, fechaTomaDatos, convert(varchar(max),observacionesArea), convert(varchar(max),descripcion) ,\n"
+//                    + " superficie, convert(varchar(max),actividadesRealizadas), \n"
+//                    + " convert(varchar(max),instalacionesExistentes) ,convert(varchar(max),medidasPreventivasExistentes) ,\n"
+//                    + " convert(varchar(max),observacionesMedidasPreventivas),convert(varchar(max),rampas_de_circulacion) ,\n"
+//                    + " convert(varchar(max),circulacion_interior), convert(varchar(max),escaleras_fijas) ,\n"
+//                    + " convert(varchar(max),escaleras_mano), convert(varchar(max),almacenamiento_altura),\n"
+//                    + " convert(varchar(max),conducciones_fluidos_presion), convert(varchar(max),calderas),\n"
+//                    + " convert(varchar(max),depositos_presion) , convert(varchar(max),botellas_presion) ,\n"
+//                    + " convert(varchar(max),cintas_transportadoras) ,convert(varchar(max),ascensores_montacargas) ,\n"
+//                    + " convert(varchar(max),plataformas_elevadoras) ,convert(varchar(max),gruas_polipastros),\n"
+//                    + " convert(varchar(max),carretillas_elevadoras) ,convert(varchar(max),area_carga_baterias) ,\n"
+//                    + " convert(varchar(max),extintores) ,convert(varchar(max),bie),convert(varchar(max),deteccion_incendios) ,\n"
+//                    + " convert(varchar(max),otros), tipoEvaluacion;";
+//            rs = st.executeQuery(sql);
+//            while (rs.next()) {
+//                AreasFicha a = new AreasFicha();
+//                a.setCodArea(rs.getString("codArea").trim());
+//                a.setNombreArea(rs.getString("nombre").trim());
+//                a.setFechaTomaDatos(rs.getDate("fechaTomaDatos"));
+//                a.setTipoEvaluacion(rs.getString("tipoEvaluacion"));
+//                a.setObservaciones(rs.getString("OBSERVACIONES").trim());
+//                a.setDescripcion(rs.getString("DESCRIPCION").trim());
+//                a.setSuperficie(rs.getInt("superficie"));
+//                a.setActividades(rs.getString("ACTIVIDADES").trim());
+//                a.setInstalaciones(rs.getString("INSTALACIONES").trim());
+//                a.setMedidasPreventivas(rs.getString("MPE").trim());
+//                a.setObservacionesMedidas(rs.getString("OMP").trim());
+//                a.setRampas_de_circulacion(rs.getString("RAMPAS"));
+//                a.setCirculacion_interior(rs.getString("CI"));
+//                a.setEscaleras_fijas(rs.getString("EFIJAS"));
+//                a.setEscaleras_mano(rs.getString("EMANO"));
+//                a.setAlmacenamiento_altura(rs.getString("ALTURA"));
+//                a.setConducciones_fluidos_presion(rs.getString("CFP"));
+//                a.setCalderas(rs.getString("CALDERAS"));
+//                a.setDepositos_presion(rs.getString("DEPOSITOS"));
+//                a.setBotellas_presion(rs.getString("BOTELLAS"));
+//                a.setCintas_transportadoras(rs.getString("CINTAS"));
+//                a.setAscensores_montacargas(rs.getString("ASCENSORES"));
+//                a.setPlataformas_elevadoras(rs.getString("PLATAFORMAS"));
+//                a.setGruas_polipastos(rs.getString("GRUAS"));
+//                a.setCarretillas_elevadoras(rs.getString("CARRETILLAS"));
+//                a.setArea_carga_baterias(rs.getString("BATERIAS"));
+//                a.setExtintores(rs.getString("EXTINTORES"));
+//                a.setBie(rs.getString("BIE"));
+//                a.setDeteccion_incendios(rs.getString("DINCENDIOS"));
+//                a.setOtros(rs.getString("OTROS"));
+//
+//                areasFicha.add(a);
+//            }
+//            return areasFicha;
+//        } catch (Exception e) {
+//            System.out.println("No se pudo conectar");
+//            e.printStackTrace();
+//        } finally {
+//            if (rs != null) {
+//                try {
+//                    rs.close();
+//                } catch (SQLException ex) {
+//                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+//                }
+//            }
+//
+//            if (st != null) {
+//                try {
+//                    st.close();
+//                } catch (SQLException ex) {
+//                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+//                }
+//            }
+//
+//            if (cn != null) {
+//                try {
+//                    cn.close();
+//                } catch (SQLException ex) {
+//                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+//                }
+//            }
+//
+//        }
+//
+//        return null;
+//    }
 
     public List<Trabajador> obtenerTrabajadores() {
         List<Trabajador> trabajadores = new ArrayList();

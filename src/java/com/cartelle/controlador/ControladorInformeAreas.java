@@ -1,28 +1,16 @@
 package com.cartelle.controlador;
 
-import com.cartelle.coleccionJavaBeansDatasource.AreaFichaDAO;
-import com.cartelle.coleccionJavaBeansDatasource.AreasFicha;
 import com.cartelle.dao.DbConnection;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  *

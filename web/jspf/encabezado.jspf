@@ -106,7 +106,7 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Informes
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">En construcción</a></li>
+                                    <li><a href="ControladorInformeAreas">Informe por Áreas</a></li>
                                      <li><a href="#">En construcción</a></li>
                                       <li><a href="#">En construcción</a></li>
                                 </ul>

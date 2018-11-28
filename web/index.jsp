@@ -4,6 +4,7 @@
     Author     : ANTONIO
 --%>
 
+<%@page import="com.cartelle.coleccionJavaBeansDatasource.AreasFichaController"%>
 <%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,12 @@
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="css/style.css">
     </head>
+<%
+//AreasFichaController.cargaAreasColeccion();
 
+
+
+%>
     <body>
         <div class="login">
             <h1><span class="glyphicon glyphicon-user"></span>&nbsp;Login</h1>

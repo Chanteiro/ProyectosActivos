@@ -21,7 +21,7 @@ public class ControladorInformeAreas extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         File reportFile = new File(getServletContext().getRealPath("/WEB-INF/Areas_1.jasper"));
-        
+
         try {
 
             DbConnection con = new DbConnection();
@@ -29,7 +29,7 @@ public class ControladorInformeAreas extends HttpServlet {
             Map parameters = new HashMap();
             parameters.put("serPrevencion", "ESCAÑO-ESENGRA");
             byte[] bytes = JasperRunManager.runReportToPdf(reportFile.getAbsolutePath(), parameters, con.obtenerConexion());
-
+            response.setHeader("Content-Disposition", "attachment; filename=\"InformeAreas.pdf\";");
             response.setContentType("application/pdf");
             response.setContentLength(bytes.length);
             ServletOutputStream ouputStream = response.getOutputStream();

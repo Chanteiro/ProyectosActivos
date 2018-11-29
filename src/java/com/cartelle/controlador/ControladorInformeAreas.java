@@ -10,6 +10,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperRunManager;
 
 /**
@@ -33,11 +34,11 @@ public class ControladorInformeAreas extends HttpServlet {
             response.setContentType("application/pdf");
             response.setContentLength(bytes.length);
             ServletOutputStream ouputStream = response.getOutputStream();
-            ouputStream.write(bytes, 0, bytes.length);
-            ouputStream.flush();
-            ouputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+                ouputStream.write(bytes, 0, bytes.length);
+                ouputStream.flush();
+            
+        } catch (IOException | JRException e) {
+            System.out.println(e.getMessage());
             System.out.println(reportFile.exists());
         }
     }

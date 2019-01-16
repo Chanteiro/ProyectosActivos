@@ -1,3 +1,4 @@
+
 package com.cartelle.controlador;
 
 import com.cartelle.dao.DbConnection;
@@ -17,19 +18,18 @@ import net.sf.jasperreports.engine.JasperRunManager;
  *
  * @author ANTONIO
  */
-public class ControladorInformeAreas extends HttpServlet {
+public class ControladorInformePuestos extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        try {
-            File reportFile = new File(getServletContext().getRealPath("/WEB-INF/Areas_1.jasper"));
+         try {
+            File reportFile = new File(getServletContext().getRealPath("/WEB-INF/Puestos.jasper"));
             DbConnection con = new DbConnection();
 
             Map parameters = new HashMap();
             parameters.put("serPrevencion", "ESCAÑO-ESENGRA");
             byte[] bytes = JasperRunManager.runReportToPdf(reportFile.getAbsolutePath(), parameters, con.obtenerConexion());
-            response.setHeader("Content-Disposition", "attachment; filename=\"InformeAreas.pdf\";");
+            response.setHeader("Content-Disposition", "attachment; filename=\"InformePuestos.pdf\";");
             response.setContentType("application/pdf");
             response.setContentLength(bytes.length);
             ServletOutputStream ouputStream = response.getOutputStream();
@@ -42,9 +42,20 @@ public class ControladorInformeAreas extends HttpServlet {
         }
     }
 
+   
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
+
+   
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+  
 
 }

@@ -109,7 +109,7 @@
                                     <li><a href="ControladorInformeAreas" target="_blank">Informe por Áreas</a></li>
                                      <li><a href="ControladorInformeEvaAreas" target="_blank">Informe Evaluación Áreas</a></li>
                                      <li><a href="ControladorInformePuestos" target="_blank">Informe por Puestos</a></li>
-                                     <li><a href="#" target="_blank">Informe Evaluación Puestos (en construcción)</a></li>
+                                     <li><a href="ControladorInformeEvaPuestos" target="_blank">Informe Evaluación Puestos</a></li>
                                 </ul>
                                 
                             </li>

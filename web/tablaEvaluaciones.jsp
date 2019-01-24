@@ -24,7 +24,7 @@
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title col-lg-10">EVALUACIONES POR ÁREA</h3>
-            <a class="btn btn-gray bg-info text-info" href="ControladorComboAreas">Nueva Evaluación</a>
+            <a class="btn btn-gray bg-info text-info" href="ControladorComboAreas">Nuevo Riesgo</a>
         </div>
         <div class="panel-body">
 

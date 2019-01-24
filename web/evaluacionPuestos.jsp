@@ -13,7 +13,7 @@
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title col-lg-10">EVALUACIONES PUESTOS DE TRABAJO</h3>
-            <button class="btn btn-gray bg-info text-info" onclick="document.location='ControladorComboPuestos'" name="nuevaEvaluacion">Nueva Evaluación</button>
+            <button class="btn btn-gray bg-info text-info" onclick="document.location='ControladorComboPuestos'" name="nuevaEvaluacion">Nuevo Riesgo</button>
         </div>
         <div class="panel-body">
             <table class="table table-hover">

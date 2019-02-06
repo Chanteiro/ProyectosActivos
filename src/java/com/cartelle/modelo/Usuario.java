@@ -1,6 +1,7 @@
 package com.cartelle.modelo;
 
 import com.cartelle.dao.DbConnection;
+import java.util.List;
 
 /**
  *
@@ -13,6 +14,10 @@ public class Usuario {
     private String rol;
     private String username;
     private String password;
+    private List<Unidades> unidades;
+    
+
+   
 
     public Usuario() {
     }
@@ -67,9 +72,19 @@ public class Usuario {
        return conexion.comprobarUsuario(this.getUsername(),this.getPassword());
     }
 
+    public List<Unidades> getUnidades() {
+        return unidades;
+    }
+
+    public void setUnidades(List<Unidades> unidades) {
+        this.unidades = unidades;
+    }
+
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", rol=" + rol + ", username=" + username + ", password=" + password + '}';
+        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", rol=" + rol + ", username=" + username + ", password=" + password + ", unidades=" + unidades + '}';
     }
+
+  
 
 }

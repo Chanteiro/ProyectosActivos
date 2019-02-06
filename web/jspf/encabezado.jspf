@@ -1,13 +1,22 @@
 <%-- any content can be specified here e.g.: --%>
 
+<%@page import="com.cartelle.modelo.Unidades"%>
 <%@page pageEncoding="ISO-8859-1" %>
 <%@page import="com.cartelle.modelo.Usuario"%>
 <%
     Usuario user = new Usuario();
+    Unidades unidadSeleccionada = new Unidades();
     HttpSession sesion = request.getSession();
     user = (Usuario) sesion.getAttribute("user");
+    unidadSeleccionada = (Unidades)sesion.getAttribute("unidadSeleccionada");
+    String centro = unidadSeleccionada.getUnidad();
+    centro=centro.replace("\"", "");
+    int idCentro = unidadSeleccionada.getIdUnidad();
+    String servicio = unidadSeleccionada.getServicioPrevencion();
     String username = user.getNombre();
     String rol = user.getRol();
+    String ciu = unidadSeleccionada.getCiu();
+    
 %>
 
 <!DOCTYPE html>
@@ -40,6 +49,11 @@
                 toolbar: 'styleselect | table | bold italic underline | aligncenter alignjustify alignleft alignright  | bullist numblist | fontselect fontsizeselect | forecolor backcolor',
             });
         </script>
+        <script>
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        </script>
     </head>
 
     <body>
@@ -51,7 +65,7 @@
                         <img class="img-responsive" src="img/escudoprl2.png" alt=""/>
                     </div>
                     <div class="col-lg-7 bg-primary text-left font-weight-bold">
-                        <h1 class="gordo lead tituloencabezado"><strong>SP (ESCAÑO-ESENGRA)</strong></h1>
+                        <h2 class="gordo lead tituloencabezado"><strong><%=servicio%></strong></h2>
                     </div>  
                     <div class="col-lg-3 bg-primary text-left vertical-align">
                         <div class="col">
@@ -73,7 +87,7 @@
                 <nav class="navbar navbar-inverse separar">
                     <div class="container-fluid ">
                         <div class="navbar-header">
-                            <a class="navbar-brand " >ESCAÑO</a>
+                            <a class="navbar-brand" data-toggle="tooltip" data-placement="bottom"  title="<%=centro%>"><%=ciu%></a>
                         </div>
                         <ul class="nav navbar-nav">
                             <li ><a href="login">Inicio</a></li>
@@ -107,11 +121,11 @@
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="ControladorInformeAreas" target="_blank">Informe por Áreas</a></li>
-                                     <li><a href="ControladorInformeEvaAreas" target="_blank">Informe Evaluación Áreas</a></li>
-                                     <li><a href="ControladorInformePuestos" target="_blank">Informe por Puestos</a></li>
-                                     <li><a href="ControladorInformeEvaPuestos" target="_blank">Informe Evaluación Puestos</a></li>
+                                    <li><a href="ControladorInformeEvaAreas" target="_blank">Informe Evaluación Áreas</a></li>
+                                    <li><a href="ControladorInformePuestos" target="_blank">Informe por Puestos</a></li>
+                                    <li><a href="ControladorInformeEvaPuestos" target="_blank">Informe Evaluación Puestos</a></li>
                                 </ul>
-                                
+
                             </li>
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Enlaces de interés
@@ -122,6 +136,7 @@
                                     <li><a href="http://www.fn.mdef.es/intranet/webs/SEGOP/page/05_Publicaciones.html" target="_blank">Publicaciones</a></li>
                                 </ul>
                             </li>
+                             <li ><a href="organigrama.jsp" target="_blank">Organigrama</a></li>
                         </ul>
                     </div>    
 

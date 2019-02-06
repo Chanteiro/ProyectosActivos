@@ -2,6 +2,8 @@ package com.cartelle.controlador;
 
 import com.cartelle.dao.DbConnection;
 import com.cartelle.modelo.PlanificacionPuestos;
+import com.cartelle.modelo.Unidades;
+import com.cartelle.modelo.Usuario;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 @WebServlet(name = "ControladorPlanificacionPuestos", urlPatterns = {"/ControladorPlanificacionPuestos"})
@@ -28,12 +31,20 @@ public class ControladorPlanificacionPuestos extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession sesion = request.getSession();
+        Usuario user = (Usuario) sesion.getAttribute("user");
+        Unidades uni = (Unidades) sesion.getAttribute("unidadSeleccionada");
+        int unidad = uni.getIdUnidad();
         String ide = request.getParameter("action");
-
-        System.out.println(ide);
         if (ide == null) {
             try {
-                String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where fechaSubsanacion is NULL order by codArea;";
+                String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, "
+                        + "codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, "
+                        + "fechaSubsanacion, subsanador from EVALUACION_PUESTO "
+                        + "inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                        + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                        + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea "
+                        + "where fechaSubsanacion is NULL and AREAS_TRABAJO.unidadFK="+unidad+" order by codArea;";
                 DbConnection con = new DbConnection();
                 datos.clear();
                 datos = con.buscar3(sql);
@@ -47,7 +58,13 @@ public class ControladorPlanificacionPuestos extends HttpServlet {
         } else {
             if (ide.equals("todos")) {
                 try {
-                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea order by codArea;";
+                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, "
+                            + "medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, "
+                            + "codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO "
+                            + "inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea"
+                            + " where AREAS_TRABAJO.unidadFK="+unidad+" order by codArea;";
                     DbConnection con = new DbConnection();
                     datos.clear();
                     datos = con.buscar3(sql);
@@ -60,7 +77,13 @@ public class ControladorPlanificacionPuestos extends HttpServlet {
                 }
             } else if (ide.equals("historico")) {
                 try {
-                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where fechaSubsanacion is not NULL order by codArea;";
+                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, "
+                            + "codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, "
+                            + "codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO "
+                            + "inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea "
+                            + "where fechaSubsanacion is not NULL and AREAS_TRABAJO.unidadFK="+unidad+" order by codArea;";
                     DbConnection con = new DbConnection();
                     datos.clear();
                     datos = con.buscar3(sql);
@@ -73,7 +96,13 @@ public class ControladorPlanificacionPuestos extends HttpServlet {
                 }
             } else if(ide.equals("activos")) {
                 try {
-                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where fechaSubsanacion is NULL order by codArea;";
+                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, "
+                            + "codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, "
+                            + "fechaSubsanacion, subsanador from EVALUACION_PUESTO "
+                            + "inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea "
+                            + "where fechaSubsanacion is NULL and AREAS_TRABAJO.unidadFK="+unidad+" order by codArea;";
                     DbConnection con = new DbConnection();
                     datos.clear();
                     datos = con.buscar3(sql);
@@ -91,12 +120,21 @@ public class ControladorPlanificacionPuestos extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+         HttpSession sesion = request.getSession();
+        Usuario user = (Usuario) sesion.getAttribute("user");
+        Unidades uni = (Unidades) sesion.getAttribute("unidadSeleccionada");
+        int unidad = uni.getIdUnidad();
         String ide = request.getParameter("action");
 
-        System.out.println(ide);
         if (ide == null) {
             try {
-                String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where fechaSubsanacion is NULL order by codArea;";
+                String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, "
+                        + "codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, "
+                        + "fechaSubsanacion, subsanador from EVALUACION_PUESTO "
+                        + "inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                        + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                        + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea "
+                        + "where fechaSubsanacion is NULL and AREAS_TRABAJO.unidadFK="+unidad+" order by codArea;";
                 DbConnection con = new DbConnection();
                 datos.clear();
                 datos = con.buscar3(sql);
@@ -110,7 +148,13 @@ public class ControladorPlanificacionPuestos extends HttpServlet {
         } else {
             if (ide.equals("todos")) {
                 try {
-                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea order by codArea;";
+                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, "
+                            + "codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, "
+                            + "fechaSubsanacion, subsanador from EVALUACION_PUESTO "
+                            + "inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea "
+                            + "where AREAS_TRABAJO.unidadFK="+unidad+" order by codArea;";
                     DbConnection con = new DbConnection();
                     datos.clear();
                     datos = con.buscar3(sql);
@@ -123,7 +167,13 @@ public class ControladorPlanificacionPuestos extends HttpServlet {
                 }
             } else if (ide.equals("historico")) {
                 try {
-                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where fechaSubsanacion is not NULL order by codArea;";
+                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, "
+                            + "codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, "
+                            + "fechaSubsanacion, subsanador from EVALUACION_PUESTO "
+                            + "inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea "
+                            + "where fechaSubsanacion is not NULL and AREAS_TRABAJO.unidadFK="+unidad+" order by codArea;";
                     DbConnection con = new DbConnection();
                     datos.clear();
                     datos = con.buscar3(sql);
@@ -136,7 +186,13 @@ public class ControladorPlanificacionPuestos extends HttpServlet {
                 }
             } else if(ide.equals("activos")) {
                 try {
-                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where fechaSubsanacion is NULL order by codArea;";
+                    String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, "
+                            + "codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, "
+                            + "fechaSubsanacion, subsanador from EVALUACION_PUESTO "
+                            + "inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                            + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea "
+                            + "where fechaSubsanacion is NULL and AREAS_TRABAJO.unidadFK="+unidad+" order by codArea;";
                     DbConnection con = new DbConnection();
                     datos.clear();
                     datos = con.buscar3(sql);

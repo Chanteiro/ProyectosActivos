@@ -41,9 +41,6 @@ public class Area {
         this.fechaUltimaEvaluacion = fechaUltimaEvaluacion;
     }
 
-   
-   
-   
     public int getId() {
         return id;
     }
@@ -154,6 +151,11 @@ public class Area {
 
     public void setZonas(List<Zona_medicion> zonas) {
         this.zonas = zonas;
+    }
+
+    @Override
+    public String toString() {
+        return "Area{" + "id=" + id + ", codArea=" + codArea + ", nombre=" + nombre + ", fechaTomaDatos=" + fechaTomaDatos + ", fechaUltimaEvaluacion=" + fechaUltimaEvaluacion + ", observacionesArea=" + observacionesArea + ", descripcion=" + descripcion + ", superficie=" + superficie + ", actividadesRealizadas=" + actividadesRealizadas + ", instalacionesExistentes=" + instalacionesExistentes + ", medidasPreventivasExistentes=" + medidasPreventivasExistentes + ", observacionesMedidasPreventivas=" + observacionesMedidasPreventivas + ", unidadFK=" + unidadFK + ", fichaInstalacionesFK=" + fichaInstalacionesFK + ", certificadoFK=" + certificadoFK + ", zonas=" + zonas + '}';
     }
    
    

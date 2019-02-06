@@ -1,0 +1,70 @@
+<%-- any content can be specified here e.g.: --%>
+<%@page import="com.cartelle.modelo.Unidades"%>
+<%@page import="java.util.List"%>
+<%@page pageEncoding="ISO-8859-1" %>
+<%@page import="com.cartelle.modelo.Usuario"%>
+<%
+   Usuario user = new Usuario();
+    HttpSession sesion = request.getSession();
+    user = (Usuario) sesion.getAttribute("user");
+    List<Unidades> unidades=user.getUnidades();
+    String sp=unidades.get(0).getServicioPrevencion();
+    String username = user.getNombre();
+    String rol = user.getRol();
+       
+%>
+
+<!DOCTYPE html>
+
+<html lang="es">
+
+
+    <head>
+        <title>PRL-SEGOP</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="ISO-8859-1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
+        <link href="css/fa-svg-with-js.css" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut icon" type="image/x-icon" href="img/escudo.ico" />
+        <script src="js/fontawesome-all.js" type="text/javascript"></script>
+        <script src="js/jquery-3.2.0.min.js" type="text/javascript"></script>
+        <script src="js/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script src='tinymce/tinymce.min.js'></script>
+        <script>
+            tinymce.init({
+                selector: '#contenido',
+                language: 'es',
+                encoding: 'UTF-8',
+
+                plugins: 'textcolor,table',
+                toolbar: 'styleselect | table | bold italic underline | aligncenter alignjustify alignleft alignright  | bullist numblist | fontselect fontsizeselect | forecolor backcolor',
+            });
+        </script>
+    </head>
+
+    <body>
+
+        <div class="container-fuid">
+            <div class="anularejilla">
+                <div class="row align-items-center bg-primary vertical-align-center ">
+                    <div class="col-lg-2 bg-primary text-center " >
+                        <img class="img-responsive" src="img/escudoprl2.png" alt=""/>
+                    </div>
+                    <div class="col-lg-7 bg-primary text-left font-weight-bold">
+                        <h1 class="gordo lead tituloencabezado"><strong><%=sp%></strong></h1>
+                    </div>  
+                    <div class="col-lg-3 bg-primary text-left vertical-align">
+                        <div class="col">
+                            <p><i class="fas fa-user"></i>&nbsp USUARIO:&nbsp<%=username%></p>
+                        </div>
+                        <div class="col">
+                            <p><i class="fas fa-tasks"></i>&nbsp PERFIL:&nbsp<%=rol%></p>
+                        </div>
+                       
+                    </div>  
+                </div>
+

@@ -3,6 +3,7 @@ package com.cartelle.controlador;
 
 import com.cartelle.dao.DbConnection;
 import com.cartelle.modelo.Puestos;
+import com.cartelle.modelo.Unidades;
 import com.cartelle.modelo.Usuario;
 import java.io.IOException;
 import java.util.List;
@@ -23,9 +24,12 @@ public class puestosController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         Usuario user = (Usuario) sesion.getAttribute("user");
+        Unidades uni = (Unidades) sesion.getAttribute("unidadSeleccionada");
+        int unidad = uni.getIdUnidad();
+        
         if(user.getRol().equals("ADMIN_ESCANO")||user.getRol().equals("SEGOP_ESCANO")){
             DbConnection con=new DbConnection();
-            List<Puestos> puestos=con.obtenerPuestos();
+            List<Puestos> puestos=con.obtenerPuestos(unidad);
             if(puestos.size()>0){
             request.setAttribute("puestos",puestos);
             RequestDispatcher rd = request.getRequestDispatcher("puestoTrabajo.jsp");

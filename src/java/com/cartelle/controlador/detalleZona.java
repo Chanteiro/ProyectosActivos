@@ -2,6 +2,8 @@ package com.cartelle.controlador;
 
 import com.cartelle.dao.DbConnection;
 import com.cartelle.modelo.Area;
+import com.cartelle.modelo.Unidades;
+import com.cartelle.modelo.Usuario;
 import com.cartelle.modelo.Zona_medicion;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -21,16 +24,17 @@ public class detalleZona extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession sesion = request.getSession();
+        Usuario user = (Usuario) sesion.getAttribute("user");
+        Unidades uni = (Unidades) sesion.getAttribute("unidadSeleccionada");
+        int unidad = uni.getIdUnidad();
         String action = request.getParameter("action");
-        
         String ide = request.getParameter("id");
         int zona = Integer.parseInt(request.getParameter("idZona"));
         int id = Integer.parseInt(ide);
-        System.out.println(action);
-       
         if (action.equals("verdetalle")) {
             DbConnection con = new DbConnection();
-            Area a = con.getAreabyId(id);
+            Area a = con.getAreabyId(id, unidad);
             if (a.getId() != 0) {
                 for (Zona_medicion z : a.getZonas()) {
                     if (z.getIdZona() == zona) {
@@ -43,23 +47,17 @@ public class detalleZona extends HttpServlet {
 
         }
         if (action.equals("irArea")) {
-//            request.setAttribute("action", "verdetalle");
-//            request.setAttribute("id", ide);
-            System.out.println("Aqui-->"+request.getParameter("action"));
             RequestDispatcher rd = request.getRequestDispatcher("detalleVacante");
             rd.forward(request, response);
         }
         if (action.equals("borrar")) {
             DbConnection con = new DbConnection();
             if (con.borraZona(zona) == 1) {
-//                request.setAttribute("action", "verdetalle");
-//                request.setAttribute("id", ide);
                 RequestDispatcher rd = request.getRequestDispatcher("detalleVacante");
                 rd.forward(request, response);
             }
         }
         if (action.equals("nueva")) {
-
             request.setAttribute("zona", new Zona_medicion());
             RequestDispatcher rd = request.getRequestDispatcher("detalleZona.jsp");
             rd.forward(request, response);

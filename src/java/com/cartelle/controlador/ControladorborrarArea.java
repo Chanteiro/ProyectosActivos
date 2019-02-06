@@ -2,6 +2,7 @@ package com.cartelle.controlador;
 
 import com.cartelle.dao.DbConnection;
 import com.cartelle.modelo.Area;
+import com.cartelle.modelo.Unidades;
 import com.cartelle.modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,13 +25,15 @@ public class ControladorborrarArea extends HttpServlet {
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         Usuario user = (Usuario) sesion.getAttribute("user");
+        Unidades uni = (Unidades) sesion.getAttribute("unidadSeleccionada");
+        int unidad = uni.getIdUnidad();
         int id = Integer.parseInt(request.getParameter("id"));
         if (user.getRol().equals("ADMIN_ESCANO")) {
             DbConnection con = new DbConnection();
             int i = con.borraArea(id);
             System.out.println(""+i);
             if (i == 1) {
-                List<Area> areas = con.obtenerAreas();
+                List<Area> areas = con.obtenerAreas(unidad);
                 System.out.println(areas.size());
                 if (areas.size() > 0) {
                     

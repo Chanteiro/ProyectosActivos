@@ -16,6 +16,7 @@ import com.cartelle.modelo.PlanificacionAreas;
 import com.cartelle.modelo.PlanificacionPuestos;
 import com.cartelle.modelo.Puestos;
 import com.cartelle.modelo.Trabajador;
+import com.cartelle.modelo.Unidades;
 import com.cartelle.modelo.Usuario;
 import com.cartelle.modelo.Zona_medicion;
 import java.sql.Connection;
@@ -50,14 +51,13 @@ public class DbConnection {
             InitialContext ctx = new InitialContext();
             Context env = (Context) ctx.lookup("java:comp/env");
             datasource = (DataSource) env.lookup("jdbc/AccesoDB");
-//            datasource = (DataSource) env.lookup("jdbc/AccesoDBLocal");
         } catch (NamingException ex) {
             System.out.println("Problemas en el acceso al recurso");
             ex.printStackTrace();
         }
     }
 
-    public Connection obtenerConexion(){
+    public Connection obtenerConexion() {
         try {
             cn = datasource.getConnection();
             return cn;
@@ -66,8 +66,8 @@ public class DbConnection {
         }
         return null;
     }
+
     public Usuario comprobarUsuario(String user, String pass) {
-//        boolean resultado = false;
         Usuario usu = new Usuario();
         try {
             cn = datasource.getConnection();
@@ -92,7 +92,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -100,7 +99,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -108,18 +106,16 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
         return usu;
     }
 
-    public List<Area> obtenerAreas() {
+    public List<Area> obtenerAreas(int unidad) {
         List<Area> areas = new ArrayList();
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-
-            String sql = "select * from areas_trabajo where unidadFK=442;";
+            String sql = "select * from areas_trabajo where unidadFK=" + unidad + ";";
             rs = st.executeQuery(sql);
             while (rs.next()) {
                 Area a = new Area(0);
@@ -135,7 +131,6 @@ public class DbConnection {
                 a.setMedidasPreventivasExistentes(rs.getString("medidasPreventivasExistentes").trim());
                 a.setObservacionesMedidasPreventivas(rs.getString("observacionesMedidasPreventivas").trim());
                 a.setUnidadFK(rs.getInt("unidadFK"));
-//                a.setFechaUltimaEvaluacion(rs.getString("fechaEvaluacion"));
                 a.setFichaInstalacionesFK(rs.getInt("ficha_instalacionFK"));
                 a.setCertificadoFK(rs.getInt("certificadoFK"));
                 areas.add(a);
@@ -152,7 +147,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -160,7 +154,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -168,131 +161,157 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return areas;
     }
 
-//    public List<AreasFicha> obtenerAreasFicha() {
-//        List<AreasFicha> areasFicha = new ArrayList();
-//        try {
-//            cn = datasource.getConnection();
-//            st = cn.createStatement();
-//
-//            String sql = "select codArea,nombre, fechaTomaDatos, convert(varchar(max),observacionesArea)AS OBSERVACIONES, convert(varchar(max),descripcion) AS DESCRIPCION ,\n"
-//                    + " superficie, convert(varchar(max),actividadesRealizadas)AS ACTIVIDADES, \n"
-//                    + " convert(varchar(max),instalacionesExistentes)AS INSTALACIONES ,convert(varchar(max),medidasPreventivasExistentes)AS MPE ,\n"
-//                    + " convert(varchar(max),observacionesMedidasPreventivas)AS OMP,convert(varchar(max),rampas_de_circulacion)AS RAMPAS ,\n"
-//                    + " convert(varchar(max),circulacion_interior)AS CI, convert(varchar(max),escaleras_fijas)AS EFIJAS ,\n"
-//                    + " convert(varchar(max),escaleras_mano)AS EMANO, convert(varchar(max),almacenamiento_altura)AS ALTURA,\n"
-//                    + " convert(varchar(max),conducciones_fluidos_presion)AS CFP, convert(varchar(max),calderas)AS CALDERAS,\n"
-//                    + " convert(varchar(max),depositos_presion) AS DEPOSITOS, convert(varchar(max),botellas_presion)AS BOTELLAS ,\n"
-//                    + " convert(varchar(max),cintas_transportadoras)AS CINTAS ,convert(varchar(max),ascensores_montacargas)AS ASCENSORES ,\n"
-//                    + " convert(varchar(max),plataformas_elevadoras)AS PLATAFORMAS ,convert(varchar(max),gruas_polipastros)AS GRUAS,\n"
-//                    + " convert(varchar(max),carretillas_elevadoras) AS CARRETILLAS,convert(varchar(max),area_carga_baterias)AS BATERIAS ,\n"
-//                    + " convert(varchar(max),extintores)AS EXTINTORES ,convert(varchar(max),bie)AS BIE,convert(varchar(max),deteccion_incendios)AS DINCENDIOS ,\n"
-//                    + " convert(varchar(max),otros)AS OTROS , tipoEvaluacion\n"
-//                    + " from areas_trabajo\n"
-//                    + " left join ficha_instalaciones on areas_trabajo.ficha_instalacionFK=ficha_instalaciones.idFicha\n"
-//                    + " left join evaluacion_area on areas_trabajo.idArea=evaluacion_area.idAreaFK\n"
-//                    + " where unidadfk=442\n"
-//                    + "	\n"
-//                    + " GROUP BY codArea,nombre, fechaTomaDatos, convert(varchar(max),observacionesArea), convert(varchar(max),descripcion) ,\n"
-//                    + " superficie, convert(varchar(max),actividadesRealizadas), \n"
-//                    + " convert(varchar(max),instalacionesExistentes) ,convert(varchar(max),medidasPreventivasExistentes) ,\n"
-//                    + " convert(varchar(max),observacionesMedidasPreventivas),convert(varchar(max),rampas_de_circulacion) ,\n"
-//                    + " convert(varchar(max),circulacion_interior), convert(varchar(max),escaleras_fijas) ,\n"
-//                    + " convert(varchar(max),escaleras_mano), convert(varchar(max),almacenamiento_altura),\n"
-//                    + " convert(varchar(max),conducciones_fluidos_presion), convert(varchar(max),calderas),\n"
-//                    + " convert(varchar(max),depositos_presion) , convert(varchar(max),botellas_presion) ,\n"
-//                    + " convert(varchar(max),cintas_transportadoras) ,convert(varchar(max),ascensores_montacargas) ,\n"
-//                    + " convert(varchar(max),plataformas_elevadoras) ,convert(varchar(max),gruas_polipastros),\n"
-//                    + " convert(varchar(max),carretillas_elevadoras) ,convert(varchar(max),area_carga_baterias) ,\n"
-//                    + " convert(varchar(max),extintores) ,convert(varchar(max),bie),convert(varchar(max),deteccion_incendios) ,\n"
-//                    + " convert(varchar(max),otros), tipoEvaluacion;";
-//            rs = st.executeQuery(sql);
-//            while (rs.next()) {
-//                AreasFicha a = new AreasFicha();
-//                a.setCodArea(rs.getString("codArea").trim());
-//                a.setNombreArea(rs.getString("nombre").trim());
-//                a.setFechaTomaDatos(rs.getDate("fechaTomaDatos"));
-//                a.setTipoEvaluacion(rs.getString("tipoEvaluacion"));
-//                a.setObservaciones(rs.getString("OBSERVACIONES").trim());
-//                a.setDescripcion(rs.getString("DESCRIPCION").trim());
-//                a.setSuperficie(rs.getInt("superficie"));
-//                a.setActividades(rs.getString("ACTIVIDADES").trim());
-//                a.setInstalaciones(rs.getString("INSTALACIONES").trim());
-//                a.setMedidasPreventivas(rs.getString("MPE").trim());
-//                a.setObservacionesMedidas(rs.getString("OMP").trim());
-//                a.setRampas_de_circulacion(rs.getString("RAMPAS"));
-//                a.setCirculacion_interior(rs.getString("CI"));
-//                a.setEscaleras_fijas(rs.getString("EFIJAS"));
-//                a.setEscaleras_mano(rs.getString("EMANO"));
-//                a.setAlmacenamiento_altura(rs.getString("ALTURA"));
-//                a.setConducciones_fluidos_presion(rs.getString("CFP"));
-//                a.setCalderas(rs.getString("CALDERAS"));
-//                a.setDepositos_presion(rs.getString("DEPOSITOS"));
-//                a.setBotellas_presion(rs.getString("BOTELLAS"));
-//                a.setCintas_transportadoras(rs.getString("CINTAS"));
-//                a.setAscensores_montacargas(rs.getString("ASCENSORES"));
-//                a.setPlataformas_elevadoras(rs.getString("PLATAFORMAS"));
-//                a.setGruas_polipastos(rs.getString("GRUAS"));
-//                a.setCarretillas_elevadoras(rs.getString("CARRETILLAS"));
-//                a.setArea_carga_baterias(rs.getString("BATERIAS"));
-//                a.setExtintores(rs.getString("EXTINTORES"));
-//                a.setBie(rs.getString("BIE"));
-//                a.setDeteccion_incendios(rs.getString("DINCENDIOS"));
-//                a.setOtros(rs.getString("OTROS"));
-//
-//                areasFicha.add(a);
-//            }
-//            return areasFicha;
-//        } catch (Exception e) {
-//            System.out.println("No se pudo conectar");
-//            e.printStackTrace();
-//        } finally {
-//            if (rs != null) {
-//                try {
-//                    rs.close();
-//                } catch (SQLException ex) {
-//                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
-//                }
-//            }
-//
-//            if (st != null) {
-//                try {
-//                    st.close();
-//                } catch (SQLException ex) {
-//                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
-//                }
-//            }
-//
-//            if (cn != null) {
-//                try {
-//                    cn.close();
-//                } catch (SQLException ex) {
-//                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
-//                }
-//            }
-//
-//        }
-//
-//        return null;
-//    }
+    public List<Unidades> obtenerUnidades(String servicio) {
+        List<Unidades> unidad = new ArrayList();
+        try {
+            cn = datasource.getConnection();
+            st = cn.createStatement();
+            String sql = "select * from unidades where servicioPrevencion='" + servicio + "';";
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                Unidades u = new Unidades();
+                u.setIdUnidad(rs.getInt("idUnidad"));
+                u.setCiu(rs.getString("ciu"));
+                u.setUnidad(rs.getString("unidad"));
+                u.setServicioPrevencion(rs.getString("servicioPrevencion"));
+                u.setOrganoAsesoramiento(rs.getString("organoAsesoramiento"));
+                unidad.add(u);
+            }
+            return unidad;
+        } catch (Exception e) {
+            System.out.println("No se pudo conectar");
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+        }
+        return unidad;
+    }
 
-    public List<Trabajador> obtenerTrabajadores() {
-        List<Trabajador> trabajadores = new ArrayList();
+    public Unidades obtenerUnidadesById(int id) {
+        Unidades u = new Unidades();
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
 
+            String sql = "select * from unidades where idUnidad=" + id + ";";
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                u.setIdUnidad(rs.getInt("idUnidad"));
+                u.setCiu(rs.getString("ciu"));
+                u.setUnidad(rs.getString("unidad"));
+                u.setServicioPrevencion(rs.getString("servicioPrevencion"));
+                u.setOrganoAsesoramiento(rs.getString("organoAsesoramiento"));
+            }
+            return u;
+        } catch (Exception e) {
+            System.out.println("No se pudo conectar");
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+        }
+        return u;
+    }
+
+    public List<Unidades> obtenerUnidadesByIdAndCiu(String servicio, String ciu) {
+        List<Unidades> unidad = new ArrayList();
+        try {
+            cn = datasource.getConnection();
+            st = cn.createStatement();
+            String sql = "select * from unidades where servicioPrevencion='" + servicio + "' and ciu='" + ciu + "';";
+            rs = st.executeQuery(sql);
+            while (rs.next()) {
+                Unidades u = new Unidades();
+                u.setIdUnidad(rs.getInt("idUnidad"));
+                u.setCiu(rs.getString("ciu"));
+                u.setUnidad(rs.getString("unidad"));
+                u.setServicioPrevencion(rs.getString("servicioPrevencion"));
+                u.setOrganoAsesoramiento(rs.getString("organoAsesoramiento"));
+                unidad.add(u);
+            }
+            return unidad;
+        } catch (Exception e) {
+            System.out.println("No se pudo conectar");
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+            if (cn != null) {
+                try {
+                    cn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
+                }
+            }
+        }
+        return unidad;
+    }
+
+    public List<Trabajador> obtenerTrabajadores(int unidad) {
+        List<Trabajador> trabajadores = new ArrayList();
+        try {
+            cn = datasource.getConnection();
+            st = cn.createStatement();
             String sql = "SELECT  idTrabajador,codigo,empleo, trabajadores.nombreTrabajador, puestos_trabajo.puesto FROM dbo.TRABAJADORES inner join puestos_trabajo "
                     + "on trabajadores.puestoTrabajoFK=puestos_trabajo.idPuesto "
                     + "inner join area_puesto on puestos_trabajo.idPuesto=area_puesto.idPuesto "
                     + "inner join areas_trabajo on areas_trabajo.idArea=area_puesto.idArea "
-                    + "where unidadFK=442 "
-                    + "order by codigo;";
+                    + "where unidadFK=" + unidad + " order by codigo;";
             rs = st.executeQuery(sql);
             while (rs.next()) {
                 Trabajador t = new Trabajador();
@@ -315,7 +334,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -323,7 +341,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -331,18 +348,15 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return trabajadores;
     }
 
-    public Area getAreabyId(int id) {
+    public Area getAreabyId(int id, int unidad) {
         Area a = new Area(0);
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-
             String sql = "select * from zonas_medicion where AreaFK=" + id + ";";
             rs = st.executeQuery(sql);
             List<Zona_medicion> lista = new ArrayList();
@@ -356,10 +370,8 @@ public class DbConnection {
                 zona.setIdZona(rs.getInt("idZona"));
                 zona.setIdAreaFK(rs.getInt("areaFK"));
                 lista.add(zona);
-
             }
-
-            sql = "select * from areas_trabajo where unidadFK=442 and idArea=" + id + ";";
+            sql = "select * from areas_trabajo where unidadFK=" + unidad + " and idArea=" + id + ";";
             rs = st.executeQuery(sql);
             while (rs.next()) {
                 a.setId(rs.getInt("idArea"));
@@ -390,7 +402,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -398,7 +409,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -406,9 +416,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return a;
     }
 
@@ -417,7 +425,6 @@ public class DbConnection {
             int i = insertaFichaInstalacion();
             int z = 0;
             st = cn.createStatement();
-
             String sql2 = "select max(idFicha) as m from ficha_instalaciones";
             rs = st.executeQuery(sql2);
             while (rs.next()) {
@@ -455,9 +462,7 @@ public class DbConnection {
             String sql = "insert into ficha_instalaciones (bie) values(?); ";
             cn = datasource.getConnection();
             pst = cn.prepareStatement(sql);
-
             pst.setString(1, null);
-
             int rows = pst.executeUpdate();
             return rows;
         } catch (SQLException ex) {
@@ -471,7 +476,6 @@ public class DbConnection {
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-
             String sql = "SELECT  idTrabajador,codigo,empleo, trabajadores.nombreTrabajador, puestos_trabajo.puesto, areas_trabajo.nombre as area "
                     + "FROM dbo.TRABAJADORES inner join puestos_trabajo "
                     + "on trabajadores.puestoTrabajoFK=puestos_trabajo.idPuesto "
@@ -479,7 +483,6 @@ public class DbConnection {
                     + "inner join areas_trabajo on areas_trabajo.idArea=area_puesto.idArea "
                     + "where idTrabajador=" + id + ";";
             rs = st.executeQuery(sql);
-
             while (rs.next()) {
                 t.setId(rs.getInt("idTrabajador"));
                 t.setCodTrabajador(rs.getString("codigo"));
@@ -500,7 +503,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -508,7 +510,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -516,9 +517,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return t;
     }
 
@@ -527,35 +526,31 @@ public class DbConnection {
             cn = datasource.getConnection();
             String sql = "update trabajadores set nombreTrabajador=?,empleo=? where idTrabajador=?; ";
             pst = cn.prepareStatement(sql);
-
             pst.setString(1, t.getNombre());
             pst.setString(2, t.getEmpleo());
-
             pst.setInt(3, t.getId());
-
             int rows = pst.executeUpdate();
             return rows;
-
         } catch (SQLException ex) {
             System.out.println("Error actualizando" + ex);
             return 0;
         }
-
     }
 
-    public Puestos getPuestobyId(int id) {
+    public Puestos getPuestobyId(int id, int unidad) {
         Puestos p = new Puestos();
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-
-            String sql = "select puestos_trabajo.idPuesto, puesto,codPuesto,fechaTomaDatos,observaciones,tareasRealizadas,"
-                    + "equiposTrabajo,productosQuimicosFK,trabajadoresCondicionEspecial,medidasPreventivasExistentes,"
-                    + "observacionesmedidasPreventivas,medicion_luz,medicion_ruido,medicion_temp,"
-                    + "idArea from puestos_trabajo inner join area_puesto on area_puesto.idPuesto= puestos_trabajo.idPuesto"
-                    + " where puestos_trabajo.idPuesto=" + id + ";";
+            String sql = "select puestos_trabajo.idPuesto, puesto,codPuesto,puestos_trabajo.fechaTomaDatos,"
+                    +"observaciones,tareasRealizadas,equiposTrabajo,productosQuimicosFK,"
+                    +"trabajadoresCondicionEspecial,puestos_trabajo.medidasPreventivasExistentes,"
+                    +"puestos_trabajo.observacionesmedidasPreventivas,medicion_luz,medicion_ruido,medicion_temp,"
+                    +"areas_trabajo.idArea from areas_trabajo "
+                    +"inner join area_puesto on area_puesto.idArea= areas_trabajo.idArea "
+                    +"inner join puestos_trabajo on area_puesto.idPuesto=puestos_trabajo.idPuesto "
+                    +"where puestos_trabajo.idPuesto="+id+" and areas_trabajo.unidadFK="+unidad+";";
             rs = st.executeQuery(sql);
-
             while (rs.next()) {
                 p.setIdArea(rs.getInt("idArea"));
                 p.setIdPuesto(rs.getInt("idPuesto"));
@@ -585,7 +580,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -593,7 +587,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -601,13 +594,11 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return p;
     }
 
-    public List<Puestos> obtenerPuestos() {
+    public List<Puestos> obtenerPuestos(int unidad) {
         List<Puestos> puestos = new ArrayList();
         try {
             cn = datasource.getConnection();
@@ -619,8 +610,8 @@ public class DbConnection {
                     + " medicion_luz, medicion_ruido, medicion_temp,"
                     + " codArea, areas_trabajo.idArea "
                     + "from puestos_trabajo inner join area_puesto on area_puesto.idPuesto=puestos_trabajo.idPuesto "
-                    + "inner join areas_trabajo on areas_trabajo.idArea=area_puesto.idArea where unidadFK=442 "
-                    + "order by codPuesto;";
+                    + "inner join areas_trabajo on areas_trabajo.idArea=area_puesto.idArea where unidadFK=" + unidad + 
+                    " order by codPuesto;";
 
             rs = st.executeQuery(sql);
             while (rs.next()) {
@@ -655,7 +646,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -663,7 +653,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -671,9 +660,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return puestos;
     }
 
@@ -682,18 +669,14 @@ public class DbConnection {
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-
             String sql = "select * from LOGIN where idLogin=" + idLogin + ";";
             rs = st.executeQuery(sql);
-
             while (rs.next()) {
-
                 logo.setIdLogin(rs.getInt("idLogin"));
                 logo.setContrasena(rs.getString("contrasena").trim());
                 logo.setNombrecompleto(rs.getString("nombreCompleto").trim());
                 logo.setUsuario(rs.getString("usuario"));
                 logo.setRol(rs.getString("rol").trim());
-
             }
             return logo;
         } catch (Exception e) {
@@ -707,7 +690,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -715,7 +697,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -723,9 +704,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return logo;
     }
 
@@ -767,7 +746,6 @@ public class DbConnection {
             String sql = "insert into login values(?,?,?,?); ";
             cn = datasource.getConnection();
             pst = cn.prepareStatement(sql);
-
             pst.setString(1, u.getNombre());
             pst.setString(2, u.getUsername());
             pst.setString(3, u.getPassword());
@@ -778,7 +756,6 @@ public class DbConnection {
             System.out.println("Error con el resultset" + ex);
             return false;
         }
-
     }
 
     public int nuevaZona(Zona_medicion z) {
@@ -786,7 +763,6 @@ public class DbConnection {
             String sql = "insert into zonas_medicion values(?,?,?,?,?,?); ";
             cn = datasource.getConnection();
             pst = cn.prepareStatement(sql);
-
             pst.setFloat(1, z.getLuz());
             pst.setFloat(2, z.getRuido());
             pst.setFloat(3, z.getTemp());
@@ -806,16 +782,13 @@ public class DbConnection {
             cn = datasource.getConnection();
             String sql = "delete from login where idLogin=?; ";
             pst = cn.prepareStatement(sql);
-
             pst.setInt(1, id);
             int rows = pst.executeUpdate();
             return rows;
-
         } catch (SQLException ex) {
             System.out.println("Error borrando" + ex);
             return 0;
         }
-
     }
 
     public int borraArea(int id) {
@@ -833,14 +806,11 @@ public class DbConnection {
             pst = cn.prepareStatement(sql);
             pst.setInt(1, id);
             rows = pst.executeUpdate();
-            System.out.println("Exito para Joseluis");
             return rows;
-
         } catch (SQLException ex) {
             System.out.println("Error borrando" + ex);
             return 0;
         }
-
     }
 
     public int actualizaUsuario(Usuario user, int id) {
@@ -848,7 +818,6 @@ public class DbConnection {
             cn = datasource.getConnection();
             String sql = "update login set nombreCompleto=?,usuario=?, contrasena=?, rol=? where idLogin=?; ";
             pst = cn.prepareStatement(sql);
-
             pst.setString(1, user.getNombre());
             pst.setString(2, user.getUsername());
             pst.setString(3, user.getPassword());
@@ -856,12 +825,10 @@ public class DbConnection {
             pst.setInt(5, id);
             int rows = pst.executeUpdate();
             return rows;
-
         } catch (SQLException ex) {
             System.out.println("Error borrando" + ex);
             return 0;
         }
-
     }
 
     public int actualizaZona(Zona_medicion z) {
@@ -869,7 +836,6 @@ public class DbConnection {
             cn = datasource.getConnection();
             String sql = "update Zonas_medicion set nombre_zona=?,descripción=?, luz=?, ruido=?, temp=? where idZona=?; ";
             pst = cn.prepareStatement(sql);
-
             pst.setString(1, z.getNombre());
             pst.setString(2, z.getDescripcion());
             pst.setFloat(3, z.getLuz());
@@ -878,12 +844,10 @@ public class DbConnection {
             pst.setInt(6, z.getIdZona());
             int rows = pst.executeUpdate();
             return rows;
-
         } catch (SQLException ex) {
             System.out.println("Error borrando" + ex);
             return 0;
         }
-
     }
 
     public int borraZona(int id) {
@@ -891,16 +855,13 @@ public class DbConnection {
             cn = datasource.getConnection();
             String sql = "delete from Zonas_medicion where idZona=?; ";
             pst = cn.prepareStatement(sql);
-
             pst.setInt(1, id);
             int rows = pst.executeUpdate();
             return rows;
-
         } catch (SQLException ex) {
             System.out.println("Error borrando" + ex);
             return 0;
         }
-
     }
 
     public Noticia getNoticia() {
@@ -911,9 +872,6 @@ public class DbConnection {
             String sql = "select * from noticia; ";
             rs = st.executeQuery(sql);
             while (rs.next()) {
-//                String tit = rs.getString("titulo");
-//                byte ptext[] = tit.getBytes();
-//                String titulo = new String(ptext, "UTF-8");
                 n.setId(rs.getInt("idNoticia"));
                 n.setTitulo(rs.getString("titulo"));
                 n.setContenido(rs.getString("contenido"));
@@ -923,9 +881,7 @@ public class DbConnection {
         } catch (SQLException ex) {
             System.out.println("Error con el resultset" + ex);
         }
-
         return n;
-
     }
 
     public int actualizaNoticia(String titulo, String contenido, int id) {
@@ -933,18 +889,15 @@ public class DbConnection {
             cn = datasource.getConnection();
             String sql = "update noticia set titulo=?,contenido=? where idNoticia=?; ";
             pst = cn.prepareStatement(sql);
-
             pst.setString(1, titulo);
             pst.setString(2, contenido);
             pst.setInt(3, id);
             int rows = pst.executeUpdate();
             return rows;
-
         } catch (SQLException ex) {
             System.out.println("Error borrando" + ex);
             return 0;
         }
-
     }
 
     public int actualizaArea(Area a, int id) {
@@ -967,12 +920,10 @@ public class DbConnection {
             pst.setInt(9, a.getId());
             int rows = pst.executeUpdate();
             return rows;
-
         } catch (SQLException ex) {
             System.out.println("Error borrando" + ex);
             return 0;
         }
-
     }
 
     public int actualizaPuesto(Puestos p, int id) {
@@ -999,12 +950,10 @@ public class DbConnection {
             pst.setInt(13, p.getIdPuesto());
             int rows = pst.executeUpdate();
             return rows;
-
         } catch (SQLException ex) {
             System.out.println("Error borrando" + ex);
             return 0;
         }
-
     }
 
     public int actualizaFicha(FichaInstalaciones f, int id) {
@@ -1017,7 +966,6 @@ public class DbConnection {
                     + " area_carga_baterias=?, extintores=?, bie=?, deteccion_incendios=?, otros=?"
                     + "  where idFicha=?; ";
             pst = cn.prepareStatement(sql);
-
             pst.setString(1, f.getRampas_de_circulacion());
             pst.setString(2, f.getCirculacion_interior());
             pst.setString(3, f.getEscaleras_fijas());
@@ -1038,15 +986,12 @@ public class DbConnection {
             pst.setString(18, f.getDeteccion_incendios());
             pst.setString(19, f.getOtros());
             pst.setInt(20, f.getIdFicha());
-
             int rows = pst.executeUpdate();
             return rows;
-
         } catch (SQLException ex) {
             System.out.println("Error borrando" + ex);
             return 0;
         }
-
     }
 
     public FichaInstalaciones getFichabyId(int id) {
@@ -1063,9 +1008,7 @@ public class DbConnection {
                     + "inner join AREAS_TRABAJO on FICHA_INSTALACIONES.idFicha=AREAS_TRABAJO.ficha_instalacionFK "
                     + "where FICHA_INSTALACIONES.idFicha=" + id + ";";
             rs = st.executeQuery(sql);
-
             while (rs.next()) {
-//                String texto;
                 fi.setCodArea(rs.getString("codArea"));
                 fi.setNombreArea(rs.getString("nombre"));
                 fi.setIdFicha(rs.getInt("idFicha"));
@@ -1088,7 +1031,6 @@ public class DbConnection {
                 fi.setBie(rs.getString("bie"));
                 fi.setDeteccion_incendios(rs.getString("deteccion_incendios"));
                 fi.setOtros(rs.getString("otros"));
-
             }
             return fi;
         } catch (Exception e) {
@@ -1102,7 +1044,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1110,7 +1051,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1118,15 +1058,12 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return fi;
     }
 
     public ArrayList<ConsultaEvaluacion> buscar2(String sql) {
         ArrayList<ConsultaEvaluacion> datos = new ArrayList();
-
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
@@ -1142,15 +1079,20 @@ public class DbConnection {
 
     }
 
-    public ArrayList<ConsultaPeligro> getPeligroById(int idArea, int idPuesto) {
+    public ArrayList<ConsultaPeligro> getPeligroById(int idArea, int idPuesto, int unidad) {
         ArrayList<ConsultaPeligro> datos = new ArrayList<ConsultaPeligro>();
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-
-            String sql = "Select codArea, nombre, codPuesto, puesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, idEvaluacionPuesto, nIntervencion, factorRiesgo from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where PUESTOS_TRABAJO.idPuesto=" + idPuesto + " and FechaSubsanacion is null;";
+            String sql = "Select codArea, nombre, codPuesto, puesto, areas_trabajo.idArea,"
+                    + " puestos_trabajo.idPuesto, idEvaluacionPuesto, nIntervencion, factorRiesgo"
+                    + " from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on "
+                    + "EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                    + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                    + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea "
+                    + "where PUESTOS_TRABAJO.idPuesto=" + idPuesto + " and FechaSubsanacion is null"
+                    + " and AREAS_TRABAJO.unidadFK="+unidad+";";
             rs = st.executeQuery(sql);
-
             while (rs.next()) {
                 ConsultaPeligro d = new ConsultaPeligro();
                 d.setCodArea(rs.getString("codArea").trim());
@@ -1177,7 +1119,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1185,7 +1126,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1193,9 +1133,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return datos;
     }
 
@@ -1204,12 +1142,15 @@ public class DbConnection {
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-
-            String sql = "Select codArea, nombre, codPuesto, puesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, idEvaluacionPuesto, nIntervencion, factorRiesgo from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where AREAS_TRABAJO.idArea=" + idArea + " and PUESTOS_TRABAJO.idPuesto=" + idPuesto + ";";
+            String sql = "Select codArea, nombre, codPuesto, puesto, areas_trabajo.idArea, "
+                    + "puestos_trabajo.idPuesto, idEvaluacionPuesto, nIntervencion, factorRiesgo "
+                    + "from EVALUACION_PUESTO inner join "
+                    + "PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                    + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                    + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea "
+                    + "where AREAS_TRABAJO.idArea=" + idArea + " and PUESTOS_TRABAJO.idPuesto=" + idPuesto + ";";
             rs = st.executeQuery(sql);
-
             while (rs.next()) {
-
                 d.setCodArea(rs.getString("codArea").trim());
                 d.setNombre(rs.getString("nombre").trim());
                 d.setCodPuesto(rs.getString("codPuesto").trim());
@@ -1219,9 +1160,7 @@ public class DbConnection {
                 d.setIdEvaluacionPuesto(rs.getInt("idEvaluacionPuesto"));
                 d.setnIntervencion(rs.getString("nIntervencion").trim());
                 d.setFactorRiesgo(rs.getString("factorRiesgo").trim());
-
             }
-//            System.out.println(datos.toString());
             return d;
         } catch (Exception e) {
             System.out.println("No se pudo conectar");
@@ -1234,7 +1173,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1242,7 +1180,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1250,9 +1187,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return d;
     }
 
@@ -1262,11 +1197,17 @@ public class DbConnection {
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-            String sql = "Select idEvaluacionPuesto, nDeficiencia, nExposicion, nProbabilidad, nConsecuencias, nRiesgo, nIntervencion, tipoEvaluacion, fechaEvaluacion, normativa, factorRiesgo, medidaPropuesta, codArea, nombre, codPuesto, puesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where areas_trabajo.idArea=" + idArea + " and idEvaluacionPuesto=" + idEvaluacionPuesto + ";";
+            String sql = "Select idEvaluacionPuesto, nDeficiencia, nExposicion, nProbabilidad, nConsecuencias, "
+                    + "nRiesgo, nIntervencion, tipoEvaluacion, fechaEvaluacion, normativa, factorRiesgo, "
+                    + "medidaPropuesta, codArea, nombre, codPuesto, puesto, areas_trabajo.idArea, "
+                    + "puestos_trabajo.idPuesto, codPeligroFK from EVALUACION_PUESTO "
+                    + "inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                    + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                    + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea "
+                    + "where areas_trabajo.idArea=" + idArea + " and idEvaluacionPuesto=" + idEvaluacionPuesto + ";";
             rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                //datos.add(new ConsultaEvaluacion(res.getInt("idEvaluacionPuesto"), res.getString("nDeficiencia").trim(), res.getString("nExposicion").trim(), res.getString("nProbabilidad"), res.getString("nConsecuencias").trim(), res.getString("nRiesgo").trim(), res.getString(" nIntervencion").trim(), res.getString("tipoEvaluacion"), res.getString("fechaEvaluacion").trim(), res.getString("normativa").trim(), res.getString("factorRiesgo").trim(), res.getString("medidaPropuesta"), res.getString("codArea").trim(), res.getString("nombre").trim(), res.getString("codPuesto").trim(), res.getString("puesto")));
                 datos.setIdEvaluacionPuesto(rs.getInt("idEvaluacionPuesto"));
                 datos.setDeficiencia(rs.getString("nDeficiencia").trim());
                 datos.setExposicion(rs.getString("nExposicion").trim());
@@ -1290,9 +1231,7 @@ public class DbConnection {
                 datos.setIdArea(rs.getInt("idArea"));
                 datos.setIdPuesto(rs.getInt("idPuesto"));
                 datos.setCodPeligro(rs.getInt("codPeligroFK"));
-
             }
-
             return datos;
         } catch (Exception e) {
             System.out.println("No se pudo conectar");
@@ -1305,7 +1244,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1313,7 +1251,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1321,9 +1258,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return datos;
     }
 
@@ -1331,18 +1266,19 @@ public class DbConnection {
 
         try {
 
-            String sql = "Insert into evaluacion_puesto (codPeligroFK, idPuestoFK, nDeficiencia, nExposicion, nProbabilidad, nConsecuencias, nRiesgo, nIntervencion, tipoEvaluacion, fechaEvaluacion, factorRiesgo, normativa, medidaPropuesta) values ('" + cd.getCodPeligro() + "','" + cd.getIdPuesto() + "','" + cd.getDeficiencia() + "','" + cd.getExposicion() + "','" + cd.getProbabilidad() + "','" + cd.getConsecuencias() + "','" + cd.getRiesgo() + "','" + cd.getIntervencion() + "','" + cd.getTipoevaluacion() + "','" + cd.getFechaevaluacion() + "','" + cd.getFactorriesgo() + "','" + cd.getNormativa() + "','" + cd.getMedidas() + "')";
+            String sql = "Insert into evaluacion_puesto (codPeligroFK, idPuestoFK, nDeficiencia, nExposicion,"
+                    + " nProbabilidad, nConsecuencias, nRiesgo, nIntervencion, tipoEvaluacion, fechaEvaluacion, "
+                    + "factorRiesgo, normativa, medidaPropuesta) values "
+                    + "('" + cd.getCodPeligro() + "','" + cd.getIdPuesto() + "','" + cd.getDeficiencia() + "','" + cd.getExposicion() + "','" + cd.getProbabilidad() + "','" + cd.getConsecuencias() + "','" + cd.getRiesgo() + "','" + cd.getIntervencion() + "','" + cd.getTipoevaluacion() + "','" + cd.getFechaevaluacion() + "','" + cd.getFactorriesgo() + "','" + cd.getNormativa() + "','" + cd.getMedidas() + "')";
             cn = datasource.getConnection();
             st = cn.createStatement();
             st.executeUpdate(sql);
-
             return 1;
         } catch (SQLException e) {
             System.out.println("No se pudo conectar");
             e.printStackTrace();
             return 0;
         } finally {
-
             if (st != null) {
                 try {
                     st.close();
@@ -1350,7 +1286,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1358,9 +1293,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
     }
 
     public ArrayList<ComboPuestos> obtenerComboPuestos(String sql) {
@@ -1384,7 +1317,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1392,7 +1324,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1400,7 +1331,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
         return cmbPuesto;
     }
@@ -1426,7 +1356,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1434,7 +1363,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1442,9 +1370,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return cmbCodigoPeligro;
     }
 
@@ -1453,8 +1379,8 @@ public class DbConnection {
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-
-            String sql = "select * from (select codArea,nombre from AREAS_TRABAJO where idArea=" + id + ")as Areas, (select * from EVALUACION_AREA where idAreaFK=" + id + " and fechaSubsanacion is null)as Evaluaciones;";
+            String sql = "select * from (select codArea,nombre from AREAS_TRABAJO where idArea=" + id + ")as Areas,"
+                    + " (select * from EVALUACION_AREA where idAreaFK="+ id +" and fechaSubsanacion is null)as Evaluaciones;";
             rs = st.executeQuery(sql);
             while (rs.next()) {
                 EvaluacionesArea ea = new EvaluacionesArea();
@@ -1487,7 +1413,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1495,7 +1420,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1503,9 +1427,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return evaluaciones;
     }
 
@@ -1514,11 +1436,12 @@ public class DbConnection {
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-
-            String sql = "select * from (select *  from (select codArea,nombre from AREAS_TRABAJO where idArea=" + id1 + ") as Area, (select * from EVALUACION_AREA where idAreaFK=" + id1 + ")as Evaluaciones)as EvporArea where EvporArea.idEvaluacionArea=" + id2 + ";";
+            String sql = "select * from (select *  from (select codArea,nombre from AREAS_TRABAJO "
+                    + "where idArea=" + id1 + ") as Area,"
+                    + " (select * from EVALUACION_AREA where idAreaFK=" + id1 + ")as Evaluaciones)as EvporArea "
+                    + "where EvporArea.idEvaluacionArea=" + id2 + ";";
             rs = st.executeQuery(sql);
             while (rs.next()) {
-
                 ea.setCodArea(rs.getString("codArea"));
                 ea.setNombreArea(rs.getString("nombre"));
                 ea.setIdEvaluacionArea(rs.getInt("idEvaluacionArea"));
@@ -1534,7 +1457,6 @@ public class DbConnection {
                 ea.setNormativa(rs.getString("normativa"));
                 ea.setMedidaPropuesta(rs.getString("medidaPropuesta"));
                 ea.setIdAreaFK(rs.getInt("idAreaFK"));
-
             }
             return ea;
         } catch (Exception e) {
@@ -1548,7 +1470,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1556,7 +1477,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1564,19 +1484,19 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return ea;
     }
 
-    public List<EvaluacionesArea> getEvaluaciones() {
+    public List<EvaluacionesArea> getEvaluaciones(int unidad) {
         List<EvaluacionesArea> evaluaciones = new ArrayList();
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
 
-            String sql = "select * from (select codArea,nombre,idArea from AREAS_TRABAJO)as Areas, (select * from EVALUACION_AREA)as Evaluaciones where idArea=idAreaFK and fechaSubsanacion is null;";
+            String sql = "select * from (select codArea,nombre,idArea from AREAS_TRABAJO where unidadFk="+unidad+")as Areas,"
+                    + " (select * from EVALUACION_AREA)as Evaluaciones "
+                    + "where idArea=idAreaFK and fechaSubsanacion is null;";
             rs = st.executeQuery(sql);
             while (rs.next()) {
                 EvaluacionesArea ea = new EvaluacionesArea();
@@ -1609,7 +1529,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1617,7 +1536,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1625,9 +1543,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return evaluaciones;
     }
 
@@ -1636,18 +1552,23 @@ public class DbConnection {
         try {
             java.util.Date fecha = cd.getFechaEvaluacion();
             java.sql.Date fecha2 = new java.sql.Date(fecha.getTime());
-            String sql = "Insert into evaluacion_area (idAreaFK, codPeligroFK,nDeficiencia, nExposicion, nProbabilidad, nConsecuencias, nRiesgo, nIntervencion, tipoEvaluacion, fechaEvaluacion, factorRiesgo, normativa, medidaPropuesta) values ('" + cd.getIdAreaFK() + "','" + cd.getCodPeligroFK() + "','" + cd.getnDeficiencia() + "','" + cd.getnExposicion() + "','" + cd.getnProbabilidad() + "','" + cd.getnConsecuencias() + "','" + cd.getnRiesgo() + "','" + cd.getnIntervencion() + "','" + cd.getTipoEvaluacion() + "','" + fecha2 + "','" + cd.getFactorRiesgo() + "','" + cd.getNormativa() + "','" + cd.getMedidaPropuesta() + "')";
+            String sql = "Insert into evaluacion_area (idAreaFK, codPeligroFK,nDeficiencia, nExposicion,"
+                    + " nProbabilidad, nConsecuencias, nRiesgo, nIntervencion, tipoEvaluacion, "
+                    + "fechaEvaluacion, factorRiesgo, normativa, medidaPropuesta) "
+                    + "values ('" + cd.getIdAreaFK() + "','" + cd.getCodPeligroFK() + "','" + cd.getnDeficiencia() 
+                    + "','" + cd.getnExposicion() + "','" + cd.getnProbabilidad() + "','" + cd.getnConsecuencias() 
+                    + "','" + cd.getnRiesgo() + "','" + cd.getnIntervencion() + "','" + cd.getTipoEvaluacion() 
+                    + "','" + fecha2 + "','" + cd.getFactorRiesgo() + "','" + cd.getNormativa() + "','" 
+                    + cd.getMedidaPropuesta() + "')";
             cn = datasource.getConnection();
             st = cn.createStatement();
             st.executeUpdate(sql);
-
             return 1;
         } catch (SQLException e) {
             System.out.println("No se pudo conectar");
             e.printStackTrace();
             return 0;
         } finally {
-
             if (st != null) {
                 try {
                     st.close();
@@ -1655,7 +1576,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1688,7 +1608,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1696,7 +1615,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1704,31 +1622,27 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return cmbArea;
     }
 
     public int nuevaFechaSubsanado(FechaSubsanado cd) {
 
         try {
-
-            //String sql = "Insert into evaluacion_puesto (fechaSubsanacion) values ('" + cd.getFechaSubsanado() + "') where idEvaluacionPuesto = '" + cd.getIdEvaluacionPuesto() + "';";
-            String sql = "update evaluacion_puesto set fechaSubsanacion =('" + cd.getFechaSubsanado() + "') where idEvaluacionPuesto = ('" + cd.getIdEvaluacionPuesto() + "');";
-            String sql1 = "update evaluacion_puesto set subsanador=('" + cd.getSubsanador() + "') where idEvaluacionPuesto = ('" + cd.getIdEvaluacionPuesto() + "');";
+            String sql = "update evaluacion_puesto set fechaSubsanacion =('" + cd.getFechaSubsanado() + "') "
+                    + "where idEvaluacionPuesto = ('" + cd.getIdEvaluacionPuesto() + "');";
+            String sql1 = "update evaluacion_puesto set subsanador=('" + cd.getSubsanador() + "') "
+                    + "where idEvaluacionPuesto = ('" + cd.getIdEvaluacionPuesto() + "');";
             cn = datasource.getConnection();
             st = cn.createStatement();
             st.executeUpdate(sql);
             st.executeUpdate(sql1);
-
             return 1;
         } catch (SQLException e) {
             System.out.println("No se pudo conectar");
             e.printStackTrace();
             return 0;
         } finally {
-
             if (st != null) {
                 try {
                     st.close();
@@ -1736,7 +1650,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1744,29 +1657,26 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
     }
 
     public int nuevaFechaSubsanadoArea(FechaSubsanado cd) {
 
         try {
-
-            String sql = "update evaluacion_area set fechaSubsanacion =('" + cd.getFechaSubsanado() + "')  where idEvaluacionArea = ('" + cd.getIdEvaluacionArea() + "');";
-            String sql1 = "update evaluacion_area set subsanador =('" + cd.getSubsanador() + "')  where idEvaluacionArea = ('" + cd.getIdEvaluacionArea() + "');";
+            String sql = "update evaluacion_area set fechaSubsanacion =('" + cd.getFechaSubsanado() + "')  "
+                    + "where idEvaluacionArea = ('" + cd.getIdEvaluacionArea() + "');";
+            String sql1 = "update evaluacion_area set subsanador =('" + cd.getSubsanador() + "')  "
+                    + "where idEvaluacionArea = ('" + cd.getIdEvaluacionArea() + "');";
             cn = datasource.getConnection();
             st = cn.createStatement();
             st.executeUpdate(sql);
             st.executeUpdate(sql1);
-
             return 1;
         } catch (SQLException e) {
             System.out.println("No se pudo conectar");
             e.printStackTrace();
             return 0;
         } finally {
-
             if (st != null) {
                 try {
                     st.close();
@@ -1774,7 +1684,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1782,9 +1691,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
     }
 
     public ArrayList<PlanificacionPuestos> buscar3(String sql) {
@@ -1794,12 +1701,10 @@ public class DbConnection {
             cn = datasource.getConnection();
             st = cn.createStatement();
             rs = st.executeQuery(sql);
-
             while (rs.next()) {
                 datos.add(new PlanificacionPuestos(rs.getInt("idArea"), rs.getInt("idPuesto"), rs.getInt("idEvaluacionPuesto"), rs.getString("codArea"), rs.getString("codPuesto"), rs.getString("codPeligroFK"), rs.getString("factorRiesgo"), rs.getString("nIntervencion").trim(), rs.getString("normativa"), rs.getString("medidaPropuesta"), rs.getString("fechaSubsanacion"), rs.getString("subsanador")));
             }
-            System.out.println(datos);
-            return datos;
+           return datos;
         } catch (SQLException ex) {
             System.out.println("Error con el resultset" + ex);
             return null;
@@ -1849,11 +1754,16 @@ public class DbConnection {
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-            String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion, subsanador from EVALUACION_PUESTO inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea where idEvaluacionPuesto=" + idEvaluacionPuestos + " and areas_trabajo.idArea=" + idArea + ";";
+            String sql = "Select idEvaluacionPuesto, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea,"
+                    + " codPuesto, areas_trabajo.idArea, puestos_trabajo.idPuesto, codPeligroFK, fechaSubsanacion, "
+                    + "subsanador from EVALUACION_PUESTO "
+                    + "inner join PUESTOS_TRABAJO on EVALUACION_PUESTO.idPuestoFK=PUESTOS_TRABAJO.idPuesto "
+                    + "inner join AREA_PUESTO on AREA_PUESTO.idPuesto= PUESTOS_TRABAJO.idPuesto "
+                    + "inner join AREAS_TRABAJO on AREA_PUESTO.idArea=AREAS_TRABAJO.idArea "
+                    + "where idEvaluacionPuesto=" + idEvaluacionPuestos + " and areas_trabajo.idArea=" + idArea + ";";
             rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                //datos.add(new ConsultaEvaluacion(res.getInt("idEvaluacionPuesto"), res.getString("nDeficiencia").trim(), res.getString("nExposicion").trim(), res.getString("nProbabilidad"), res.getString("nConsecuencias").trim(), res.getString("nRiesgo").trim(), res.getString(" nIntervencion").trim(), res.getString("tipoEvaluacion"), res.getString("fechaEvaluacion").trim(), res.getString("normativa").trim(), res.getString("factorRiesgo").trim(), res.getString("medidaPropuesta"), res.getString("codArea").trim(), res.getString("nombre").trim(), res.getString("codPuesto").trim(), res.getString("puesto")));
                 datos.setIdEvaluacionPuestos(rs.getInt("idEvaluacionPuesto"));
                 datos.setPrioridad(rs.getString("nIntervencion").trim());
                 datos.setNormativa(rs.getString("normativa").trim());
@@ -1871,9 +1781,7 @@ public class DbConnection {
                 } else {
                     datos.setSubsanador(rs.getString("subsanador"));
                 }
-
             }
-
             return datos;
         } catch (Exception e) {
             System.out.println("No se pudo conectar");
@@ -1886,7 +1794,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1894,7 +1801,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1904,7 +1810,6 @@ public class DbConnection {
             }
 
         }
-
         return datos;
     }
 
@@ -1914,11 +1819,12 @@ public class DbConnection {
         try {
             cn = datasource.getConnection();
             st = cn.createStatement();
-            String sql = "Select idEvaluacionArea, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, areas_trabajo.idArea, codPeligroFK, fechaSubsanacion, subsanador from Evaluacion_Area inner join AREAS_TRABAJO on idArea=idAreaFK where idEvaluacionArea='" + idAreaFK + "';";
+            String sql = "Select idEvaluacionArea, nIntervencion, normativa, factorRiesgo, medidaPropuesta, codArea, "
+                    + "areas_trabajo.idArea, codPeligroFK, fechaSubsanacion, subsanador "
+                    + "from Evaluacion_Area inner join AREAS_TRABAJO on idArea=idAreaFK "
+                    + "where idEvaluacionArea='" + idAreaFK + "';";
             rs = st.executeQuery(sql);
-
             while (rs.next()) {
-
                 datos.setIdEvaluacionArea(rs.getInt("idEvaluacionArea"));
                 datos.setPrioridad(rs.getString("nIntervencion"));
                 datos.setNormativa(rs.getString("normativa").trim());
@@ -1933,9 +1839,7 @@ public class DbConnection {
                 } else {
                     datos.setSubsanador(rs.getString("subsanador"));
                 }
-
             }
-
             return datos;
         } catch (Exception e) {
             System.out.println("No se pudo conectar");
@@ -1948,7 +1852,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (st != null) {
                 try {
                     st.close();
@@ -1956,7 +1859,6 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
             if (cn != null) {
                 try {
                     cn.close();
@@ -1964,9 +1866,7 @@ public class DbConnection {
                     System.out.println("Error (" + ex.getErrorCode() + "): " + ex.getMessage());
                 }
             }
-
         }
-
         return datos;
     }
 }

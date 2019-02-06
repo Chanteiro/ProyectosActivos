@@ -2,6 +2,7 @@ package com.cartelle.controlador;
 
 import com.cartelle.dao.DbConnection;
 import com.cartelle.modelo.Area;
+import com.cartelle.modelo.Unidades;
 import com.cartelle.modelo.Usuario;
 import java.io.IOException;
 import java.text.ParseException;
@@ -18,37 +19,42 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class areasControler extends HttpServlet {
+
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         Usuario user = (Usuario) sesion.getAttribute("user");
-//        String act=request.getParameter("act");
-
+        Unidades uni = (Unidades) sesion.getAttribute("unidadSeleccionada");
+        int unidad = uni.getIdUnidad();
+           
         if (user.getRol().equals("ADMIN_ESCANO") || user.getRol().equals("SEGOP_ESCANO")) {
             DbConnection con = new DbConnection();
-            List<Area> areas = con.obtenerAreas();
-            System.out.println(areas.size());
+            List<Area> areas = con.obtenerAreas(unidad);
+
             if (areas.size() > 0) {
-               
-                 request.setAttribute("areas", areas);
-                 RequestDispatcher rd = request.getRequestDispatcher("areastrabajo.jsp");
+
+                request.setAttribute("areas", areas);
+                RequestDispatcher rd = request.getRequestDispatcher("areastrabajo.jsp");
                 rd.forward(request, response);
-               
-               
+
             } else {
                 RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
                 rd.forward(request, response);
             }
         }
-        
+
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("aqui-->"+request.getParameter("action"));
+        System.out.println("aqui-->" + request.getParameter("action"));
+        HttpSession sesion = request.getSession();
+        Usuario user = (Usuario) sesion.getAttribute("user");
+        Unidades uni = (Unidades) sesion.getAttribute("unidadSeleccionada");
+        int unidad = uni.getIdUnidad();
         try {
             if (request.getParameter("action").equals("crearArea")) {
                 Area a = new Area(0);
@@ -64,7 +70,7 @@ public class areasControler extends HttpServlet {
                 a.setObservacionesMedidasPreventivas(request.getParameter("observacionesmedidas"));
                 a.setNombre(request.getParameter("nombre"));
                 a.setCodArea(request.getParameter("cod"));
-                a.setUnidadFK(442);
+                a.setUnidadFK(unidad);
                 DbConnection con = new DbConnection();
                 if (con.insertaArea(a) == 1) {
                     doGet(request, response);
@@ -84,7 +90,7 @@ public class areasControler extends HttpServlet {
                 a.setInstalacionesExistentes(request.getParameter("instalaciones"));
                 a.setMedidasPreventivasExistentes(request.getParameter("medidas"));
                 a.setObservacionesMedidasPreventivas(request.getParameter("observacionesmedidas"));
-                
+
                 DbConnection con = new DbConnection();
                 if (con.actualizaArea(a, a.getId()) == 1) {
                     doGet(request, response);
@@ -96,7 +102,7 @@ public class areasControler extends HttpServlet {
         } catch (ParseException ex) {
             Logger.getLogger(detalleArea.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
 }

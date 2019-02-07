@@ -4,6 +4,7 @@ import com.cartelle.dao.DbConnection;
 import com.cartelle.modelo.Unidades;
 import com.cartelle.modelo.Usuario;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  *
@@ -30,10 +39,11 @@ public class ControladorInformeAreas extends HttpServlet {
             Usuario user = (Usuario) sesion.getAttribute("user");
             Unidades uni = (Unidades) sesion.getAttribute("unidadSeleccionada");
             int unidad = uni.getIdUnidad();
-            String serviPreven=uni.getServicioPrevencion();
+            String serviPreven = uni.getServicioPrevencion();
             File reportFile = new File(getServletContext().getRealPath("/WEB-INF/Areas_1.jasper"));
             DbConnection con = new DbConnection();
-
+            //////////////////////////////////////////////////
+           
             Map parameters = new HashMap();
             parameters.put("serPrevencion", serviPreven);
             parameters.put("unidadActual", unidad);
